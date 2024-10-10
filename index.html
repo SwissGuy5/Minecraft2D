@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPLIT THE FILE BY MACIEJ THE FUCKING G</title>
+  </head>
+  <body>
+    <script>
+      const img = new Image();
+      img.src = "./Assets/TilesDemo.png";
+
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 48;
+        canvas.height = 48;
+        const ctx = canvas.getContext("2d");
+
+        document.body.appendChild(canvas);
+
+        let index = 0;
+        const link = document.createElement("a");
+        for (let x = 0; x < 528; x += 48) {
+          for (let y = 0; y < 384; y += 48) {
+            const endX = x + 48;
+            const endY = y + 48;
+
+            ctx.drawImage(img, x, y, 48, 48, 0, 0, 48, 48);
+
+            link.download = `texture-${index}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+
+            index++;
+          }
+        }
+      };
+    </script>
+  </body>
+</html>
