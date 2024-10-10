@@ -23,12 +23,16 @@ public class Chunk {
             noise *= Terrain.biomeNoise("plain");
             noise = Math.floor(noise);
 
+            int dirtDepth = 4;
+            int waterLevel = 27;
             for (byte y = 0; y < CHUNK_WIDTH; y++) {
-                if (y > noise) {
+                if (y > noise && y <= waterLevel) {
+                    tiles[y][x] = 85;
+                } else if (y > noise) {
                     tiles[y][x] = 0;
-                } else if (y == noise) {
+                } else if (y == noise && y >= waterLevel) {
                     tiles[y][x] = 9;
-                } else if (y <= noise && y >= noise - 4) {
+                } else if (y <= noise && y >= noise - dirtDepth) {
                     tiles[y][x] = 10;
                 } else {
                     tiles[y][x] = 28;
