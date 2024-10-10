@@ -9,10 +9,14 @@ public class Chunk {
         tiles = new byte[CHUNK_HEIGHT][CHUNK_WIDTH];
         for (byte y = 0; y < CHUNK_HEIGHT; y++) {
             for (byte x = 0; x < CHUNK_WIDTH; x++) {
-                if (y > 30 && x > y) {
-                    tiles[y][x] = 2;
+                if (y > 30) {
+                    if (x - 1 > y) {
+                        tiles[y][x] = 7;
+                    } else if (x > y) {
+                        tiles[y][x] = 6;
+                    }
                 } else if (y <= 30) {
-                    tiles[y][x] = 1;
+                    tiles[y][x] = 47;
                 } else {
                     tiles[y][x] = 0;
                 }

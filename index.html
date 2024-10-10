@@ -18,7 +18,7 @@
 
         document.body.appendChild(canvas);
 
-        let index = 0;
+        let index = 1;
         const link = document.createElement("a");
         for (let x = 0; x < 528; x += 48) {
           for (let y = 0; y < 384; y += 48) {
@@ -27,7 +27,7 @@
 
             ctx.drawImage(img, x, y, 48, 48, 0, 0, 48, 48);
 
-            link.download = `texture-${index}.png`;
+            link.download = `${index}.png`;
             link.href = canvas.toDataURL();
             link.click();
 
