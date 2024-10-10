@@ -6,6 +6,8 @@ public class Chunk {
     private byte[][] tiles;
     
     public Chunk() {
+        // double noise = SimplexNoise.noise(4.3, 2.7);
+        // System.out.println(noise);
         tiles = new byte[CHUNK_HEIGHT][CHUNK_WIDTH];
         for (byte y = 0; y < CHUNK_HEIGHT; y++) {
             for (byte x = 0; x < CHUNK_WIDTH; x++) {

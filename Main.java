@@ -5,7 +5,6 @@ public class Main {
     private Terrain terrain;
     private Character character;
     private Renderer renderer;
-    private Thread loopThread;
 
     Main() {
         terrain = new Terrain();
@@ -16,11 +15,11 @@ public class Main {
         renderer = new Renderer(terrain);
         renderer.setVisible(true);
 
-        this.update();
+        this.run();
     }
 
     // Main game loop
-    void update() {
+    void run() {
         final int FPS = 60;
         final double TIME_PER_FRAME = 1000000000 / FPS;
         long prevTime = System.nanoTime();
@@ -40,7 +39,5 @@ public class Main {
 
     public static void main(String[] args) {
         Main game = new Main();
-        // game.init();
-        // game.render(n);
     }
 }

@@ -15,9 +15,4 @@ public class Renderer extends JFrame {
         terrainRenderer = new TerrainRenderer(terrain);
         this.add(terrainRenderer);
     }
-
-    // void drawTerrain() {
-    //     terrainRenderer.paintComponent(getGraphics());
-    //     terrainRenderer.repaint();
-    // }
 }
