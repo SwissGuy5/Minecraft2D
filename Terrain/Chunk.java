@@ -10,26 +10,28 @@ package Terrain;
 public class Chunk {
     public static final byte CHUNK_WIDTH = 64;
     public static final byte CHUNK_HEIGHT = 64;
+    public int offset;
     private byte[][] tiles;
     
-    public Chunk() {
-        // double noise = SimplexNoise.noise(4.3, 2.7);
-        // System.out.println(noise);
+    public Chunk(double seed, int offset) {
         tiles = new byte[CHUNK_HEIGHT][CHUNK_WIDTH];
-        for (byte y = 0; y < CHUNK_HEIGHT; y++) {
-            for (byte x = 0; x < CHUNK_WIDTH; x++) {
-                if (y >= 30 && x > y) {
-                    if (x - 1 > y) {
-                        tiles[y][x] = 10;
-                    } else {
-                        tiles[y][x] = 9;
-                    }
-                } else if (y == 30) {
-                    tiles[y][x] = 9;
-                } else if (y < 30) {
-                    tiles[y][x] = 13;
-                } else {
+        this.offset = offset;
+        
+        double noise;
+        for (byte x = 0; x < CHUNK_HEIGHT; x++) {
+            noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed) + 1) / 2) * CHUNK_HEIGHT * .5 + CHUNK_HEIGHT * .25;
+            noise *= Terrain.biomeNoise("plain");
+            noise = Math.floor(noise);
+
+            for (byte y = 0; y < CHUNK_WIDTH; y++) {
+                if (y > noise) {
                     tiles[y][x] = 0;
+                } else if (y == noise) {
+                    tiles[y][x] = 9;
+                } else if (y <= noise && y >= noise - 4) {
+                    tiles[y][x] = 10;
+                } else {
+                    tiles[y][x] = 28;
                 }
             }
         }

@@ -36,7 +36,7 @@ public class TerrainRenderer extends JPanel {
         }
     }
 
-    void drawTile(Graphics g, byte type, byte x, byte y) {
+    void drawTile(Graphics g, byte type, int x, int y) {
         if (type == 0) return;
         BufferedImage sprite = tileSprites.get(type);
         if (sprite != null) {
@@ -47,7 +47,7 @@ public class TerrainRenderer extends JPanel {
     void drawChunk(Graphics g, Chunk chunk) {
         for (byte y = 0; y < Chunk.CHUNK_HEIGHT; y++) {
             for (byte x = 0; x < Chunk.CHUNK_WIDTH; x++) {
-                drawTile(g, chunk.getTile(x, y), x, (byte) (Chunk.CHUNK_HEIGHT - y - 1));
+                drawTile(g, chunk.getTile(x, y), x + chunk.offset * Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT - y - 1);
             }
         }
     }
@@ -55,5 +55,6 @@ public class TerrainRenderer extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g); // Paints the rest of the component with the background color
         drawChunk(g, cachedTerrain.getChunk(0));
+        drawChunk(g, cachedTerrain.getChunk(1));
     }
 }

@@ -9,6 +9,7 @@ public class Main {
     Main() {
         terrain = new Terrain();
         terrain.addChunk(0);
+        terrain.addChunk(1);
 
         character = new Character(10, 31);
 
