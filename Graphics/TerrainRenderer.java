@@ -1,6 +1,6 @@
 package Graphics;
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

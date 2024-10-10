@@ -1,6 +1,5 @@
 package Graphics;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
 import Terrain.Terrain;
 
 public class Renderer extends JFrame {
@@ -17,7 +16,8 @@ public class Renderer extends JFrame {
         this.add(terrainRenderer);
     }
 
-    // drawWorld() {
-    //     terrainRenderer.paint(getGraphics());
+    // void drawTerrain() {
+    //     terrainRenderer.paintComponent(getGraphics());
+    //     terrainRenderer.repaint();
     // }
 }
