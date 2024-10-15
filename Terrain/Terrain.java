@@ -5,8 +5,20 @@ public class Terrain {
     public double seed;
 
     public Terrain() {
+        this(Math.random());
+    }
+    public Terrain(double seed) {
+        this.seed = seed;
+        // System.out.println(seed * Math.pow(10, 17));
         chunks = new Chunk[100];
-        seed = Math.random() * 100;
+        generateChunks(0, 10);
+        // FileHandler.EncodeJson(chunks);
+    }
+
+    private void generateChunks(int lower, int upper) {
+        for (int i = lower; i < upper; i++) {
+            this.addChunk(i);
+        }
     }
 
     public static double biomeNoise(String biome) {

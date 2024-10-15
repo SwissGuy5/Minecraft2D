@@ -8,12 +8,8 @@ public class Main {
     private Renderer renderer;
 
     Main() {
-        terrain = new Terrain();
-        terrain.addChunk(0);
-        terrain.addChunk(1);
-
+        terrain = new Terrain(0.38464894137558436);
         player = new Player(10, 31);
-
         renderer = new Renderer(terrain, player);
         renderer.setVisible(true);
 

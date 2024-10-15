@@ -5,7 +5,7 @@ package Terrain;
  *  - dirt with grass on top: 9
  *  - dirt without grass: 10
  *  - rock: 13
- */
+*/
 
 public class Chunk {
     public static final byte CHUNK_WIDTH = 64;
@@ -19,7 +19,7 @@ public class Chunk {
         
         double noise;
         for (byte x = 0; x < CHUNK_HEIGHT; x++) {
-            noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed) + 1) / 2) * CHUNK_HEIGHT * .5 + CHUNK_HEIGHT * .25;
+            noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed * 100) + 1) / 2) * CHUNK_HEIGHT * .5 + CHUNK_HEIGHT * .25;
             noise *= Terrain.biomeNoise("plain");
             noise = Math.floor(noise);
 
@@ -39,6 +39,10 @@ public class Chunk {
                 }
             }
         }
+    }
+
+    public byte[][] getTiles() {
+        return tiles;
     }
 
     public byte getTile(byte x, byte y) {
