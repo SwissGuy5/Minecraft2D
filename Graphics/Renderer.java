@@ -1,18 +1,26 @@
 package Graphics;
 import javax.swing.JFrame;
+
+import Player.Player;
 import Terrain.Terrain;
 
 public class Renderer extends JFrame {
     private TerrainRenderer terrainRenderer;
+    private PlayerRenderer playerRenderer;
 
-    public Renderer(Terrain terrain) {
+    public Renderer(Terrain terrain, Player player) {
         super("Minecraft 2D");
         // this.getContentPane().setBackground(Color.GRAY);
         this.setSize(1200, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
+        playerRenderer = new PlayerRenderer(player);
+        playerRenderer.setBounds(500, 300, 200, 200);
+        this.add(playerRenderer);
+
         terrainRenderer = new TerrainRenderer(terrain);
+        terrainRenderer.setBounds(0, 0, 1200, 800);
         this.add(terrainRenderer);
     }
 }

@@ -1,9 +1,10 @@
 import Graphics.Renderer;
+import Player.Player;
 import Terrain.Terrain;
 
 public class Main {
     private Terrain terrain;
-    private Character character;
+    private Player player;
     private Renderer renderer;
 
     Main() {
@@ -11,9 +12,9 @@ public class Main {
         terrain.addChunk(0);
         terrain.addChunk(1);
 
-        character = new Character(10, 31);
+        player = new Player(10, 31);
 
-        renderer = new Renderer(terrain);
+        renderer = new Renderer(terrain, player);
         renderer.setVisible(true);
 
         this.run();
