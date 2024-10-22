@@ -9,16 +9,24 @@ public class Terrain {
     }
     public Terrain(double seed) {
         this.seed = seed;
-        // System.out.println(seed * Math.pow(10, 17));
-        chunks = new Chunk[100];
-        generateChunks(0, 10);
-        // FileHandler.EncodeJson(chunks);
+        if (FileHandler.fileExists(seed)) {
+            System.out.println("Getting existing terrain");
+            chunks = FileHandler.getChunksFromSeed(seed);
+        } else {
+            System.out.println("Generating Terrain");
+            chunks = new Chunk[100];
+            generateChunks(0, 10);
+        }
     }
 
     private void generateChunks(int lower, int upper) {
         for (int i = lower; i < upper; i++) {
             this.addChunk(i);
         }
+    }
+
+    public void saveTerrain() {
+        FileHandler.saveChunksWithSeed(seed, chunks);
     }
 
     public static double biomeNoise(String biome) {
@@ -32,6 +40,6 @@ public class Terrain {
     }
 
     public void addChunk(int offset) {
-        chunks[offset] = new Chunk(this.seed, offset);
+        chunks[offset] = new Chunk(offset, this.seed);
     }
 }

@@ -1,5 +1,8 @@
 package Terrain;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 /* 
  * MOST COMMON BLOCKS:
  *  - dirt with grass on top: 9
@@ -13,19 +16,19 @@ public class Chunk {
     public int offset;
     private byte[][] tiles;
     
-    public Chunk(double seed, int offset) {
-        tiles = new byte[CHUNK_HEIGHT][CHUNK_WIDTH];
+    public Chunk(int offset, double seed) {
         this.offset = offset;
+        tiles = new byte[CHUNK_HEIGHT][CHUNK_WIDTH];
         
         double noise;
-        for (byte x = 0; x < CHUNK_HEIGHT; x++) {
+        for (byte x = 0; x < CHUNK_WIDTH; x++) {
             noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed * 100) + 1) / 2) * CHUNK_HEIGHT * .5 + CHUNK_HEIGHT * .25;
             noise *= Terrain.biomeNoise("plain");
             noise = Math.floor(noise);
 
             int dirtDepth = 4;
             int waterLevel = 27;
-            for (byte y = 0; y < CHUNK_WIDTH; y++) {
+            for (byte y = 0; y < CHUNK_HEIGHT; y++) {
                 if (y > noise && y <= waterLevel) {
                     tiles[y][x] = 85;
                 } else if (y > noise) {
@@ -40,6 +43,21 @@ public class Chunk {
             }
         }
     }
+    public Chunk(JSONObject chunkObj) {
+        this.offset = (int)(long)chunkObj.get("offset");
+        JSONArray tilesArr = (JSONArray)chunkObj.get("tiles");
+        this.tiles = new byte[CHUNK_HEIGHT][CHUNK_WIDTH];
+        for (byte y = 0; y < CHUNK_HEIGHT; y++) {
+            JSONArray tilesXArr = (JSONArray)tilesArr.get(y);
+            for (byte x = 0; x < CHUNK_WIDTH; x++) {
+                tiles[y][x] = (byte)(long)tilesXArr.get(x);
+            }
+        }
+    }
+    // public static Chunk chunkObj(JSONObject chunkObj) {
+    //     Chunk chunk = new Chunk();
+    //     return chunk;
+    // }
 
     public byte[][] getTiles() {
         return tiles;
