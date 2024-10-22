@@ -1,6 +1,7 @@
 package Graphics;
 import javax.swing.JFrame;
 
+import Objects.Light;
 import Objects.Player;
 import Terrain.Terrain;
 
@@ -22,12 +23,15 @@ public class Renderer extends JFrame {
         playerRenderer.setBounds(500, 300, 200, 200);
         this.add(playerRenderer);
 
-        lightingRenderer = new LightingRenderer();
+        lightingRenderer = new LightingRenderer(terrain);
         lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
         this.add(lightingRenderer);
 
         terrainRenderer = new TerrainRenderer(terrain);
         terrainRenderer.setBounds(0, 0, windowWidth, windowHeight);
         this.add(terrainRenderer);
+
+        Light sun = new Light(200, 100, 1000);
+        lightingRenderer.addLight(sun);
     }
 }

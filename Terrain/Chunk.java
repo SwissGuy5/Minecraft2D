@@ -42,6 +42,13 @@ public class Chunk {
                 }
             }
         }
+             
+        if (offset == 0) {
+            tiles[50][10] = 5;
+            tiles[50][11] = 5;
+            tiles[51][10] = 5;
+            tiles[51][11] = 5;
+        }
     }
     public Chunk(JSONObject chunkObj) {
         this.offset = (int)(long)chunkObj.get("offset");

@@ -35,8 +35,8 @@ public class PlayerRenderer extends JPanel {
 
     void drawCharacter(Graphics g) {
         // DEBUG
-        g.setColor(new Color(0, 0, 0));
-        g.fillRect(0, 0, 200, 200);
+        // g.setColor(new Color(0, 0, 0));
+        // g.fillRect(0, 0, 200, 200);
 
         // THIS IS WHERE THE MAGIC HAPPENS
         Graphics2D g2d = (Graphics2D) g;
