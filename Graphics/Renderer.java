@@ -7,11 +7,13 @@ import Terrain.Terrain;
 public class Renderer extends JFrame {
     private TerrainRenderer terrainRenderer;
     private PlayerRenderer playerRenderer;
+    final int windowWidth = 1200;
+    final int windowHeight = 800;
 
     public Renderer(Terrain terrain, Player player) {
         super("Minecraft 2D");
         // this.getContentPane().setBackground(Color.GRAY);
-        this.setSize(1200, 800);
+        this.setSize(windowWidth, windowHeight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
@@ -20,7 +22,7 @@ public class Renderer extends JFrame {
         this.add(playerRenderer);
 
         terrainRenderer = new TerrainRenderer(terrain);
-        terrainRenderer.setBounds(0, 0, 1200, 800);
+        terrainRenderer.setBounds(0, 0, windowWidth, windowHeight);
         this.add(terrainRenderer);
     }
 }

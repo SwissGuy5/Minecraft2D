@@ -12,7 +12,6 @@ import java.io.File;
 import Terrain.*;
 
 public class PlayerRenderer extends JPanel {
-
     private Player player;
 
     public PlayerRenderer(Player player) {
