@@ -20,6 +20,9 @@ public class PlayerRenderer extends JPanel {
     double rightLegProgress = 0;
     double leftLegProgress = 0;
 
+    int x = 0;
+    int y = 0;
+
     public PlayerRenderer(Player player) {
         this.player = player;
         this.setOpaque(false);
