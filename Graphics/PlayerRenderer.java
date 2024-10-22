@@ -1,8 +1,9 @@
 package Graphics;
-import Player.Player;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import Objects.Player;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.geom.AffineTransform;

@@ -1,7 +1,7 @@
 package Graphics;
 import javax.swing.JFrame;
 
-import Player.Player;
+import Objects.Player;
 import Terrain.Terrain;
 
 public class Renderer extends JFrame {
