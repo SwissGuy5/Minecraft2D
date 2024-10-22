@@ -13,7 +13,6 @@ import java.io.File;
 import Terrain.*;
 
 public class PlayerRenderer extends JPanel {
-
     private Player player;
 
     double velocity = 1;
