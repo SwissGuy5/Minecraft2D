@@ -3,17 +3,18 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class FileHandler {
-    static Chunk[] getChunksFromSeed(double seed) {
+    static HashMap<Integer, Chunk> getChunksFromSeed(double seed) {
         return FileHandler.decodeJson(FileHandler.readFromFile(FileHandler.FileNameFromSeed(seed)));
     }
 
-    static void saveChunksWithSeed(double seed, Chunk[] chunks) {
+    static void saveChunksWithSeed(double seed, HashMap<Integer, Chunk> chunks) {
         FileHandler.writeToFile(FileHandler.FileNameFromSeed(seed), FileHandler.encodeJson(chunks));
     }
 
@@ -42,36 +43,32 @@ public class FileHandler {
         return null;
     }
 
-    static JSONObject encodeJson(Chunk[] chunks) {
-        JSONObject obj = new JSONObject();
-        JSONArray chunksArr = new JSONArray();
-        
-        for (int i = 0; i < 10; i++) {
-            JSONObject chunkObj = new JSONObject();
-            chunkObj.put("offset", chunks[i].offset);
+    static JSONObject encodeJson(HashMap<Integer, Chunk> chunks) {
+        JSONObject chunkObj = new JSONObject();
 
+        for (Integer key : chunks.keySet()) {
             JSONArray tiles = new JSONArray();
+            Chunk chunk = chunks.get(key);
+            
             for (byte y = 0; y < Chunk.CHUNK_HEIGHT; y++) {
                 JSONArray tilesX = new JSONArray();
                 for (byte x = 0; x < Chunk.CHUNK_WIDTH; x++) {
-                    tilesX.add(chunks[i].getTile(x, y));
+                    tilesX.add(chunk.getTile(x, y));
                 }
                 tiles.add(tilesX);
             }
-            chunkObj.put("tiles", tiles);
-            chunksArr.add(chunkObj);
+            System.out.println(tiles);
+            chunkObj.put(chunk.offset, tiles);
         }
-        obj.put("chunks", chunksArr);
-        return obj;
+        System.out.println(chunkObj);
+        return chunkObj;
     }
 
-    static Chunk[] decodeJson(JSONObject obj) {
-        Chunk[] chunks = new Chunk[100];
-        JSONArray chunkArray = (JSONArray)obj.get("chunks");
-        for (int i = 0; i < chunkArray.size(); i++) {
-            JSONObject chunkObj = (JSONObject)chunkArray.get(i);
-            int offset = (int)(long)chunkObj.get("offset");
-            chunks[offset] = new Chunk(chunkObj);
+    static HashMap<Integer, Chunk> decodeJson(JSONObject obj) {
+        HashMap<Integer, Chunk> chunks = new HashMap<Integer, Chunk>();
+        for (Object key : obj.keySet()) {
+            Integer offset = Integer.valueOf((String)key);
+            chunks.put(offset, new Chunk(offset, (JSONArray)obj.get(key)));
         }
         return chunks;
     }

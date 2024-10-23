@@ -1,21 +1,19 @@
 package Objects;
 
 import Graphics.Renderer;
-import Objects.Player;
 import Terrain.Terrain;
 
 public class Game {
-    private Terrain terrain;
-    private Player player;
+    public Terrain terrain;
+    public Player player;
     private Renderer renderer;
 
     public Game() {
         terrain = new Terrain(0.38464894137558436);
         player = new Player(10, 31);
-        renderer = new Renderer(terrain, player);
-        renderer.setVisible(true);
+        renderer = new Renderer(this);
 
-        this.run();
+        // this.run();
     }
 
     // Main game loop

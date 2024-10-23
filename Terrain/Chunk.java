@@ -1,7 +1,6 @@
 package Terrain;
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 /* 
  * MOST COMMON BLOCKS:
@@ -43,9 +42,8 @@ public class Chunk {
             }
         }
     }
-    public Chunk(JSONObject chunkObj) {
-        this.offset = (int)(long)chunkObj.get("offset");
-        JSONArray tilesArr = (JSONArray)chunkObj.get("tiles");
+    public Chunk(int offset, JSONArray tilesArr) {
+        this.offset = offset;
         this.tiles = new byte[CHUNK_HEIGHT][CHUNK_WIDTH];
         for (byte y = 0; y < CHUNK_HEIGHT; y++) {
             JSONArray tilesXArr = (JSONArray)tilesArr.get(y);
@@ -54,10 +52,6 @@ public class Chunk {
             }
         }
     }
-    // public static Chunk chunkObj(JSONObject chunkObj) {
-    //     Chunk chunk = new Chunk();
-    //     return chunk;
-    // }
 
     public byte[][] getTiles() {
         return tiles;

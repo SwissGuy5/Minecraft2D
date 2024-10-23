@@ -1,7 +1,9 @@
 package Terrain;
 
+import java.util.HashMap;
+
 public class Terrain {
-    private Chunk[] chunks;
+    private HashMap<Integer, Chunk> chunks;
     public double seed;
 
     public Terrain() {
@@ -9,13 +11,15 @@ public class Terrain {
     }
     public Terrain(double seed) {
         this.seed = seed;
+
         if (FileHandler.fileExists(seed)) {
             System.out.println("Getting existing terrain");
             chunks = FileHandler.getChunksFromSeed(seed);
         } else {
             System.out.println("Generating Terrain");
-            chunks = new Chunk[100];
+            chunks = new HashMap<Integer, Chunk>();
             generateChunks(0, 10);
+            saveTerrain();
         }
     }
 
@@ -36,10 +40,10 @@ public class Terrain {
     }
 
     public Chunk getChunk(int n) {
-        return chunks[n];
+        return chunks.get(n);
     }
 
     public void addChunk(int offset) {
-        chunks[offset] = new Chunk(offset, this.seed);
+        chunks.put(offset, new Chunk(offset, this.seed));
     }
 }

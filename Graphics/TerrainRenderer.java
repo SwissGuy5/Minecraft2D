@@ -14,11 +14,11 @@ public class TerrainRenderer extends JPanel {
     final int TILE_SIZE = 12;
     final Color SKY = new Color(61, 211, 252);
 
-    private Terrain cachedTerrain;
+    private Terrain terrain;
     private Map<Byte, BufferedImage> tileSprites;
 
-    public TerrainRenderer(Terrain cachedTerrain) {
-        this.cachedTerrain = cachedTerrain;
+    public TerrainRenderer(Terrain terrain) {
+        this.terrain = terrain;
         this.setBackground(SKY);
         loadSprites();
     }
@@ -54,7 +54,7 @@ public class TerrainRenderer extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g); // Paints the rest of the component with the background color
-        drawChunk(g, cachedTerrain.getChunk(0));
-        drawChunk(g, cachedTerrain.getChunk(1));
+        drawChunk(g, terrain.getChunk(0));
+        drawChunk(g, terrain.getChunk(1));
     }
 }
