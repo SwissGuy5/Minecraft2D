@@ -2,9 +2,11 @@ package Graphics;
 import javax.swing.JFrame;
 
 import Objects.Game;
+import Objects.Light;
 
 public class Renderer extends JFrame {
     private TerrainRenderer terrainRenderer;
+    private LightingRenderer lightingRenderer;
     private PlayerRenderer playerRenderer;
     final int windowWidth = 1200;
     final int windowHeight = 800;
@@ -19,6 +21,13 @@ public class Renderer extends JFrame {
         playerRenderer = new PlayerRenderer(game.player);
         playerRenderer.setBounds(500, 300, 200, 200);
         this.add(playerRenderer);
+
+        lightingRenderer = new LightingRenderer(game.terrain);
+        lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
+        this.add(lightingRenderer);
+
+        Light sun = new Light(200, 100, 1000);
+        lightingRenderer.addLight(sun);
 
         terrainRenderer = new TerrainRenderer(game.terrain);
         terrainRenderer.setBounds(0, 0, windowWidth, windowHeight);

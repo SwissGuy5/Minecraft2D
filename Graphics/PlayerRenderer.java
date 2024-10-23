@@ -21,6 +21,9 @@ public class PlayerRenderer extends JPanel {
     double rightLegProgress = 0;
     double leftLegProgress = 0;
 
+    int x = 0;
+    int y = 0;
+
     public PlayerRenderer(Player player) {
         this.player = player;
         this.setOpaque(false);
@@ -32,8 +35,8 @@ public class PlayerRenderer extends JPanel {
 
     void drawCharacter(Graphics g) {
         // DEBUG
-        g.setColor(new Color(0, 0, 0));
-        g.fillRect(0, 0, 200, 200);
+        // g.setColor(new Color(0, 0, 0));
+        // g.fillRect(0, 0, 200, 200);
 
         // THIS IS WHERE THE MAGIC HAPPENS
         Graphics2D g2d = (Graphics2D) g;
