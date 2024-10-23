@@ -54,7 +54,6 @@ public class Chunk {
         for (int i = 0; i < treeRoots.size(); i += 2) {
             byte x = treeRoots.get(i);
             byte y = treeRoots.get(i + 1);
-            System.out.println(x);
             if (x > prevX + 3) {
                 generateTree(x, y);
                 prevX = x;

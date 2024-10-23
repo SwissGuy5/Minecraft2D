@@ -57,10 +57,8 @@ public class FileHandler {
                 }
                 tiles.add(tilesX);
             }
-            System.out.println(tiles);
             chunkObj.put(chunk.offset, tiles);
         }
-        System.out.println(chunkObj);
         return chunkObj;
     }
 
