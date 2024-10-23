@@ -19,7 +19,8 @@ public class Terrain {
             System.out.println("Generating Terrain");
             chunks = new HashMap<Integer, Chunk>();
             generateChunks(0, 10);
-            saveTerrain();
+            // Todo: Re-enable to save files
+            // saveTerrain();
         }
     }
 

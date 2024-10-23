@@ -27,7 +27,7 @@ public class TerrainRenderer extends JPanel {
         tileSprites = new HashMap<>();
         String cwd = System.getProperty("user.dir");
         try {
-            for (byte i = 1; i < (byte) 89; i++) {
+            for (byte i = 1; i < (byte) 90; i++) {
                 String fileName = cwd + "\\Assets\\Tiles\\" + i + ".png";
                 tileSprites.put((byte) i, ImageIO.read(new File(fileName)));
             }
