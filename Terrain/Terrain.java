@@ -10,6 +10,10 @@ public class Terrain {
     private HashMap<Integer, Chunk> chunks;
     public double seed;
 
+    private Rectangle[] obstacles;
+    // Set this to false whenever player interacts with chunk
+    private boolean chunkModificationAccountedFor = false;
+
     public Terrain() {
         this(Math.random());
     }
@@ -58,8 +62,12 @@ public class Terrain {
         return chunks.get(n);
     }
 
-    public ArrayList<Rectangle> getLightCollisionRectangles(int n) {
+    public Rectangle[] getLightCollisionRectangles(int n) {
         ArrayList<Rectangle> rectangles = new ArrayList<>();
+
+        if (this.chunkModificationAccountedFor) {
+            return this.obstacles;
+        }
 
         Chunk chunk = this.chunks.get(n);
         int offset = chunk.offset * 64;
@@ -86,7 +94,14 @@ public class Terrain {
             }
         }
 
-        return rectangles;
+        this.obstacles = new Rectangle[rectangles.size()];
+        for (int i = 0; i < rectangles.size(); i++) {
+            this.obstacles[i] = rectangles.get(i);
+        }
+
+        this.chunkModificationAccountedFor = true;
+
+        return this.obstacles;
     }
 
     public void addChunk(int offset) {
