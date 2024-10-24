@@ -70,6 +70,7 @@ public class LightingRenderer extends JPanel {
         }
 
         Graphics2D g2d = (Graphics2D) g;
+        byte[][] pixels = new byte[800 / 2][1200 / 2];
 
         // ArrayList<Rectangle> obstacles = this.terrain.getLightCollisionRectangles(0);
         ArrayList<Rectangle> obstacles = new ArrayList<>();
@@ -85,12 +86,12 @@ public class LightingRenderer extends JPanel {
             Color[] colors = {new Color(255, 255, 255, 55), new Color(0, 0, 0, 0)};
             RadialGradientPaint radialGradient = new RadialGradientPaint(center, radius, dist, colors);
 
-            // Approach of filling background with black doesn't work
-            g2d.setColor(new Color(0, 0, 0, 100));
-            g2d.fillRect(0, 0, 1200, 800);
+            // // Approach of filling background with black doesn't work
+            // g2d.setColor(new Color(0, 0, 0, 100));
+            // g2d.fillRect(0, 0, 1200, 800);
 
-            g2d.setPaint(radialGradient);
-            g2d.fillOval(light.x - (int) radius, light.y - (int) radius, (int) radius * 2, (int) radius * 2);
+            // g2d.setPaint(radialGradient);
+            // g2d.fillOval(light.x - (int) radius, light.y - (int) radius, (int) radius * 2, (int) radius * 2);
             
             // fill polygon for all angles
             // g2d.fillPolygon(xs, ys, n);
@@ -135,6 +136,18 @@ public class LightingRenderer extends JPanel {
             
                 // g2d.setColor(new Color(40, 0, 0, 100));
                 // g2d.fillPolygon(new int[]{light.x, light.x + (int) (1000 * Math.cos(startAngle)), light.x + (int) (1000 * Math.cos(endAngle))}, new int[]{light.y, light.y + (int) (1000 * Math.sin(startAngle)), light.y + (int) (1000 * Math.sin(endAngle))}, 3);
+
+                // Define polygons, where light doesn't reach
+                // go through pixel calculating the distance from center
+                // if in one of the polygons, skip
+                // depending on strength of light and distance assign a brightness
+            }
+        }
+
+        for (int y = 0; y < 800 / 2; y += 2) {
+            for (int x = 0; x < 1200 / 2; x += 2) {
+                g2d.setColor(new Color(pixels[y][x], 0, 0));
+                // g2d.fillRect(2 * x, 2 * y, 4, 4);
             }
         }
 
