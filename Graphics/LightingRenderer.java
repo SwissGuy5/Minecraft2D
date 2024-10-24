@@ -83,11 +83,12 @@ public class LightingRenderer extends JPanel {
 
         for (int y = 0; y < pixelArrayHeight; y++) {
             for (int x = 0; x < pixelArrayWidth; x++) {
-                pixels[y][x] = 50;
+                pixels[y][x] = 100;
             }
         }
 
         Rectangle[] obstacles = this.terrain.getLightCollisionRectangles(0);
+        Chunk chunk = this.terrain.getChunk(0);
         // ArrayList<Rectangle> obstacles = new ArrayList<>();
         // obstacles.add(new Rectangle(new int[]{12 * 10, 64 * 12 - 12 * 50, 12 * 12, 64 * 12 - 12 * 50, 12 * 10, 64 * 12 - 12 * 52, 12 * 12, 64 * 12 - 12 * 52}));
 
@@ -124,26 +125,28 @@ public class LightingRenderer extends JPanel {
             int lY = light.y;
 
             for (int y = 0; y < pixelArrayHeight; y++) {
-                // variables to speed it up a bit
-                // was in bounds
-                // entire row out of bounds
                 for (int x = 0; x < pixelArrayWidth; x++) {
                     int transformedX = x * pixelSize;
                     int transformedY = y * pixelSize;
 
-                    boolean isObscured = false;
-                    for (int j = 0; j < awtPolygons.length; j++) {
-                        if (awtPolygons[j].contains(new Point(transformedX, transformedY))) {
-                            isObscured = true;
-                            break;
-                        }
-                    }
+                    // if (y < chunk.isUnderGroundAt(x)) {
+                    //     continue;
+                    // }
 
-                    if (isObscured) {
-                        pixels[y][x] += 25;
-                    } else {
-                        int distanceSquared = (lX - transformedX) * (lX - transformedX) + (lY - transformedY) * (lY - transformedY);
-                        if (distanceSquared < lightRadiusSquared) {
+                    int distanceSquared = (lX - transformedX) * (lX - transformedX) + (lY - transformedY) * (lY - transformedY);
+
+                    if (distanceSquared < lightRadiusSquared) {
+                        boolean isObscured = false;
+                        for (int j = 0; j < awtPolygons.length; j++) {
+                            if (awtPolygons[j].contains(new Point(transformedX, transformedY))) {
+                                isObscured = true;
+                                break;
+                            }
+                        }
+
+                        if (isObscured) {
+                            pixels[y][x] += 25 * (1 - distanceSquared / lightRadiusSquared);
+                        } else {
                             pixels[y][x] -= light.strength * (1 - distanceSquared / lightRadiusSquared);
                         }
                     }

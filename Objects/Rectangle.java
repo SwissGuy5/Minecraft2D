@@ -26,22 +26,42 @@ public class Rectangle {
         boolean isAbove = y > points[0][1];
         boolean isBelow = y < points[2][1];
 
+        // if (isAbove && isToLeft) {
+        //     return new int[]{points[0][0], points[0][1], points[1][0], points[1][1], points[2][0], points[2][1]};
+        // } else if (isAbove && isToRight) {
+        //     return new int[]{points[1][0], points[1][1], points[0][0], points[0][1], points[3][0], points[3][1]};
+        // } else if (isBelow && isToLeft) {
+        //     return new int[]{points[2][0], points[2][1], points[0][0], points[0][1], points[3][0], points[3][1]};
+        // } else if (isBelow && isToRight) {
+        //     return new int[]{points[3][0], points[3][1], points[1][0], points[1][1], points[2][0], points[2][1]};
+        // } else if (isAbove) {
+        //     return new int[]{points[0][0], points[0][1], points[1][0], points[1][1]};
+        // } else if (isBelow) {
+        //     return new int[]{points[2][0], points[2][1], points[3][0], points[3][1]};
+        // } else if (isToLeft) {
+        //     return new int[]{points[0][0], points[0][1], points[2][0], points[2][1]};
+        // } else if (isToRight) {
+        //     return new int[]{points[1][0], points[1][1], points[3][0], points[3][1]};
+        // } else {
+        //     return new int[]{};
+        // }
+
         if (isAbove && isToLeft) {
-            return new int[]{points[0][0], points[0][1], points[1][0], points[1][1], points[2][0], points[2][1]};
+            return new int[]{points[1][0], points[1][1], points[2][0], points[2][1], points[3][0], points[3][1]};
         } else if (isAbove && isToRight) {
-            return new int[]{points[1][0], points[1][1], points[0][0], points[0][1], points[3][0], points[3][1]};
+            return new int[]{points[0][0], points[0][1], points[2][0], points[2][1], points[3][0], points[3][1]};
         } else if (isBelow && isToLeft) {
-            return new int[]{points[2][0], points[2][1], points[0][0], points[0][1], points[3][0], points[3][1]};
+            return new int[]{points[0][0], points[0][1], points[1][0], points[1][1], points[3][0], points[3][1]};
         } else if (isBelow && isToRight) {
-            return new int[]{points[3][0], points[3][1], points[1][0], points[1][1], points[2][0], points[2][1]};
+            return new int[]{points[3][0], points[3][1], points[0][0], points[0][1], points[1][0], points[1][1]};
         } else if (isAbove) {
-            return new int[]{points[0][0], points[0][1], points[1][0], points[1][1]};
-        } else if (isBelow) {
             return new int[]{points[2][0], points[2][1], points[3][0], points[3][1]};
+        } else if (isBelow) {
+            return new int[]{points[0][0], points[0][1], points[1][0], points[1][1]};
         } else if (isToLeft) {
-            return new int[]{points[0][0], points[0][1], points[2][0], points[2][1]};
-        } else if (isToRight) {
             return new int[]{points[1][0], points[1][1], points[3][0], points[3][1]};
+        } else if (isToRight) {
+            return new int[]{points[0][0], points[0][1], points[2][0], points[2][1]};
         } else {
             return new int[]{points[0][0], points[0][1], points[1][0], points[1][1], points[2][0], points[2][1], points[3][0], points[3][1]};
         }

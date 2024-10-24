@@ -17,6 +17,8 @@ public class Chunk {
     public static final byte CHUNK_HEIGHT = 64;
     public int offset;
     private byte[][] tiles;
+
+    private byte[] groundLevel = new byte[CHUNK_WIDTH];
     
     public Chunk(int offset, double seed) {
         this.offset = offset;
@@ -35,6 +37,8 @@ public class Chunk {
             mountainNoise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 500), (seed + 1) * 300) + 1) / 2) * CHUNK_HEIGHT;
             noise = heightNoise * .1 + mountainNoise * .6 + .2 * CHUNK_HEIGHT;
             noise = Math.floor(noise);
+            
+            this.groundLevel[x] = (byte)noise;
 
             int dirtDepth = 4;
             int waterLevel = 27;
@@ -123,5 +127,9 @@ public class Chunk {
 
     public byte getTile(byte x, byte y) {
         return tiles[y][x];
+    }
+
+    public int isUnderGroundAt(int x) {
+        return this.groundLevel[x];
     }
 }
