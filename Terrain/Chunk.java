@@ -37,7 +37,7 @@ public class Chunk {
                 } else if (y > noise) {
                     tiles[y][x] = 0;
                 }else if (y == noise && y >= waterLevel) {
-                    if (y <= CHUNK_HEIGHT - 6 && x >= 1 && x < CHUNK_WIDTH - 1 && Math.random() > .8) {
+                    if (y < CHUNK_HEIGHT - 10 && x >= 2 && x < CHUNK_WIDTH - 2 && Math.random() > .85) {
                         treeRoots.add((byte)(x));
                         treeRoots.add((byte)(y));
                     }
@@ -50,11 +50,11 @@ public class Chunk {
             }
         }
 
-        byte prevX = -5;
+        byte prevX = -10;
         for (int i = 0; i < treeRoots.size(); i += 2) {
             byte x = treeRoots.get(i);
             byte y = treeRoots.get(i + 1);
-            if (x > prevX + 3) {
+            if (x > prevX + 5) {
                 generateTree(x, y);
                 prevX = x;
             }
@@ -82,24 +82,29 @@ public class Chunk {
         tiles[y][x] = 10;
         Random randNum = new Random();
 
+        // Trunk
         int height = 3 + randNum.nextInt(3);
         for (int i = 1; i <= height; i++) {
             tiles[y + i][x] = 2;
         }
-        // byte height = 3 + Math.round(Math.random() * 2);
-        // byte height = 3 + (Math.floor(Math.random() * 3);
-
-        // double randNum = Math.random();
-        // if (randNum > .2) {
-        //     tiles[y + 4][x] = 2;
-        // } if (randNum > .85) {
-        //     tiles[y + 5][x] = 2;
-        // }
-
-        tiles[y + height + 2][x] = 89;
-        tiles[y + height + 1][x] = 89;
+ 
+        // Leaves
+        tiles[y + height + 1][x - 2] = 89;
         tiles[y + height + 1][x - 1] = 89;
+        tiles[y + height + 1][x] = 89;
         tiles[y + height + 1][x + 1] = 89;
+        tiles[y + height + 1][x + 2] = 89;
+        tiles[y + height + 2][x - 2] = 89;
+        tiles[y + height + 2][x - 1] = 89;
+        tiles[y + height + 2][x] = 89;
+        tiles[y + height + 2][x + 1] = 89;
+        tiles[y + height + 2][x + 2] = 89;
+        tiles[y + height + 3][x - 1] = 89;
+        tiles[y + height + 3][x] = 89;
+        tiles[y + height + 3][x + 1] = 89;
+        tiles[y + height + 4][x - 1] = 89;
+        tiles[y + height + 4][x] = 89;
+        tiles[y + height + 4][x + 1] = 89;
     }
 
     public byte[][] getTiles() {
