@@ -13,7 +13,7 @@ public class Game {
         player = new Player(10, 31);
         renderer = new Renderer(this);
 
-        // this.run();
+        this.run();
     }
 
     // Main game loop
