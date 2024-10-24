@@ -18,9 +18,9 @@ public class Renderer extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
-        playerRenderer = new PlayerRenderer(game.player);
-        playerRenderer.setBounds(500, 300, 200, 200);
-        this.add(playerRenderer);
+        // playerRenderer = new PlayerRenderer(game.player);
+        // playerRenderer.setBounds(500, 300, 200, 200);
+        // this.add(playerRenderer);
 
         lightingRenderer = new LightingRenderer(game.terrain);
         lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
