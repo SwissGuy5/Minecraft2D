@@ -24,19 +24,29 @@ public class Chunk {
         
         ArrayList<Byte> treeRoots = new ArrayList<Byte>();
         double noise;
+        double heightNoise;
+        double mountainNoise;
         for (byte x = 0; x < CHUNK_WIDTH; x++) {
-            noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed * 100) + 1) / 2) * CHUNK_HEIGHT * .5 + CHUNK_HEIGHT * .25;
-            noise *= Terrain.biomeNoise("plain");
+            // noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed * 100) + 1) / 2) * CHUNK_HEIGHT * .5 + CHUNK_HEIGHT * .25;
+            // noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed * 100) + 1) / 2);
+            // noise = Terrain.biomeNoise("", noise);
+            
+            heightNoise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 50), seed * 300) + 1) / 2) * CHUNK_HEIGHT;
+            mountainNoise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 500), (seed + 1) * 300) + 1) / 2) * CHUNK_HEIGHT;
+            noise = heightNoise * .1 + mountainNoise * .6 + .2 * CHUNK_HEIGHT;
             noise = Math.floor(noise);
 
             int dirtDepth = 4;
             int waterLevel = 27;
             for (byte y = 0; y < CHUNK_HEIGHT; y++) {
-                if (y > noise && y <= waterLevel) {
+                if (y == 0) {
+                    tiles[y][x] = 59;
+                } else if (y > noise && y <= waterLevel) {
                     tiles[y][x] = 85;
                 } else if (y > noise) {
                     tiles[y][x] = 0;
                 }else if (y == noise && y >= waterLevel) {
+                    // Add trees
                     if (y < CHUNK_HEIGHT - 10 && x >= 2 && x < CHUNK_WIDTH - 2 && Math.random() > .85) {
                         treeRoots.add((byte)(x));
                         treeRoots.add((byte)(y));
