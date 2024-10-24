@@ -25,8 +25,9 @@ public class Chunk {
         ArrayList<Byte> treeRoots = new ArrayList<Byte>();
         double noise;
         for (byte x = 0; x < CHUNK_WIDTH; x++) {
-            noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed * 100) + 1) / 2) * CHUNK_HEIGHT * .5 + CHUNK_HEIGHT * .25;
-            noise *= Terrain.biomeNoise("plain");
+            // noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed * 100) + 1) / 2) * CHUNK_HEIGHT * .5 + CHUNK_HEIGHT * .25;
+            noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed * 100) + 1) / 2);
+            noise = Terrain.biomeNoise("plain", noise);
             noise = Math.floor(noise);
 
             int dirtDepth = 4;

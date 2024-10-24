@@ -9,7 +9,8 @@ public class Game {
     private Renderer renderer;
 
     public Game() {
-        terrain = new Terrain(0.38464894137558436);
+        // terrain = new Terrain(0.38464894137558436);
+        terrain = new Terrain();
         player = new Player(10, 31);
         renderer = new Renderer(this);
 

@@ -38,10 +38,20 @@ public class Terrain {
         FileHandler.saveChunksWithSeed(seed, chunks);
     }
 
-    public static double biomeNoise(String biome) {
+    public static double biomeNoise(String biome, double noise) {
+        noise = noise * .5 * Chunk.CHUNK_HEIGHT + .25 * Chunk.CHUNK_HEIGHT;
+        switch (biome) {
+            case "plain":
+                return noise * 1/5 + 25;
+            case "coast":
+                return noise * 1/6 + 20;
+            case "ocean":
+                return noise * 1/6 + 20;
+            default:
+                return noise;
+        }
         // double noise = SimplexNoise.noise((((double)x + offset + .5) / 70), seed);
         // return (( + 1) / 2) * CHUNK_HEIGHT * .5 + CHUNK_HEIGHT * .25;
-        return 1d;
     }
 
     public Chunk getChunk(int n) {

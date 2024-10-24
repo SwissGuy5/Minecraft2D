@@ -51,8 +51,6 @@ public class LightingRenderer extends JPanel {
         // int[]points = {light.x, light.y, 100, 0, 50, 100};
         // drawTriangle(g2d, points, new GradientPaint(light.x, light.y, new Color(255, 255, 255, 55), 50, 100, new Color(0, 0, 0, 255)));
 
-        System.out.println(this.terrain.getChunk(0));
-
         g2d.setTransform(originalTransform);
     }
 

@@ -4,9 +4,9 @@ A 2D version of the popular java game: Minecraft. Built as part of a graded assi
 
 ## Description
 
-The game is a 2D open world game with realistic graphics and procedural terrain generation. The terrain is split into chunks, which are 2D arrays of blocks. The player can move around and interact with the world by placing or destroying blocks, which impacts the lighting and is saved for when the game is launched again in the same world. The most advanced features of the game are its procedural terrain generation and lighting system, whose development process is described in detail below.
+The game is a 2D open world game with realistic lighting and procedural terrain generation. The terrain is split into chunks, which are 2D arrays of blocks. The player can move around and interact with the world by placing or destroying blocks, which impacts the lighting and is saved for when the game is launched again in the same world (using the same seed). The most advanced features of the game are its procedural terrain generation and lighting system, whose development process is described in detail below.
 
-## The Lighting System
+# The Lighting System
 
 The lighting system works based on all objects within the game. Light sources present within the scene have are assigned coordinates and intensity values, which enables the game to draw shadows dynamically.
 
@@ -19,6 +19,29 @@ reading about JWT Panels [here](https://www.javatpoint.com/java-awt-panel). This
 
 My first approach of utilizing a radial gradient quickly ended up not working when more than one light source was applied and I had to find a different way to map the darkness and brightness of the environment. The second approach was far more accurate. It included a 2d array of pixels representing the screen. Every pixel was assigned a value (incremented) per light source in the frame. More factors were taken into account such as the distance from the light and its intensity.
 
-# Demo Tiles Textures
+# The Procedural Terrain Generation
+
+The terrain generation is split into several subcategories, each building on the previous. The terrain is procedurally generated based on a seed, and can be regenerated at any time based on that very same seed.
+
+The initial approach taken revolved around a 1D perlin noise generator and shifting the start x value by a constant, acting as the seed. But after experimenting with some libraries, I found a 2D simplexnoise [generator described](https://github.com/SRombauts/SimplexNoise/blob/master/references/SimplexNoise.java) (improved perlin), where I could use the y dimension as the seed (with some adjustements).
+
+Generating biomes was initially done by randomly assigning a chunk to a biome, applying a modifier to the basic noise (such as smoothing it out or shifting it), and then interpolating between chunks with different biomes. This worked and could produce varied terrain, including mountain ranges, plains, and oceans, but the transition between biomes was often unrealistic. I instead opted for a combination of noise maps, where I overlay noise maps with increasingly more detail. One acts as the biome noise map, and the other as the base terrain. This results in biomes with mountainous regions, and others with oceans, or plains and lakes, possible deserts, etc... This approach was cleaner looking and more effective.
+
+To save chunk states after being interacted with by the player, I needed some external file to store data in. I considered csv and json ([found here](https://code.google.com/archive/p/json-simple/)). Csv had the advantage of taking slightly less space, but was harder to parse and harder to modify whenever changes were made to the chunk class. Json on the other hand could store info in a key-value format, which was easier to adapt to the increasing chunk class complexity. The chunk's offset would represent the key and the tiles the value. Each seed has its own save file.
+
+# Tiles Textures
 
 https://piiixl.itch.io/textures
+
+# SimplexNoise
+
+GitHub Source Link: https://github.com/SRombauts/SimplexNoise/blob/master/references/SimplexNoise.java
+
+# JSON Simple
+
+https://code.google.com/archive/p/json-simple/
+https://github.com/fangyidong/json-simple
+
+# Contact:
+
+s.birca@student.tue.nl
