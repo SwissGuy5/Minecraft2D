@@ -27,7 +27,7 @@ public class Renderer extends JFrame {
         lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
         this.add(lightingRenderer);
 
-        Light sun = new Light(500, 100, 100);
+        Light sun = new Light(500, 100, 2400);
         lightingRenderer.addLight(sun);
 
         Light alsoSun = new Light(300, 200, 50);

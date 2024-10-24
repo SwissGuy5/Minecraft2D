@@ -21,6 +21,11 @@ public class LightingRenderer extends JPanel {
     Terrain terrain;
     ArrayList<Light> lights = new ArrayList<Light>();
 
+    int pixelSize = 4;
+    int pixelArrayWidth = 1200 / pixelSize;
+    int pixelArrayHeight = 800 / pixelSize;
+    int[][] pixels = new int[pixelArrayHeight][pixelArrayWidth];
+
     public LightingRenderer(Terrain terrain) {
         this.terrain = terrain;
         this.setOpaque(false);
@@ -67,17 +72,20 @@ public class LightingRenderer extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
+        long now = System.currentTimeMillis();
+
         // UPDATE POSITION OF THE SUN
         if (this.lights.get(0).x > 50) {
             this.lights.get(0).x = this.lights.get(0).x - 1;
         }
 
-        int pixelSize = 4;
-        int pixelArrayWidth = 1200 / pixelSize;
-        int pixelArrayHeight = 800 / pixelSize;
-
         Graphics2D g2d = (Graphics2D) g;
-        byte[][] pixels = new byte[pixelArrayHeight][pixelArrayWidth];
+
+        for (int y = 0; y < pixelArrayHeight; y++) {
+            for (int x = 0; x < pixelArrayWidth; x++) {
+                pixels[y][x] = 50;
+            }
+        }
 
         Rectangle[] obstacles = this.terrain.getLightCollisionRectangles(0);
         // ArrayList<Rectangle> obstacles = new ArrayList<>();
@@ -102,10 +110,8 @@ public class LightingRenderer extends JPanel {
                 LightPolygon poly = new LightPolygon(reachablePoints);
                 poly.calculateShadowForLightSource(light.x, light.y);
                 polygons[j] = poly;
-                g2d.drawPolygon(poly.xCoords, poly.yCoords, poly.n);
+                // g2d.drawPolygon(poly.xCoords, poly.yCoords, poly.n);
             }
-
-            long now = System.currentTimeMillis();
 
             Polygon[] awtPolygons = new Polygon[polygons.length];
             for (int j = 0; j < awtPolygons.length; j++) {
@@ -113,7 +119,14 @@ public class LightingRenderer extends JPanel {
                 awtPolygons[j] = new Polygon(poly.xCoords, poly.yCoords, poly.n);
             }
 
+            double lightRadiusSquared = light.strength * light.strength;
+            int lX = light.x;
+            int lY = light.y;
+
             for (int y = 0; y < pixelArrayHeight; y++) {
+                // variables to speed it up a bit
+                // was in bounds
+                // entire row out of bounds
                 for (int x = 0; x < pixelArrayWidth; x++) {
                     int transformedX = x * pixelSize;
                     int transformedY = y * pixelSize;
@@ -125,27 +138,42 @@ public class LightingRenderer extends JPanel {
                             break;
                         }
                     }
+
                     if (isObscured) {
-                        pixels[y][x] += 50;
+                        pixels[y][x] += 25;
                     } else {
-                        // calculate distance and (subtract) amount
+                        int distanceSquared = (lX - transformedX) * (lX - transformedX) + (lY - transformedY) * (lY - transformedY);
+                        if (distanceSquared < lightRadiusSquared) {
+                            pixels[y][x] -= light.strength * (1 - distanceSquared / lightRadiusSquared);
+                        }
                     }
                 }
             }
-
-            System.out.println(System.currentTimeMillis() - now);
-
         }
+
+        int alpha;
 
         for (int y = 0; y < pixelArrayHeight; y++) {
             for (int x = 0; x < pixelArrayWidth; x++) {
-                g2d.setColor(new Color(0, 0, 0, (int)pixels[y][x]));
+                alpha = pixels[y][x];
+                if (alpha > 255) {
+                    alpha = 255;
+                }
+                if (alpha < 0) {
+                    alpha = 0;
+                }
+                g2d.setColor(new Color(0, 0, 0, alpha));
                 g2d.fillRect(pixelSize * x, pixelSize * y, pixelSize, pixelSize);
             }
         }
 
         for (int i = 0; i < this.lights.size(); i++) {
             drawLight(g, this.lights.get(i));
+        }
+
+        long nower = System.currentTimeMillis();
+        if (nower - now > 16) {
+            // System.out.println(nower - now);
         }
     }
 }
