@@ -5,23 +5,36 @@ import Objects.Game;
 import Objects.Light;
 
 public class Renderer extends JFrame {
-    private TerrainRenderer terrainRenderer;
-    private LightingRenderer lightingRenderer;
+    public MenuRenderer menuRenderer;
     private PlayerRenderer playerRenderer;
-    final int windowWidth = 1200;
-    final int windowHeight = 800;
+    private LightingRenderer lightingRenderer;
+    private TerrainRenderer terrainRenderer;
+    private Game game;
+    static final int windowWidth = 1200;
+    static final int windowHeight = 800;
 
     public Renderer(Game game) {
         super("Minecraft 2D");
+        this.game = game;
         // this.getContentPane().setBackground(Color.GRAY);
         this.setSize(windowWidth, windowHeight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        
+        menuRenderer = new MenuRenderer(game);
+        menuRenderer.setBounds(0, 0, windowWidth, windowHeight);
+        this.add(menuRenderer);
+        
+        this.setVisible(true);
+    }
 
-        // // Todo: Re-enable once working
+    public void init() {
+        menuRenderer.setVisible(false);
+
+        // Todo: Re-enable once working
         // playerRenderer = new PlayerRenderer(game.player);
-        // // playerRenderer.setBounds(500, 300, 200, 200);
-        // // this.add(playerRenderer);
+        // playerRenderer.setBounds(500, 300, 200, 200);
+        // this.add(playerRenderer);
 
         lightingRenderer = new LightingRenderer(game.terrain);
         lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
@@ -37,6 +50,6 @@ public class Renderer extends JFrame {
         terrainRenderer.setBounds(0, 0, windowWidth, windowHeight);
         this.add(terrainRenderer);
 
-        this.setVisible(true);
+        System.out.println("Initialised Renderer");
     }
 }

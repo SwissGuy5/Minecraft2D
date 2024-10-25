@@ -25,23 +25,19 @@ The terrain generation is split into several subcategories. The terrain is proce
 
 The initial approach taken revolved around a 1D perlin noise generator and shifting the start x value by a constant, acting as the seed. With mixed sucess, I then experimented with other libraries including a 2D simplexnoise [generator](https://github.com/SRombauts/SimplexNoise/blob/master/references/SimplexNoise.java) (improved perlin), where I could use the y dimension as the seed (with some adjustements).
 
-Generating biomes was initially done by randomly assigning a chunk to a biome, applying a modifier to the basic noise (such as smoothing it out or shifting it), and then interpolating between chunks with different biomes. This worked and could produce varied terrain, including mountain ranges, plains, and oceans, but the transition between biomes was often unrealistic. I instead opted for a combination of noise maps, where I overlay them with increasingly more detail. One acts as the biome noise map, and the other as the base terrain. This results in biomes with mountainous regions, and others with oceans, or plains and lakes, deserts, etc... This approach was cleaner looking and more effective.
+Generating biomes was initially done by randomly assigning a chunk to a biome, applying a modifier to the basic noise (such as smoothing it out or shifting it), and then interpolating between chunks with different biomes. This worked and could produce varied terrain, including mountain ranges, plains, and oceans, but the transition between biomes was often unrealistic. I instead opted for a combination of noise maps, where I overlay them with increasingly more detail. One acts as the biome noise map, and the other as the base terrain. This results in biomes with mountainous regions, and others with oceans, or plains and lakes, deserts, etc... This approach [suggested here](https://www.reddit.com/r/proceduralgeneration/comments/6nyjil/terrain_how_do_you_combine_noise_maps/) was cleaner looking and more effective.
 
 To save chunk states after being interacted with by the player, I needed an external file system to store data in. I considered csv and json ([found here](https://code.google.com/archive/p/json-simple/)). Csv had the advantage of taking slightly less space, but was harder to parse and harder to modify whenever changes were made to the chunk class. Json on the other hand could store info in a key-value format, which was easier to adapt to the increasing chunk class complexity. The chunk's offset would represent the key and the tiles the value. Each seed has its own save file.
 
-# Tiles Textures
+## Tiles Textures
 
 https://piiixl.itch.io/textures
 
-# SimplexNoise
+## SimplexNoise
 
 GitHub Source Link: https://github.com/SRombauts/SimplexNoise/blob/master/references/SimplexNoise.java
 
-# JSON Simple
+## JSON Simple
 
 https://code.google.com/archive/p/json-simple/
 https://github.com/fangyidong/json-simple
-
-# Contact:
-
-s.birca@student.tue.nl

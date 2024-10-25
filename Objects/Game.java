@@ -2,23 +2,50 @@ package Objects;
 
 import Graphics.Renderer;
 import Terrain.Terrain;
+import java.awt.EventQueue;
 
 public class Game {
     public Terrain terrain;
     public Player player;
     private Renderer renderer;
+    public Thread gameThread;
 
-    public Game() {
-        // terrain = new Terrain(0.38464894137558436);
+    // public Game() {
+    //     // terrain = new Terrain(0.38464894137558436);
+    //     // renderer = new Renderer(this);
+    //     // this.init();
+
+    //     // this.run();
+    // }
+
+    public void setRenderer(Renderer renderer) {
+        System.out.println("Added renderer");
+        this.renderer = renderer;
+    }
+
+    public void init() {
         terrain = new Terrain();
         player = new Player(10, 31);
-        renderer = new Renderer(this);
-
-        this.run();
+        init2();
+    }
+    public void init(double seed) {
+        terrain = new Terrain(seed);
+        player = new Player(10, 31);
+        init2();
+    }
+    private void init2() {
+        renderer.init();
+        gameThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Game.this.run();
+            }
+        });
+        gameThread.start();
     }
 
     // Main game loop
-    void run() {
+    private void run() {
         final int FPS = 60;
         final double TIME_PER_FRAME = 1000000000 / FPS;
         long prevTime = System.nanoTime();
@@ -31,7 +58,17 @@ public class Game {
 
             if (delta >= 1) {
                 delta--;
-                renderer.repaint();
+                EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        renderer.repaint();
+                    }
+                });
+            }
+            try {
+                Thread.sleep(2);
+            } catch(InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

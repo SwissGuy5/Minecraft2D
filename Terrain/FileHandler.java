@@ -10,17 +10,19 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class FileHandler {
+    private static final String saveFilesDirPath = "./saveFiles/";
+
     static HashMap<Integer, Chunk> getChunksFromSeed(double seed) {
-        return FileHandler.decodeJson(FileHandler.readFromFile(FileHandler.FileNameFromSeed(seed)));
+        return FileHandler.decodeJson(FileHandler.readFromFile(FileHandler.fileNameFromSeed(seed)));
     }
 
     static void saveChunksWithSeed(double seed, HashMap<Integer, Chunk> chunks) {
-        FileHandler.writeToFile(FileHandler.FileNameFromSeed(seed), FileHandler.encodeJson(chunks));
+        FileHandler.writeToFile(FileHandler.fileNameFromSeed(seed), FileHandler.encodeJson(chunks));
     }
 
     static void writeToFile(String fileName, JSONObject obj) {
         try {
-			FileWriter file = new FileWriter("./SaveFiles/" + fileName + ".json");
+			FileWriter file = new FileWriter(FileHandler.filePathFromSeed(fileName));
 			file.write(obj.toJSONString());
 			file.flush();
 			file.close();
@@ -33,7 +35,7 @@ public class FileHandler {
         JSONParser jsonParser = new JSONParser();
         
         try { 
-            FileReader reader = new FileReader(FileHandler.FilePathFromSeed(fileName));
+            FileReader reader = new FileReader(FileHandler.filePathFromSeed(fileName));
             return (JSONObject)jsonParser.parse(reader);
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,21 +74,36 @@ public class FileHandler {
     }
 
     static boolean fileExists(double seed) {
-        File file = new File(FileHandler.FilePathFromSeed(seed));
+        File file = new File(FileHandler.filePathFromSeed(seed));
         if (!file.exists() || file.isDirectory()) {
             return false;
         }
         return true;
     }
 
-    static String FileNameFromSeed(double seed) {
+    static String fileNameFromSeed(double seed) {
         return Double.toString(seed).substring(2);
     }
 
-    static String FilePathFromSeed(double seed) {
-        return FileHandler.FilePathFromSeed(FileHandler.FileNameFromSeed(seed));
+    static String filePathFromSeed(double seed) {
+        return FileHandler.filePathFromSeed(FileHandler.fileNameFromSeed(seed));
     }
-    static String FilePathFromSeed(String fileName) {
-        return "./SaveFiles/" + fileName + ".json";
+    static String filePathFromSeed(String fileName) {
+        return saveFilesDirPath + fileName + ".json";
+    }
+
+    public static String[] existingFileNames() {
+        File saveFilesDir = new File(saveFilesDirPath);
+        File[] seedFiles = saveFilesDir.listFiles();
+        String[] fileNames = new String[seedFiles.length];
+        for (int i = 0; i < seedFiles.length; i++) {
+            fileNames[i] = seedFiles[i].getName();
+        }
+        return fileNames;
+    }
+
+    public static double fileNameToSeed(String fileName) {
+        System.out.println("0." + fileName);
+        return Double.parseDouble("0." + fileName);
     }
 }
