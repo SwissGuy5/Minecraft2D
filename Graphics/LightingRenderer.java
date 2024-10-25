@@ -20,6 +20,7 @@ import Terrain.*;
 public class LightingRenderer extends JPanel {
     Terrain terrain;
     ArrayList<Light> lights = new ArrayList<Light>();
+    Rectangle[] obstacles;
 
     int pixelSize = 4;
     int pixelArrayWidth = 1200 / pixelSize;
@@ -72,6 +73,7 @@ public class LightingRenderer extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
         long now = System.currentTimeMillis();
 
         // UPDATE POSITION OF THE SUN
@@ -79,75 +81,71 @@ public class LightingRenderer extends JPanel {
             this.lights.get(0).x = this.lights.get(0).x - 1;
         }
 
-        Graphics2D g2d = (Graphics2D) g;
-
         for (int y = 0; y < pixelArrayHeight; y++) {
             for (int x = 0; x < pixelArrayWidth; x++) {
                 pixels[y][x] = 100;
             }
         }
 
-        Rectangle[] obstacles = this.terrain.getLightCollisionRectangles(0);
-        Chunk chunk = this.terrain.getChunk(0);
+        obstacles = this.terrain.getLightCollisionRectangles(0);
         // ArrayList<Rectangle> obstacles = new ArrayList<>();
         // obstacles.add(new Rectangle(new int[]{12 * 10, 64 * 12 - 12 * 50, 12 * 12, 64 * 12 - 12 * 50, 12 * 10, 64 * 12 - 12 * 52, 12 * 12, 64 * 12 - 12 * 52}));
 
+        Light light;
+        LightPolygon[] polygons;
+        Polygon[] awtPolygons;
+
         for (int i = 0; i < this.lights.size(); i++) {
-            LightPolygon[] polygons = new LightPolygon[obstacles.length];
-            Light light = this.lights.get(i);
-
-            // Point2D center = new Point2D.Float(light.x, light.y);
-            // float radius = light.strength;
-            // float[] dist = {0.0f, 1.0f};
-            // Color[] colors = {new Color(0, 0, 0, 0), new Color(0, 0, 0, 100)};
-            // RadialGradientPaint radialGradient = new RadialGradientPaint(center, radius, dist, colors);
-
-            // g2d.setPaint(radialGradient);
-            // g2d.fillOval(light.x - 1400, light.y - 1400, 2800, 2800);
+            polygons = new LightPolygon[obstacles.length];
+            light = this.lights.get(i);
             
             for (int j = 0; j < obstacles.length; j++) {
                 Rectangle obstacle = obstacles[j];
-                int[] reachablePoints = obstacle.getPointsReachableFrom(light.x, light.y);
-                LightPolygon poly = new LightPolygon(reachablePoints);
-                poly.calculateShadowForLightSource(light.x, light.y);
-                polygons[j] = poly;
-                // g2d.drawPolygon(poly.xCoords, poly.yCoords, poly.n);
+                if (obstacle.closestPointInReach(light.x, light.y, light.strength)) {
+                    int[] reachablePoints = obstacle.getPointsReachableFrom(light.x, light.y);
+                    LightPolygon poly = new LightPolygon(reachablePoints);
+                    poly.calculateShadowForLightSource(light.x, light.y);
+                    polygons[j] = poly;
+                    g2d.drawPolygon(poly.xCoords, poly.yCoords, poly.n);
+                } else {
+                    polygons[j] = null;
+                }
             }
 
-            Polygon[] awtPolygons = new Polygon[polygons.length];
+            awtPolygons = new Polygon[polygons.length];
             for (int j = 0; j < awtPolygons.length; j++) {
                 LightPolygon poly = polygons[j];
+                if (poly == null) {
+                    continue;
+                }
                 awtPolygons[j] = new Polygon(poly.xCoords, poly.yCoords, poly.n);
             }
 
-            double lightRadiusSquared = light.strength * light.strength;
+            double lightRadiusSq = light.strength * light.strength;
             int lX = light.x;
             int lY = light.y;
 
             for (int y = 0; y < pixelArrayHeight; y++) {
                 for (int x = 0; x < pixelArrayWidth; x++) {
-                    int transformedX = x * pixelSize;
-                    int transformedY = y * pixelSize;
+                    int tX = x * pixelSize;
+                    int tY = y * pixelSize;
 
-                    // if (y < chunk.isUnderGroundAt(x)) {
-                    //     continue;
-                    // }
-
-                    int distanceSquared = (lX - transformedX) * (lX - transformedX) + (lY - transformedY) * (lY - transformedY);
-
-                    if (distanceSquared < lightRadiusSquared) {
+                    int distanceSq = (lX - tX) * (lX - tX) + (lY - tY) * (lY - tY);
+                    if (distanceSq < lightRadiusSq) {
                         boolean isObscured = false;
                         for (int j = 0; j < awtPolygons.length; j++) {
-                            if (awtPolygons[j].contains(new Point(transformedX, transformedY))) {
+                            if (awtPolygons[j] == null) {
+                                continue;
+                            }
+                            if (awtPolygons[j].contains(new Point(tX, tY))) {
                                 isObscured = true;
                                 break;
                             }
                         }
-
                         if (isObscured) {
-                            pixels[y][x] += 25 * (1 - distanceSquared / lightRadiusSquared);
+                            pixels[y][x] += 25 * (1 - distanceSq / lightRadiusSq);
                         } else {
-                            pixels[y][x] -= light.strength * (1 - distanceSquared / lightRadiusSquared);
+                            pixels[y][x] -= light.strength * (1 - distanceSq / lightRadiusSq);
                         }
                     }
                 }
