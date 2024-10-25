@@ -79,11 +79,11 @@ public class Terrain {
                     if (y > 0 && tiles[y - 1][x] == 0) {
                         if (x > 0 && tiles[y][x - 1] == 0) {
                             int endX = x;
-                            while (tiles[y][endX] != 0) {
+                            while (tiles[y][endX] != 0 && endX < tiles[0].length) {
                                 endX++;
                             }
                             int endY = y;
-                            while (tiles[endY][x] != 0) {
+                            while (tiles[endY][x] != 0 && endY < tiles.length) {
                                 endY++;
                             }
                             Rectangle rectangle = new Rectangle(new int[]{12 * (offset + x), 64 * 12 - 12 * y, 12 * (offset + endX), 64 * 12 - 12 * y, 12 * (offset + x), 64 * 12 - 12 * endY, 12 * (offset + endX), 64 * 12 - 12 * endY});

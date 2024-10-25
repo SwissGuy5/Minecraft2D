@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
 import Terrain.*;
+import Objects.Game;
 
 
 public class TerrainRenderer extends JPanel {
@@ -17,8 +18,8 @@ public class TerrainRenderer extends JPanel {
     private Terrain terrain;
     private Map<Byte, BufferedImage> tileSprites;
 
-    public TerrainRenderer(Terrain terrain) {
-        this.terrain = terrain;
+    public TerrainRenderer(Game game) {
+        this.terrain = game.terrain;
         this.setBackground(SKY);
         loadSprites();
     }

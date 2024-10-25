@@ -1,11 +1,14 @@
 package Graphics;
 
 import java.util.ArrayList;
+import Objects.Game;
+import Objects.Player;
 import Objects.Light;
 import Objects.Rectangle;
 import Objects.LightPolygon;
 import java.util.Collections;
 import java.util.Comparator;
+
 
 import java.awt.geom.Point2D;
 import javax.swing.JPanel;
@@ -14,11 +17,16 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.io.File;
 import Terrain.*;
 
 public class LightingRenderer extends JPanel {
     Terrain terrain;
+    Player player;
     ArrayList<Light> lights = new ArrayList<Light>();
     Rectangle[] obstacles;
 
@@ -27,8 +35,13 @@ public class LightingRenderer extends JPanel {
     int pixelArrayHeight = 800 / pixelSize;
     int[][] pixels = new int[pixelArrayHeight][pixelArrayWidth];
 
-    public LightingRenderer(Terrain terrain) {
-        this.terrain = terrain;
+    private Light light;
+    private LightPolygon[] polygons;
+    private Polygon[] awtPolygons;
+
+    public LightingRenderer(Game game) {
+        this.terrain = game.terrain;
+        this.player = game.player;
         this.setOpaque(false);
     }
 
@@ -76,7 +89,7 @@ public class LightingRenderer extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         long now = System.currentTimeMillis();
 
-        // UPDATE POSITION OF THE SUN
+        // // UPDATE POSITION OF THE SUN
         if (this.lights.get(0).x > 50) {
             this.lights.get(0).x = this.lights.get(0).x - 1;
         }
@@ -91,10 +104,6 @@ public class LightingRenderer extends JPanel {
         // ArrayList<Rectangle> obstacles = new ArrayList<>();
         // obstacles.add(new Rectangle(new int[]{12 * 10, 64 * 12 - 12 * 50, 12 * 12, 64 * 12 - 12 * 50, 12 * 10, 64 * 12 - 12 * 52, 12 * 12, 64 * 12 - 12 * 52}));
 
-        Light light;
-        LightPolygon[] polygons;
-        Polygon[] awtPolygons;
-
         for (int i = 0; i < this.lights.size(); i++) {
             polygons = new LightPolygon[obstacles.length];
             light = this.lights.get(i);
@@ -106,7 +115,7 @@ public class LightingRenderer extends JPanel {
                     LightPolygon poly = new LightPolygon(reachablePoints);
                     poly.calculateShadowForLightSource(light.x, light.y);
                     polygons[j] = poly;
-                    g2d.drawPolygon(poly.xCoords, poly.yCoords, poly.n);
+                    // g2d.drawPolygon(poly.xCoords, poly.yCoords, poly.n);
                 } else {
                     polygons[j] = null;
                 }

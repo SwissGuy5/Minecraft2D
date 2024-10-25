@@ -36,17 +36,17 @@ public class Renderer extends JFrame {
         // playerRenderer.setBounds(500, 300, 200, 200);
         // this.add(playerRenderer);
 
-        lightingRenderer = new LightingRenderer(game.terrain);
+        lightingRenderer = new LightingRenderer(game);
         lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
         this.add(lightingRenderer);
 
         Light sun = new Light(500, 100, 2400);
         lightingRenderer.addLight(sun);
 
-        Light alsoSun = new Light(300, 200, 50);
-        lightingRenderer.addLight(alsoSun);
+        // Light alsoSun = new Light(300, 200, 50);
+        // lightingRenderer.addLight(alsoSun);
 
-        terrainRenderer = new TerrainRenderer(game.terrain);
+        terrainRenderer = new TerrainRenderer(game);
         terrainRenderer.setBounds(0, 0, windowWidth, windowHeight);
         this.add(terrainRenderer);
 

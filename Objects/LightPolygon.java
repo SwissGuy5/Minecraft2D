@@ -1,12 +1,11 @@
 package Objects;
 
-import java.util.Arrays;
-
 public class LightPolygon {
     public int n;
     public int[] xCoords;
     public int[] yCoords;
     Double[] angles;
+
 
     public LightPolygon(int[] xCoords, int[] yCoords) {
         this.n = xCoords.length + 2;
@@ -28,10 +27,6 @@ public class LightPolygon {
         }
     }
 
-    // calculate the angles of the points
-    // take the max and min angle
-    // multiply the angle to get the point at the bottom of the screen
-    // add the calculated points to the xCoords
     public void calculateShadowForLightSource(int x, int y) {
         this.angles = new Double[this.n - 2];
         for (int i = 0; i < this.n - 2; i++) {
@@ -72,13 +67,5 @@ public class LightPolygon {
         this.yCoords[this.n - 1] = minY;
         this.xCoords[this.n - 2] = maxX;
         this.yCoords[this.n - 2] = maxY;
-
-        // System.out.println("==============");
-
-        // for (int i = 0; i < this.n; i++) {
-        //     System.out.print(this.xCoords[i]);
-        //     System.out.print(" ");
-        //     System.out.println(this.yCoords[i]);
-        // }
     }
 }
