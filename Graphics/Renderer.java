@@ -1,18 +1,19 @@
 package Graphics;
-import javax.swing.JFrame;
 
+import javax.swing.JFrame;
 import Objects.Game;
 import Objects.Light;
 
 public class Renderer extends JFrame {
+    static final int windowWidth = 1200;
+    static final int windowHeight = 800;
+
     private InventoryRenderer inventoryRenderer;
-    public MenuRenderer menuRenderer;
     private PlayerRenderer playerRenderer;
     private LightingRenderer lightingRenderer;
     private TerrainRenderer terrainRenderer;
     private Game game;
-    static final int windowWidth = 1200;
-    static final int windowHeight = 800;
+    private MenuRenderer menuRenderer;
 
     public Renderer(Game game) {
         super("Minecraft 2D");
@@ -31,7 +32,7 @@ public class Renderer extends JFrame {
         System.out.println("Initialising Renderer");
         menuRenderer.setVisible(false);
 
-        InventoryRenderer inventoryRenderer = new InventoryRenderer();
+        inventoryRenderer = new InventoryRenderer(this);
         this.add(inventoryRenderer);
 
         // Todo: Re-enable once working
@@ -58,7 +59,8 @@ public class Renderer extends JFrame {
         super.repaint();
     }
     public void repaint(Game game) {
-        terrainRenderer.update(game.player);
+        // terrainRenderer.update(game.player);
+        inventoryRenderer.update(game.inventory.currentlySelected);
         super.repaint();
     }
 }
