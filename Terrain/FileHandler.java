@@ -5,9 +5,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import Graphics.InventoryRenderer;
 
 public class FileHandler {
     private static final String saveFilesDirPath = "./saveFiles/";
@@ -103,7 +108,17 @@ public class FileHandler {
     }
 
     public static double fileNameToSeed(String fileName) {
-        System.out.println("0." + fileName);
         return Double.parseDouble("0." + fileName);
+    }
+
+    public static BufferedImage getBufferedImage(String filePath) {
+        BufferedImage img;
+        try {
+            img = ImageIO.read(new File(filePath));
+        } catch (IOException e) {
+            System.err.println(e);
+            img = new BufferedImage(0, 0, 0);
+        }
+        return img;
     }
 }

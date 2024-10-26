@@ -25,9 +25,11 @@ public class MenuRenderer extends JPanel {
     private JButton selectSeedBtn = new JButton("New");
 
     public MenuRenderer(Game game) {
-        this.game = game;
         this.setBackground(new Color(50, 50, 50));
+        this.setBounds(0, 0, Renderer.windowWidth, Renderer.windowHeight);
         this.setLayout(null);
+        
+        this.game = game;
 
         JLabel title = new JLabel("Minecraft 2D");
         title.setForeground(new Color(40, 200, 40));

@@ -29,7 +29,7 @@ Generating biomes was initially done by randomly assigning a chunk to a biome, a
 
 To save chunk states after being interacted with by the player, I needed an external file system to store data in. I considered csv and json ([found here](https://code.google.com/archive/p/json-simple/)). Csv had the advantage of taking slightly less space, but was harder to parse and harder to modify whenever changes were made to the chunk class. Json on the other hand could store info in a key-value format, which was easier to adapt to the increasing chunk class complexity. The chunk's offset would represent the key and the tiles the value. Each seed has its own save file.
 
-## Tiles Textures
+## Tiles Textures & Inventory Assets
 
 https://piiixl.itch.io/textures
 

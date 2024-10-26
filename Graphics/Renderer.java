@@ -1,45 +1,56 @@
 package Graphics;
 
 import javax.swing.JFrame;
+<<<<<<< HEAD
 import javax.swing.JPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import Objects.PlayerPanel;
+=======
+>>>>>>> 27c51f2f3f05a22157eb1842a9905baee2d7cd08
 import Objects.Game;
 import Objects.Light;
 
 public class Renderer extends JFrame {
-    public MenuRenderer menuRenderer;
+    static final int windowWidth = 1200;
+    static final int windowHeight = 800;
+
+    private InventoryRenderer inventoryRenderer;
     private PlayerRenderer playerRenderer;
     private LightingRenderer lightingRenderer;
     private TerrainRenderer terrainRenderer;
     private PlayerPanel playerPanel;
     private Game game;
-    static final int windowWidth = 1200;
-    static final int windowHeight = 800;
+    private MenuRenderer menuRenderer;
 
     public Renderer(Game game) {
         super("Minecraft 2D");
         this.game = game;
-        // this.getContentPane().setBackground(Color.GRAY);
         this.setSize(windowWidth, windowHeight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         
         menuRenderer = new MenuRenderer(game);
-        menuRenderer.setBounds(0, 0, windowWidth, windowHeight);
         this.add(menuRenderer);
         
         this.setVisible(true);
     }
 
     public void init() {
+        System.out.println("Initialising Renderer");
         menuRenderer.setVisible(false);
 
         playerRenderer = new PlayerRenderer(game.player);
         playerRenderer.setBounds(500, 300, 200, 200);
         this.add(playerRenderer);
+        inventoryRenderer = new InventoryRenderer(this);
+        this.add(inventoryRenderer);
+
+        // Todo: Re-enable once working
+        // playerRenderer = new PlayerRenderer(game.player);
+        // playerRenderer.setBounds(500, 300, 200, 200);
+        // this.add(playerRenderer);
 
         lightingRenderer = new LightingRenderer(game);
         lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
@@ -52,14 +63,25 @@ public class Renderer extends JFrame {
         // lightingRenderer.addLight(alsoSun);
 
         terrainRenderer = new TerrainRenderer(game);
-        terrainRenderer.setBounds(0, 0, windowWidth, windowHeight);
         this.add(terrainRenderer);
+    }
 
+<<<<<<< HEAD
         playerPanel = new PlayerPanel(game.player);
         playerPanel.setBounds(0, 0, 0, 0);
         this.add(playerPanel);
         playerPanel.requestFocusInWindow();
 
         System.out.println("Initialised Renderer");
+=======
+    @Override
+    public void repaint() {
+        super.repaint();
+    }
+    public void repaint(Game game) {
+        // terrainRenderer.update(game.player);
+        inventoryRenderer.update(game.inventory.currentlySelected);
+        super.repaint();
+>>>>>>> 27c51f2f3f05a22157eb1842a9905baee2d7cd08
     }
 }
