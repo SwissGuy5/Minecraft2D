@@ -21,7 +21,7 @@ public class TerrainRenderer extends JPanel {
 
     private Player player;
     private Terrain terrain;
-    private Map<Byte, BufferedImage> tileSprites;
+    static public Map<Integer, BufferedImage> tileSprites = loadSprites();
 
     public TerrainRenderer(Game game) {
         this.terrain = game.terrain;
@@ -32,22 +32,23 @@ public class TerrainRenderer extends JPanel {
         loadSprites();
     }
 
-    private void loadSprites() {
-        tileSprites = new HashMap<>();
+    static public Map<Integer, BufferedImage> loadSprites() {
+        Map<Integer, BufferedImage> tileSprites = new HashMap<>();
         String cwd = System.getProperty("user.dir");
         try {
-            for (byte i = 1; i < (byte) 90; i++) {
+            for (int i = 1; i < 90; i++) {
                 String fileName = cwd + "\\Assets\\Tiles\\" + i + ".png";
-                tileSprites.put((byte) i, ImageIO.read(new File(fileName)));
+                tileSprites.put(i, ImageIO.read(new File(fileName)));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return tileSprites;
     }
 
-    void drawTile(Graphics g, byte type, int x, int y) {
+    void drawTile(Graphics g, int type, int x, int y) {
         if (type == 0) return;
-        BufferedImage sprite = tileSprites.get(type);
+        BufferedImage sprite = TerrainRenderer.tileSprites.get(type);
         if (sprite != null) {
             g.drawImage(sprite, x * TILE_SIZE - this.player.x + 600, y * TILE_SIZE - this.player.y - 300, TILE_SIZE, TILE_SIZE, null);
             // g.drawImage(sprite, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, null);

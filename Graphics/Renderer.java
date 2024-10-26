@@ -17,7 +17,7 @@ public class Renderer extends JFrame {
     private PlayerRenderer playerRenderer;
     private LightingRenderer lightingRenderer;
     private TerrainRenderer terrainRenderer;
-    private PlayerPanel playerPanel;
+    // private PlayerPanel playerPanel;
     private Game game;
     private MenuRenderer menuRenderer;
 
@@ -38,16 +38,12 @@ public class Renderer extends JFrame {
         System.out.println("Initialising Renderer");
         menuRenderer.setVisible(false);
 
-        playerRenderer = new PlayerRenderer(game.player);
-        playerRenderer.setBounds(500, 300, 200, 200);
-        this.add(playerRenderer);
         inventoryRenderer = new InventoryRenderer(this);
         this.add(inventoryRenderer);
 
-        // Todo: Re-enable once working
-        // playerRenderer = new PlayerRenderer(game.player);
-        // playerRenderer.setBounds(500, 300, 200, 200);
-        // this.add(playerRenderer);
+        playerRenderer = new PlayerRenderer(game.player);
+        playerRenderer.setBounds(500, 300, 200, 200);
+        this.add(playerRenderer);
 
         lightingRenderer = new LightingRenderer(game);
         lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
@@ -62,10 +58,10 @@ public class Renderer extends JFrame {
         terrainRenderer = new TerrainRenderer(game);
         this.add(terrainRenderer);
 
-        playerPanel = new PlayerPanel(game.player);
-        playerPanel.setBounds(0, 0, 0, 0);
-        this.add(playerPanel);
-        playerPanel.requestFocusInWindow();
+        // playerPanel = new PlayerPanel(game.player);
+        // playerPanel.setBounds(0, 0, 0, 0);
+        // this.add(playerPanel);
+        // playerPanel.requestFocusInWindow();
 
         System.out.println("Initialised Renderer");
     }
@@ -76,7 +72,7 @@ public class Renderer extends JFrame {
     }
     public void repaint(Game game) {
         // terrainRenderer.update(game.player);
-        inventoryRenderer.update(game.inventory.currentlySelected);
+        inventoryRenderer.update(game.inventory);
         super.repaint();
     }
 }

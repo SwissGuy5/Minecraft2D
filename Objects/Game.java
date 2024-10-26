@@ -12,7 +12,7 @@ public class Game implements KeyListener{
     public Player player;
     public Inventory inventory;
     public Thread gameThread;
-    public HashMap<Integer, Boolean> keysDown = new HashMap<Integer, Boolean>();
+    // public HashMap<Integer, Boolean> keysDown = new HashMap<Integer, Boolean>();
 
     public void init() {
         terrain = new Terrain();
@@ -42,27 +42,51 @@ public class Game implements KeyListener{
         renderer.setFocusable(true);
         renderer.requestFocusInWindow();
     }
-
-    @Override
-    public void keyTyped(KeyEvent e) {}
     
     @Override
     public void keyPressed(KeyEvent e) {
-        keysDown.put(e.getKeyCode(), true);
-        System.out.println(e.getKeyCode());
-        handleInput(e.getKeyCode());
+        int keyCode = e.getKeyCode();
+        if (keyCode >= 49 && keyCode <= 57) {
+            inventory.setSelected(keyCode);
+        }
+
+        switch (keyCode) {
+            case KeyEvent.VK_UP:
+                player.keyDown(0);
+                break;
+            case KeyEvent.VK_DOWN:
+                player.keyDown(2);
+                break;
+            case KeyEvent.VK_LEFT:
+                player.keyDown(3);
+                break;
+            case KeyEvent.VK_RIGHT:
+                player.keyDown(1);
+                break;
+        }
     }
     
     @Override
     public void keyReleased(KeyEvent e) {
-        keysDown.put(e.getKeyCode(), false);
-    }
-
-    private void handleInput(int keyCode) {
-        if (keyCode >= 49 || keyCode <= 57) {
-            inventory.setSelected(keyCode);
+        int keyCode = e.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.VK_UP:
+                player.keyUp(0);
+                break;
+            case KeyEvent.VK_DOWN:
+                player.keyUp(2);
+                break;
+            case KeyEvent.VK_LEFT:
+                player.keyUp(3);
+                break;
+            case KeyEvent.VK_RIGHT:
+                player.keyUp(1);
+                break;
         }
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
 
     // Main game loop
     private void run() {
