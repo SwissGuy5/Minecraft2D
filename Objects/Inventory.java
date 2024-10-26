@@ -7,6 +7,15 @@ public class Inventory {
 
     public Inventory() {
         items = new int[inventorySize];
+        items[0] = 9;
+        items[1] = 10;
+        items[2] = 28;
+        items[3] = 59;
+        items[4] = 13;
+        items[5] = 0;
+        items[6] = 0;
+        items[7] = 0;
+        items[8] = 0;
         currentlySelected = 0;
     }
 

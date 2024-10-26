@@ -63,6 +63,10 @@ public class Renderer extends JFrame {
         // this.add(playerPanel);
         // playerPanel.requestFocusInWindow();
 
+        // OverlayComponent overlay = new OverlayComponent(this);
+        // this.setGlassPane(overlay);
+        // overlay.setVisible(true);
+
         System.out.println("Initialised Renderer");
     }
 

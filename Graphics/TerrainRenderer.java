@@ -29,7 +29,6 @@ public class TerrainRenderer extends JPanel {
         this.setBackground(SKY);
         this.setVisible(true);
         this.setBounds(0, 0, Renderer.windowWidth, Renderer.windowHeight);
-        loadSprites();
     }
 
     static public Map<Integer, BufferedImage> loadSprites() {
