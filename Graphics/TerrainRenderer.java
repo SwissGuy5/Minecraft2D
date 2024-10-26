@@ -16,7 +16,7 @@ import Objects.Game;
 
 
 public class TerrainRenderer extends JPanel {
-    final int TILE_SIZE = 12;
+    final int TILE_SIZE = 24;
     final Color SKY = new Color(61, 211, 252);
 
     private Player player;

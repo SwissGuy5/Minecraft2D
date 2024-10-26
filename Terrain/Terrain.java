@@ -73,6 +73,15 @@ public class Terrain {
         int offset = chunk.offset * 64;
         byte[][] tiles = chunk.getTiles();
 
+        int x1;
+        int y1;
+        int x2;
+        int y2;
+        int x3;
+        int y3;
+        int x4;
+        int y4;
+
         for (int x = 0; x < tiles[0].length; x++) {
             for (int y = 0; y < tiles.length; y++) {
                 if (tiles[y][x] != 0) {
@@ -86,7 +95,16 @@ public class Terrain {
                             while (tiles[endY][x] != 0 && endY < tiles.length) {
                                 endY++;
                             }
-                            Rectangle rectangle = new Rectangle(new int[]{12 * (offset + x), 64 * 12 - 12 * y, 12 * (offset + endX), 64 * 12 - 12 * y, 12 * (offset + x), 64 * 12 - 12 * endY, 12 * (offset + endX), 64 * 12 - 12 * endY});
+                            x1 = 24 * (offset + x);
+                            y1 = 24 * (64 - y);
+                            x2 = 24 * (offset + endX);
+                            y2 = 24 * (64 - y);
+                            x3 = 24 * (offset + x);
+                            y3 = 24 * (64 - endY);
+                            x4 = 24 * (offset + endX);
+                            y4 = 24 * (64 - endY);
+                            // Rectangle rectangle = new Rectangle(new int[]{24 * (offset + x), 64 * 24 - 24 * y, 24 * (offset + endX), 64 * 24 - 24 * y, 24 * (offset + x), 64 * 24 - 24 * endY, 24 * (offset + endX), 64 * 24 - 24 * endY});
+                            Rectangle rectangle = new Rectangle(new int[]{x1, y1, x2, y2, x3, y3, x4, y4});
                             rectangles.add(rectangle);
                         }
                     }
