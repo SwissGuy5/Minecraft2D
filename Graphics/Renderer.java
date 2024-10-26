@@ -1,6 +1,11 @@
 package Graphics;
-import javax.swing.JFrame;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import Objects.PlayerPanel;
 import Objects.Game;
 import Objects.Light;
 
@@ -9,6 +14,7 @@ public class Renderer extends JFrame {
     private PlayerRenderer playerRenderer;
     private LightingRenderer lightingRenderer;
     private TerrainRenderer terrainRenderer;
+    private PlayerPanel playerPanel;
     private Game game;
     static final int windowWidth = 1200;
     static final int windowHeight = 800;
@@ -31,10 +37,9 @@ public class Renderer extends JFrame {
     public void init() {
         menuRenderer.setVisible(false);
 
-        // Todo: Re-enable once working
-        // playerRenderer = new PlayerRenderer(game.player);
-        // playerRenderer.setBounds(500, 300, 200, 200);
-        // this.add(playerRenderer);
+        playerRenderer = new PlayerRenderer(game.player);
+        playerRenderer.setBounds(500, 300, 200, 200);
+        this.add(playerRenderer);
 
         lightingRenderer = new LightingRenderer(game);
         lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
@@ -49,6 +54,11 @@ public class Renderer extends JFrame {
         terrainRenderer = new TerrainRenderer(game);
         terrainRenderer.setBounds(0, 0, windowWidth, windowHeight);
         this.add(terrainRenderer);
+
+        playerPanel = new PlayerPanel(game.player);
+        playerPanel.setBounds(0, 0, 0, 0);
+        this.add(playerPanel);
+        playerPanel.requestFocusInWindow();
 
         System.out.println("Initialised Renderer");
     }

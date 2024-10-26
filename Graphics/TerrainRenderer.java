@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
 import Terrain.*;
+import Objects.Player;
 import Objects.Game;
 
 
@@ -15,11 +16,13 @@ public class TerrainRenderer extends JPanel {
     final int TILE_SIZE = 12;
     final Color SKY = new Color(61, 211, 252);
 
+    private Player player;
     private Terrain terrain;
     private Map<Byte, BufferedImage> tileSprites;
 
     public TerrainRenderer(Game game) {
         this.terrain = game.terrain;
+        this.player = game.player;
         this.setBackground(SKY);
         loadSprites();
     }
@@ -41,7 +44,8 @@ public class TerrainRenderer extends JPanel {
         if (type == 0) return;
         BufferedImage sprite = tileSprites.get(type);
         if (sprite != null) {
-            g.drawImage(sprite, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, null);
+            g.drawImage(sprite, x * TILE_SIZE - this.player.x + 600, y * TILE_SIZE - this.player.y - 300, TILE_SIZE, TILE_SIZE, null);
+            // g.drawImage(sprite, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, null);
         }
     }
 
@@ -54,7 +58,7 @@ public class TerrainRenderer extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g); // Paints the rest of the component with the background color
+        super.paintComponent(g);
         drawChunk(g, terrain.getChunk(0));
         drawChunk(g, terrain.getChunk(1));
     }

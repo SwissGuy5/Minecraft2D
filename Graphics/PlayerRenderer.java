@@ -16,17 +16,12 @@ import Terrain.*;
 public class PlayerRenderer extends JPanel {
     private Player player;
 
-    double velocity = 1;
-
     double rightLegProgress = 0;
     double leftLegProgress = 0;
 
-    int x = 0;
-    int y = 0;
-
     public PlayerRenderer(Player player) {
-        this.player = player;
         this.setOpaque(false);
+        this.player = player;
     }
 
     void handleAnimation() {
@@ -34,9 +29,11 @@ public class PlayerRenderer extends JPanel {
     }
 
     void drawCharacter(Graphics g) {
+        this.player.update(16);
+
         // DEBUG
-        // g.setColor(new Color(0, 0, 0));
-        // g.fillRect(0, 0, 200, 200);
+        g.setColor(new Color(200, 0, 0, 100));
+        g.fillRect(0, 0, 200, 200);
 
         // THIS IS WHERE THE MAGIC HAPPENS
         Graphics2D g2d = (Graphics2D) g;
@@ -75,5 +72,6 @@ public class PlayerRenderer extends JPanel {
         super.paintComponent(g);
         handleAnimation();
         drawCharacter(g);
+        // player.x++;
     }
 }

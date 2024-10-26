@@ -90,9 +90,9 @@ public class LightingRenderer extends JPanel {
         long now = System.currentTimeMillis();
 
         // // UPDATE POSITION OF THE SUN
-        if (this.lights.get(0).x > 50) {
-            this.lights.get(0).x = this.lights.get(0).x - 1;
-        }
+        // if (this.lights.get(0).x > 50) {
+        //     this.lights.get(0).x = this.lights.get(0).x - 1;
+        // }
 
         for (int y = 0; y < pixelArrayHeight; y++) {
             for (int x = 0; x < pixelArrayWidth; x++) {

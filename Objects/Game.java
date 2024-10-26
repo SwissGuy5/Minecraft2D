@@ -25,12 +25,12 @@ public class Game {
 
     public void init() {
         terrain = new Terrain();
-        player = new Player(10, 31);
+        player = new Player(-100, -600);
         init2();
     }
     public void init(double seed) {
         terrain = new Terrain(seed);
-        player = new Player(10, 31);
+        player = new Player(-100, -600);
         init2();
     }
     private void init2() {
