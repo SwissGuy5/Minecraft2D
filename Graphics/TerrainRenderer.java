@@ -1,6 +1,9 @@
 package Graphics;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import Objects.Player;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -21,6 +24,8 @@ public class TerrainRenderer extends JPanel {
     public TerrainRenderer(Game game) {
         this.terrain = game.terrain;
         this.setBackground(SKY);
+        this.setVisible(true);
+        this.setBounds(0, 0, Renderer.windowWidth, Renderer.windowHeight);
         loadSprites();
     }
 
@@ -53,9 +58,13 @@ public class TerrainRenderer extends JPanel {
         }
     }
 
-    public void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g); // Paints the rest of the component with the background color
         drawChunk(g, terrain.getChunk(0));
         drawChunk(g, terrain.getChunk(1));
+    }
+
+    public void update(Player player) {
+        
     }
 }

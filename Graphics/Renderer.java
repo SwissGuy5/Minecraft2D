@@ -5,6 +5,7 @@ import Objects.Game;
 import Objects.Light;
 
 public class Renderer extends JFrame {
+    private InventoryRenderer inventoryRenderer;
     public MenuRenderer menuRenderer;
     private PlayerRenderer playerRenderer;
     private LightingRenderer lightingRenderer;
@@ -16,20 +17,22 @@ public class Renderer extends JFrame {
     public Renderer(Game game) {
         super("Minecraft 2D");
         this.game = game;
-        // this.getContentPane().setBackground(Color.GRAY);
         this.setSize(windowWidth, windowHeight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         
         menuRenderer = new MenuRenderer(game);
-        menuRenderer.setBounds(0, 0, windowWidth, windowHeight);
         this.add(menuRenderer);
         
         this.setVisible(true);
     }
 
     public void init() {
+        System.out.println("Initialising Renderer");
         menuRenderer.setVisible(false);
+
+        InventoryRenderer inventoryRenderer = new InventoryRenderer();
+        this.add(inventoryRenderer);
 
         // Todo: Re-enable once working
         // playerRenderer = new PlayerRenderer(game.player);
@@ -47,9 +50,15 @@ public class Renderer extends JFrame {
         // lightingRenderer.addLight(alsoSun);
 
         terrainRenderer = new TerrainRenderer(game);
-        terrainRenderer.setBounds(0, 0, windowWidth, windowHeight);
         this.add(terrainRenderer);
+    }
 
-        System.out.println("Initialised Renderer");
+    @Override
+    public void repaint() {
+        super.repaint();
+    }
+    public void repaint(Game game) {
+        terrainRenderer.update(game.player);
+        super.repaint();
     }
 }

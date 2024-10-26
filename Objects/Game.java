@@ -19,7 +19,6 @@ public class Game {
     // }
 
     public void setRenderer(Renderer renderer) {
-        System.out.println("Added renderer");
         this.renderer = renderer;
     }
 
@@ -50,7 +49,7 @@ public class Game {
         final double TIME_PER_FRAME = 1000000000 / FPS;
         long prevTime = System.nanoTime();
         double delta = 0;
-
+        
         while (true) {
             long currTime = System.nanoTime();
             delta += (currTime - prevTime) / TIME_PER_FRAME;
@@ -58,18 +57,24 @@ public class Game {
 
             if (delta >= 1) {
                 delta--;
+                // renderer.repaint();
                 EventQueue.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        renderer.repaint();
+                        renderer.repaint(Game.this);
                     }
                 });
+                try {
+                    Thread.sleep(15);
+                } catch(InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            try {
-                Thread.sleep(2);
-            } catch(InterruptedException e) {
-                e.printStackTrace();
-            }
+            // try {
+            //     Thread.sleep(2);
+            // } catch(InterruptedException e) {
+            //     e.printStackTrace();
+            // }
         }
     }
 }
