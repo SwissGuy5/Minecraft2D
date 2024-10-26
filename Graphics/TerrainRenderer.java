@@ -67,8 +67,4 @@ public class TerrainRenderer extends JPanel {
         drawChunk(g, terrain.getChunk(0));
         drawChunk(g, terrain.getChunk(1));
     }
-
-    public void update(Player player) {
-        
-    }
 }

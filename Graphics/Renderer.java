@@ -1,14 +1,11 @@
 package Graphics;
 
 import javax.swing.JFrame;
-<<<<<<< HEAD
 import javax.swing.JPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import Objects.PlayerPanel;
-=======
->>>>>>> 27c51f2f3f05a22157eb1842a9905baee2d7cd08
 import Objects.Game;
 import Objects.Light;
 
@@ -64,16 +61,15 @@ public class Renderer extends JFrame {
 
         terrainRenderer = new TerrainRenderer(game);
         this.add(terrainRenderer);
-    }
 
-<<<<<<< HEAD
         playerPanel = new PlayerPanel(game.player);
         playerPanel.setBounds(0, 0, 0, 0);
         this.add(playerPanel);
         playerPanel.requestFocusInWindow();
 
         System.out.println("Initialised Renderer");
-=======
+    }
+
     @Override
     public void repaint() {
         super.repaint();
@@ -82,6 +78,5 @@ public class Renderer extends JFrame {
         // terrainRenderer.update(game.player);
         inventoryRenderer.update(game.inventory.currentlySelected);
         super.repaint();
->>>>>>> 27c51f2f3f05a22157eb1842a9905baee2d7cd08
     }
 }
