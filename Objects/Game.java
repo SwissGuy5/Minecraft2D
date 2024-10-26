@@ -23,6 +23,7 @@ public class Game implements KeyListener{
         terrain = new Terrain(seed);
         player = new Player(-100, -600);
         init2();
+        // terrain.updateTile(0, (byte)0, (byte)0, (byte)0);
     }
     private void init2() {
         inventory = new Inventory();
