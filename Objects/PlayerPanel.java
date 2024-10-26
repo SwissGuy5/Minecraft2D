@@ -49,7 +49,7 @@ public class PlayerPanel extends JPanel implements KeyListener {
             case KeyEvent.VK_RIGHT:
                 player.keyUp(1);
                 break;
-        }    
+        }
     }
 
     @Override

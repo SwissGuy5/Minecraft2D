@@ -8,7 +8,7 @@ import Objects.Inventory;
 
 import java.awt.image.BufferedImage;
 // import javax.swing.BorderFactory;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
@@ -19,6 +19,7 @@ public class InventoryRenderer extends JPanel {
     private BufferedImage frameImg = FileHandler.getBufferedImage("./Assets/InventoryFrame.png");
     private JLabel[] frames = new JLabel[Inventory.inventorySize];
     private int currentlySelected = 0;
+    private int[] items = new int[Inventory.inventorySize];
     // private Image hotbarFrameImg = new Image()
 
     public InventoryRenderer(Renderer renderer) {
@@ -31,7 +32,7 @@ public class InventoryRenderer extends JPanel {
         this.setBackground(new Color(20, 20, 20, 150));
         this.setBounds(Renderer.windowWidth / 2 - (framePixelSize + gapLength) * Inventory.inventorySize / 2, Renderer.windowHeight - 170 + gapLength, (framePixelSize + gapLength) * Inventory.inventorySize, framePixelSize + gapLength * 2);
         this.setVisible(true);
-
+        
         for (int i = 0; i < Inventory.inventorySize; i++) {
             Image img = frameImg.getScaledInstance(framePixelSize, framePixelSize, Image.SCALE_SMOOTH);
             JLabel frame = new JLabel(new ImageIcon(img), JLabel.CENTER);
@@ -40,6 +41,7 @@ public class InventoryRenderer extends JPanel {
         }
     }
 
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -50,7 +52,25 @@ public class InventoryRenderer extends JPanel {
         g2d.drawRect(p.x, p.y, framePixelSize, framePixelSize);
     }
 
-    public void update(int selected) {
-        currentlySelected = selected;
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        
+        Point p;
+
+        for (int i = 0; i < items.length; i++) {
+            int tileType = items[i];
+            if (tileType == 0) continue;
+            BufferedImage sprite = TerrainRenderer.tileSprites.get(tileType);
+            if (sprite != null) {
+                p = frames[i].getLocation();
+                g.drawImage(sprite, p.x + framePixelSize / 4, p.y + framePixelSize / 5, 36, 36, null);
+            }
+        }
+    }
+
+    public void update(Inventory inventory) {
+        currentlySelected = inventory.currentlySelected;
+        items = inventory.items;
     }
 }

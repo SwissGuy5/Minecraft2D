@@ -37,7 +37,7 @@ public class Player {
     public void keyDown(int key) {
         this.keysDown[key] = true;
     }
-
+    
     public void keyUp(int key) {
         this.keysDown[key] = false;
     }
