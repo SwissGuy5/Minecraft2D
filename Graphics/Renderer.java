@@ -61,9 +61,9 @@ public class Renderer extends JFrame {
         playerRenderer.setBounds(500, 300, 200, 200);
         this.add(playerRenderer);
 
-        lightingRenderer = new LightingRenderer(game);
-        lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
-        this.add(lightingRenderer);
+        // lightingRenderer = new LightingRenderer(game);
+        // lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
+        // this.add(lightingRenderer);
 
         terrainRenderer = new TerrainRenderer(game);
         this.add(terrainRenderer);
