@@ -80,12 +80,12 @@ public class Chunk {
             }
         }
 
-        if (offset == 0) {
-            tiles[50][10] = 5;
-            tiles[50][11] = 5;
-            tiles[51][10] = 5;
-            tiles[51][11] = 5;
-        }
+        // if (offset == 0) {
+        //     tiles[50][10] = 5;
+        //     tiles[50][11] = 5;
+        //     tiles[51][10] = 5;
+        //     tiles[51][11] = 5;
+        // }
     }
     public Chunk(int offset, JSONArray tilesArr) {
         this.offset = offset;

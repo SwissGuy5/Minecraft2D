@@ -1,14 +1,13 @@
 package Graphics;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
-import Objects.PlayerPanel;
 import Objects.Game;
 import Objects.Light;
 
@@ -30,10 +29,8 @@ public class Renderer extends JFrame {
         this.setSize(windowWidth, windowHeight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
         
-        menuRenderer = new MenuRenderer(game);
-        this.add(menuRenderer);
-
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
@@ -41,41 +38,38 @@ public class Renderer extends JFrame {
                     Renderer.this, "Save before quitting?", "Quit Game",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE
                     ) == JOptionPane.YES_OPTION) {
-                    game.terrain.saveTerrain();
-                    // System.exit(0);
+                        game.terrain.saveTerrain();
+                        // System.exit(0);
                 }
             }
         });
-        
-        this.setVisible(true);
+            // this.addComponentListener(new ComponentAdapter() {
+            //     public void componentResized(ComponentEvent componentEvent) {
+            //         System.out.println("Resizing");
+            //     }
+            // });
+            
+            menuRenderer = new MenuRenderer(game);
+            this.add(menuRenderer);
+            
+            this.setVisible(true);
     }
 
     public void init() {
         System.out.println("Initialising Renderer");
         menuRenderer.setVisible(false);
 
-        inventoryRenderer = new InventoryRenderer(this);
+        inventoryRenderer = new InventoryRenderer(game.inventory);
         this.add(inventoryRenderer);
 
         playerRenderer = new PlayerRenderer(game.player);
-        playerRenderer.setBounds(500, 300, 200, 200);
         this.add(playerRenderer);
 
         // lightingRenderer = new LightingRenderer(game);
-        // lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
         // this.add(lightingRenderer);
 
         terrainRenderer = new TerrainRenderer(game);
         this.add(terrainRenderer);
-
-        // playerPanel = new PlayerPanel(game.player);
-        // playerPanel.setBounds(0, 0, 0, 0);
-        // this.add(playerPanel);
-        // playerPanel.requestFocusInWindow();
-
-        // OverlayComponent overlay = new OverlayComponent(this);
-        // this.setGlassPane(overlay);
-        // overlay.setVisible(true);
 
         System.out.println("Initialised Renderer");
     }
@@ -84,9 +78,9 @@ public class Renderer extends JFrame {
     public void repaint() {
         super.repaint();
     }
-    public void repaint(Game game) {
+    public void repaint(double delta) {
         // terrainRenderer.update(game.player);
-        inventoryRenderer.update(game.inventory);
+        game.player.update(delta);
         super.repaint();
     }
 

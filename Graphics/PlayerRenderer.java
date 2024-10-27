@@ -2,6 +2,8 @@ package Graphics;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import org.json.simple.parser.ContentHandler;
+
 import Objects.Player;
 
 import java.awt.*;
@@ -20,7 +22,10 @@ public class PlayerRenderer extends JPanel {
     double leftLegProgress = 0;
 
     public PlayerRenderer(Player player) {
-        this.setOpaque(false);
+        // this.setOpaque(false);
+        this.setBounds((Renderer.windowWidth - player.width) / 2, (Renderer.windowHeight - player.height) / 2, player.width, player.height);
+        // this.setBounds(500, 300, 200, 200);
+        this.setBackground(Color.YELLOW);
         this.player = player;
     }
 
@@ -29,7 +34,7 @@ public class PlayerRenderer extends JPanel {
     }
 
     void drawCharacter(Graphics g) {
-        this.player.update(16);
+        // this.player.update(16);
 
         // DEBUG
         g.setColor(new Color(200, 0, 0, 100));
@@ -73,8 +78,8 @@ public class PlayerRenderer extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        handleAnimation();
-        drawCharacter(g);
+        // handleAnimation();
+        // drawCharacter(g);
         // player.x++;
     }
 }

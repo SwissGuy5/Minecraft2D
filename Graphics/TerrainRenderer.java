@@ -16,7 +16,7 @@ import Objects.Game;
 
 
 public class TerrainRenderer extends JPanel {
-    final int TILE_SIZE = 24;
+    public static final int TILE_SIZE = 48;
     final Color SKY = new Color(61, 211, 252);
 
     private Player player;
@@ -45,27 +45,36 @@ public class TerrainRenderer extends JPanel {
         return tileSprites;
     }
 
+    void drawTile(Graphics g, byte type, double x, double y) {
+        if (type == 0) return;
+        BufferedImage sprite = TerrainRenderer.tileSprites.get(type);
+        if (sprite != null) {
+            g.drawImage(sprite, (int)Math.round(x * TILE_SIZE + (Renderer.windowWidth - player.width) / 2), (int)Math.floor(y * TILE_SIZE + (Renderer.windowHeight - player.height) / 2), TILE_SIZE, TILE_SIZE, null);
+        }
+    }
     void drawTile(Graphics g, byte type, int x, int y) {
         if (type == 0) return;
         BufferedImage sprite = TerrainRenderer.tileSprites.get(type);
         if (sprite != null) {
-            g.drawImage(sprite, x * TILE_SIZE - this.player.x + 600, y * TILE_SIZE - this.player.y - 400, TILE_SIZE, TILE_SIZE, null);
-            // g.drawImage(sprite, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, null);
+            g.drawImage(sprite, (int)Math.round(x * TILE_SIZE + (Renderer.windowWidth - player.width) / 2), (int)Math.floor(y * TILE_SIZE + (Renderer.windowHeight - player.height) / 2), TILE_SIZE, TILE_SIZE, null);
         }
     }
 
     void drawChunk(Graphics g, Chunk chunk) {
         for (byte y = 0; y < Chunk.CHUNK_HEIGHT; y++) {
+            // System.out.println(Chunk.CHUNK_HEIGHT - player.getY() + y);
             for (byte x = 0; x < Chunk.CHUNK_WIDTH; x++) {
-                drawTile(g, chunk.getTile(x, y), x + chunk.offset * Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT - y - 1);
+                drawTile(g, chunk.getTile(x, y), chunk.offset * Chunk.CHUNK_WIDTH + x - player.x, player.y - y);
             }
         }
     }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawChunk(g, terrain.getChunk(0));
-        drawChunk(g, terrain.getChunk(1));
-        // drawChunk(g, terrain.getChunk(2));
+
+        int playerChunkOffset = player.chunkOffset();
+        drawChunk(g, terrain.getChunk(playerChunkOffset - 1));
+        drawChunk(g, terrain.getChunk(playerChunkOffset));
+        drawChunk(g, terrain.getChunk(playerChunkOffset + 1));
     }
 }

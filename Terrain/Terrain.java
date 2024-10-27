@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Terrain {
     private HashMap<Integer, Chunk> chunks;
     public double seed;
+    public static byte[] nonCollidingBlocks = getNonCollidingBlocks();
 
     private Rectangle[] obstacles;
 
@@ -44,6 +45,14 @@ public class Terrain {
         FileHandler.saveChunksWithSeed(seed, chunks);
     }
 
+    private static byte[] getNonCollidingBlocks() {
+        byte[] blocks = new byte[3];
+        blocks[0] = 0;
+        blocks[1] = 2;
+        blocks[2] = 85;
+        return blocks;
+    }
+
     public static double biomeNoise(String biome, double noise) {
         noise = noise * .5 * Chunk.CHUNK_HEIGHT + .25 * Chunk.CHUNK_HEIGHT;
         switch (biome) {
@@ -61,7 +70,16 @@ public class Terrain {
     }
 
     public Chunk getChunk(int n) {
-        return chunks.get(n);
+        Chunk currChunk = chunks.get(n);
+        if (currChunk == null) {
+            this.addChunk(n);
+            return chunks.get(n);
+        }
+        return currChunk;
+    }
+
+    public void addChunk(int offset) {
+        chunks.put(offset, new Chunk(offset, this.seed));
     }
 
     public Rectangle[] getLightCollisionRectangles(int n) {
@@ -118,9 +136,5 @@ public class Terrain {
         chunk.saveObstacles(rectangles.toArray(new Rectangle[rectangles.size()]));
 
         return this.obstacles;
-    }
-
-    public void addChunk(int offset) {
-        chunks.put(offset, new Chunk(offset, this.seed));
     }
 }
