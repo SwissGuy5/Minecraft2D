@@ -114,7 +114,7 @@ public class Terrain {
                     if (y > 0 && nonCollidingBlocks.contains(tiles[y - 1][x])) {
                         if (x > 0 && nonCollidingBlocks.contains(tiles[y][x - 1])) {
                             int endX = x;
-                            while (!nonCollidingBlocks.contains(tiles[y][endX]) 
+                            while (endX < 64 && !nonCollidingBlocks.contains(tiles[y][endX]) 
                                 && endX < tiles[0].length) {
                                 endX++;
                             }

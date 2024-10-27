@@ -1,21 +1,13 @@
 package Objects;
 
+/**
+ * A polygon that represents the shadow cast by a light source.
+ */
 public class LightPolygon {
     public int n;
     public int[] xCoords;
     public int[] yCoords;
     Double[] angles;
-
-
-    public LightPolygon(int[] xCoords, int[] yCoords) {
-        this.n = xCoords.length + 2;
-        this.xCoords = new int[this.n];
-        this.yCoords = new int[this.n];
-        for (int i = 0; i < this.n - 2; i++) {
-            this.xCoords[i] = xCoords[i];
-            this.yCoords[i] = yCoords[i];
-        }
-    }
 
     public LightPolygon(int[] coords) {
         this.n = coords.length / 2 + 2;

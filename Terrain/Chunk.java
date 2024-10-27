@@ -170,6 +170,12 @@ public class Chunk {
     }
     
     public byte getTile(byte x, byte y) {
+        if (x >= CHUNK_WIDTH) {
+            return tiles[y][CHUNK_WIDTH - 1];
+        }
+        if (y >= CHUNK_HEIGHT) {
+            return tiles[CHUNK_HEIGHT - 1][x];
+        }
         return tiles[y][x];
     }
     
