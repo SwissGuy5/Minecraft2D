@@ -72,7 +72,8 @@ public class MenuRenderer extends JPanel {
         
         JButton startBtn = new JButton("Start");
         startBtn.setBackground(new Color(120, 120, 120));
-        startBtn.setBounds(Renderer.windowWidth / 2 - 100, Renderer.windowHeight / 2 + 100,200, 70);
+        startBtn.setBounds(
+            Renderer.windowWidth / 2 - 100, Renderer.windowHeight / 2 + 100, 200, 70);
         startBtn.setFocusPainted(false);
         startBtn.setFont(new Font("Century Schoolbook", Font.PLAIN, 40));
         startBtn.addActionListener(new ActionListener() {

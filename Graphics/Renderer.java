@@ -1,15 +1,9 @@
 package Graphics;
 
-import javax.swing.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-
 import Objects.Game;
-import Objects.Light;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.*;
 
 /**
  * The main renderer frame containing all the sub-renderers.
