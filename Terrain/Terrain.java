@@ -11,8 +11,6 @@ public class Terrain {
     public double seed;
 
     private Rectangle[] obstacles;
-    // Set this to false whenever player interacts with chunk
-    private boolean chunkModificationAccountedFor = false;
 
     public Terrain() {
         this(Math.random());
@@ -69,12 +67,13 @@ public class Terrain {
     public Rectangle[] getLightCollisionRectangles(int n) {
         ArrayList<Rectangle> rectangles = new ArrayList<>();
 
-        if (this.chunkModificationAccountedFor) {
-            return this.obstacles;
+        Chunk chunk = this.chunks.get(n);
+
+        if (chunk.chunkModificationAccountedFor) {
+            return chunk.obstacles;
         }
 
-        Chunk chunk = this.chunks.get(n);
-        int offset = chunk.offset * 64;
+        int offset = n * 64;
         byte[][] tiles = chunk.getTiles();
 
         int x1;
@@ -116,12 +115,7 @@ public class Terrain {
             }
         }
 
-        this.obstacles = new Rectangle[rectangles.size()];
-        for (int i = 0; i < rectangles.size(); i++) {
-            this.obstacles[i] = rectangles.get(i);
-        }
-
-        this.chunkModificationAccountedFor = true;
+        chunk.saveObstacles(rectangles.toArray(new Rectangle[rectangles.size()]));
 
         return this.obstacles;
     }

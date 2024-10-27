@@ -47,7 +47,7 @@ public class LightingRenderer extends JPanel {
         this.setOpaque(false);
 
         // Creating the sun
-        Sun sun = new Sun(100, 0, 0);
+        Sun sun = new Sun(200, 0, 10000, this.player);
         this.sun = sun;
     }
 
@@ -94,6 +94,7 @@ public class LightingRenderer extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         long now = System.currentTimeMillis();
 
+        this.sun.update(16);
         this.drawSun(g2d);
 
         for (int y = 0; y < pixelArrayHeight; y++) {
@@ -103,6 +104,12 @@ public class LightingRenderer extends JPanel {
         }
 
         obstacles = this.getAllLightCollisionRectangles();
+
+        // System.out.println("==================");
+        // System.out.println(obstacles.length);
+        for (int n = 0; n < obstacles.length; n++) {
+            // System.out.println(obstacles[n].points[0][0] / 24);
+        }
 
         for (int i = -1; i < this.lights.size(); i++) {
             if (i == -1) {

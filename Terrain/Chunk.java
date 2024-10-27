@@ -1,6 +1,9 @@
 package Terrain;
 
 import org.json.simple.JSONArray;
+
+import Objects.Rectangle;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,6 +20,9 @@ public class Chunk {
     public static final byte CHUNK_HEIGHT = 64;
     public int offset;
     private byte[][] tiles;
+
+    public Rectangle[] obstacles;
+    public boolean chunkModificationAccountedFor = false;
 
     private byte[] groundLevel = new byte[CHUNK_WIDTH];
     
@@ -135,5 +141,10 @@ public class Chunk {
 
     public int isUnderGroundAt(int x) {
         return this.groundLevel[x];
+    }
+
+    public void saveObstacles(Rectangle[] obstacles) {
+        this.obstacles = obstacles;
+        this.chunkModificationAccountedFor = true;
     }
 }

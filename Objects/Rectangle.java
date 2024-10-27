@@ -1,7 +1,7 @@
 package Objects;
 
 public class Rectangle {
-    private int[][] points = new int[4][2];
+    public int[][] points = new int[4][2];
 
     public Rectangle(int[] edges) {
         for (int i = 0; i < 4; i++) {
