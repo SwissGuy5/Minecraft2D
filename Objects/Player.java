@@ -12,7 +12,7 @@ public class Player {
     public double y;
     public double vx = 0;
     public double vy = 0;
-    private final int maxV = 2;
+    private final int maxV = 10;
     public int ax = 0;
     public int ay = 0;
     private final int maxA = -20;
@@ -204,10 +204,8 @@ public class Player {
         // if (vy > maxV) {
         //     vy = maxV;
         // }
-        System.out.println(x);
         x += vx * delta;
         y += vy * delta;
-        System.out.println(x);
 
         checkCollisions();
 
