@@ -5,6 +5,7 @@ public class Light {
     public int x;
     public int y;
     public int strength;
+    public boolean active = true;
 
     public Light(int x, int y, int strength) {
         this.x = x;

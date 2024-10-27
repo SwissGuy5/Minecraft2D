@@ -16,12 +16,12 @@ public class Game implements KeyListener{
 
     public void init() {
         terrain = new Terrain();
-        player = new Player(-100, -600);
+        player = new Player(1000, 0, terrain);
         init2();
     }
     public void init(double seed) {
         terrain = new Terrain(seed);
-        player = new Player(-100, -600);
+        player = new Player(1000, 0, terrain);
         init2();
     }
     private void init2() {

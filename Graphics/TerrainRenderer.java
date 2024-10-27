@@ -49,7 +49,7 @@ public class TerrainRenderer extends JPanel {
         if (type == 0) return;
         BufferedImage sprite = TerrainRenderer.tileSprites.get(type);
         if (sprite != null) {
-            g.drawImage(sprite, x * TILE_SIZE - this.player.x + 600, y * TILE_SIZE - this.player.y - 300, TILE_SIZE, TILE_SIZE, null);
+            g.drawImage(sprite, x * TILE_SIZE - this.player.x + 600, y * TILE_SIZE - this.player.y - 400, TILE_SIZE, TILE_SIZE, null);
             // g.drawImage(sprite, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, null);
         }
     }
@@ -66,5 +66,6 @@ public class TerrainRenderer extends JPanel {
         super.paintComponent(g);
         drawChunk(g, terrain.getChunk(0));
         drawChunk(g, terrain.getChunk(1));
+        // drawChunk(g, terrain.getChunk(2));
     }
 }

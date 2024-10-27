@@ -2,7 +2,6 @@ package Objects;
 
 public class Rectangle {
     private int[][] points = new int[4][2];
-    private int[] center = new int[2];
 
     public Rectangle(int[] edges) {
         for (int i = 0; i < 4; i++) {
@@ -12,6 +11,10 @@ public class Rectangle {
     }
 
     public boolean closestPointInReach(int x, int y, int r) {
+        if (r == 0) {
+            return true;
+        }
+
         boolean isToLeft = x < points[0][0];
         boolean isToRight = x > points[1][0];
         boolean isAbove = y > points[0][1];

@@ -43,6 +43,10 @@ public class LightingRenderer extends JPanel {
         this.terrain = game.terrain;
         this.player = game.player;
         this.setOpaque(false);
+
+        // Creating the sun
+        Light sun = new Light(10000, 0, 0);
+        this.addLight(sun);
     }
 
     void addLight(Light light) {
@@ -74,37 +78,29 @@ public class LightingRenderer extends JPanel {
         g2d.setTransform(originalTransform);
     }
 
-    void drawTriangle(Graphics2D g2d, int[]points, GradientPaint paint) {
-        g2d.setPaint(paint);
-        int[] pointsX = {points[0], points[2], points[4]};
-        int[] pointsY = {points[1], points[3], points[5]};
-        g2d.fillPolygon(pointsX, pointsY, 3);
-    }
-
-    public boolean pointInPolygon(int x, int y, int[]xCoords, int[]yCoords) {
-        return new Polygon(xCoords, yCoords, xCoords.length).contains(new Point(x, y));
-    }
-
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         long now = System.currentTimeMillis();
 
-        // // UPDATE POSITION OF THE SUN
-        // if (this.lights.get(0).x > 50) {
-        //     this.lights.get(0).x = this.lights.get(0).x - 1;
-        // }
+        // UPDATE POSITION OF THE SUN
+        if (this.lights.get(0).x > 50) {
+            this.lights.get(0).x = this.lights.get(0).x - 100;
+            this.drawLight(g2d, this.lights.get(0));
+        }
 
         for (int y = 0; y < pixelArrayHeight; y++) {
             for (int x = 0; x < pixelArrayWidth; x++) {
-                pixels[y][x] = 100;
+                pixels[y][x] = 0;
             }
         }
 
         obstacles = this.terrain.getLightCollisionRectangles(0);
-        // ArrayList<Rectangle> obstacles = new ArrayList<>();
-        // obstacles.add(new Rectangle(new int[]{12 * 10, 64 * 12 - 12 * 50, 12 * 12, 64 * 12 - 12 * 50, 12 * 10, 64 * 12 - 12 * 52, 12 * 12, 64 * 12 - 12 * 52}));
 
         for (int i = 0; i < this.lights.size(); i++) {
+            if (!this.lights.get(i).active) {
+                continue;
+            }
+
             polygons = new LightPolygon[obstacles.length];
             light = this.lights.get(i);
             
@@ -136,11 +132,11 @@ public class LightingRenderer extends JPanel {
 
             for (int y = 0; y < pixelArrayHeight; y++) {
                 for (int x = 0; x < pixelArrayWidth; x++) {
-                    int tX = x * pixelSize;
-                    int tY = y * pixelSize;
+                    int tX = x * pixelSize + this.player.x - 600;
+                    int tY = y * pixelSize + this.player.y + 400;
 
                     int distanceSq = (lX - tX) * (lX - tX) + (lY - tY) * (lY - tY);
-                    if (distanceSq < lightRadiusSq) {
+                    if (distanceSq < lightRadiusSq || light.strength == 0) {
                         boolean isObscured = false;
                         for (int j = 0; j < awtPolygons.length; j++) {
                             if (awtPolygons[j] == null) {
@@ -152,9 +148,17 @@ public class LightingRenderer extends JPanel {
                             }
                         }
                         if (isObscured) {
-                            pixels[y][x] += 25 * (1 - distanceSq / lightRadiusSq);
+                            if (light.strength == 0) {
+                                pixels[y][x] += 25;
+                            } else {
+                                pixels[y][x] += 25 * (1 - distanceSq / lightRadiusSq);
+                            }
                         } else {
-                            pixels[y][x] -= light.strength * (1 - distanceSq / lightRadiusSq);
+                            if (light.strength == 0) {
+                                pixels[y][x] -= 100;
+                            } else {
+                                pixels[y][x] -= light.strength * (1 - distanceSq / lightRadiusSq);
+                            }
                         }
                     }
                 }
@@ -165,7 +169,7 @@ public class LightingRenderer extends JPanel {
 
         for (int y = 0; y < pixelArrayHeight; y++) {
             for (int x = 0; x < pixelArrayWidth; x++) {
-                alpha = pixels[y][x];
+                alpha = pixels[y][x] + 100;
                 if (alpha > 255) {
                     alpha = 255;
                 }
