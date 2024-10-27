@@ -2,11 +2,11 @@ package Objects;
 
 public class Inventory {
     public static final int inventorySize = 9;
-    public int[] items;
+    public byte[] items;
     public int currentlySelected;
 
     public Inventory() {
-        items = new int[inventorySize];
+        items = new byte[inventorySize];
         items[0] = 9;
         items[1] = 10;
         items[2] = 28;

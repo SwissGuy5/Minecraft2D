@@ -19,7 +19,7 @@ public class InventoryRenderer extends JPanel {
     private BufferedImage frameImg = FileHandler.getBufferedImage("./Assets/InventoryFrame.png");
     private JLabel[] frames = new JLabel[Inventory.inventorySize];
     private int currentlySelected = 0;
-    private int[] items = new int[Inventory.inventorySize];
+    private byte[] items = new byte[Inventory.inventorySize];
     // private Image hotbarFrameImg = new Image()
 
     public InventoryRenderer(Renderer renderer) {
@@ -59,10 +59,12 @@ public class InventoryRenderer extends JPanel {
         Point p;
 
         for (int i = 0; i < items.length; i++) {
-            int tileType = items[i];
+            System.out.println("A");
+            byte tileType = items[i];
             if (tileType == 0) continue;
             BufferedImage sprite = TerrainRenderer.tileSprites.get(tileType);
             if (sprite != null) {
+                System.out.println(tileType);
                 p = frames[i].getLocation();
                 g.drawImage(sprite, p.x + framePixelSize / 4, p.y + framePixelSize / 5, 36, 36, null);
             }
