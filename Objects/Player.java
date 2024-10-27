@@ -83,12 +83,10 @@ public class Player {
         Chunk nextChunk = terrain.getChunk(chunkOffset() + 1);
 
         if (chunkX() + offsetX < 0) {
-            System.out.println("PREVIOUS");
             chunk = prevChunk;
         } else if (chunkX() + offsetX < Chunk.CHUNK_WIDTH) {
             chunk = currChunk;
         } else {
-            System.out.println("NEXT");
             chunk = nextChunk;
         }
         if (!Terrain.nonCollidingBlocks.contains(chunk.getTile(chunkX(offsetX), chunkY(offsetY)))) {
