@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import Objects.Game;
 import Objects.Player;
 import Objects.Light;
+import Objects.Sun;
 import Objects.Rectangle;
 import Objects.LightPolygon;
 import java.util.Collections;
@@ -27,6 +28,7 @@ import Terrain.*;
 public class LightingRenderer extends JPanel {
     Terrain terrain;
     Player player;
+    Sun sun;
     ArrayList<Light> lights = new ArrayList<Light>();
     Rectangle[] obstacles;
 
@@ -45,8 +47,8 @@ public class LightingRenderer extends JPanel {
         this.setOpaque(false);
 
         // Creating the sun
-        Light sun = new Light(10000, 0, 0);
-        this.addLight(sun);
+        Sun sun = new Sun(100, 0, 0);
+        this.sun = sun;
     }
 
     void addLight(Light light) {
@@ -65,28 +67,34 @@ public class LightingRenderer extends JPanel {
         }
     }
 
+    void drawSun(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(this.sun.x - 25, this.sun.y - 25, 50, 50);
+    }
+
     void drawLight(Graphics g, Light light) {
         Graphics2D g2d = (Graphics2D) g;
-        AffineTransform originalTransform = g2d.getTransform();
-
         g2d.setColor(Color.WHITE);
         g2d.fillRect(light.x - 25, light.y - 25, 50, 50);
+    }
 
-        // int[]points = {light.x, light.y, 100, 0, 50, 100};
-        // drawTriangle(g2d, points, new GradientPaint(light.x, light.y, new Color(255, 255, 255, 55), 50, 100, new Color(0, 0, 0, 255)));
-
-        g2d.setTransform(originalTransform);
+    Rectangle[] getAllLightCollisionRectangles() {
+        ArrayList<Rectangle> obstacles = new ArrayList<Rectangle>();
+        for (int i = 0; i < 2; i++) {
+            Rectangle[] temp = this.terrain.getLightCollisionRectangles(i);
+            for (int j = 0; j < temp.length; j++) {
+                obstacles.add(temp[j]);
+            }
+        }
+        return obstacles.toArray(new Rectangle[obstacles.size()]);
     }
 
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         long now = System.currentTimeMillis();
 
-        // UPDATE POSITION OF THE SUN
-        if (this.lights.get(0).x > 50) {
-            this.lights.get(0).x = this.lights.get(0).x - 100;
-            this.drawLight(g2d, this.lights.get(0));
-        }
+        this.drawSun(g2d);
 
         for (int y = 0; y < pixelArrayHeight; y++) {
             for (int x = 0; x < pixelArrayWidth; x++) {
@@ -94,15 +102,20 @@ public class LightingRenderer extends JPanel {
             }
         }
 
-        obstacles = this.terrain.getLightCollisionRectangles(0);
+        obstacles = this.getAllLightCollisionRectangles();
 
-        for (int i = 0; i < this.lights.size(); i++) {
-            if (!this.lights.get(i).active) {
+        for (int i = -1; i < this.lights.size(); i++) {
+            if (i == -1) {
+                light = this.sun;
+            } else {
+                light = this.lights.get(i);
+            }
+
+            if (!light.active) {
                 continue;
             }
 
             polygons = new LightPolygon[obstacles.length];
-            light = this.lights.get(i);
             
             for (int j = 0; j < obstacles.length; j++) {
                 Rectangle obstacle = obstacles[j];

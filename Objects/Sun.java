@@ -1,7 +1,7 @@
 package Objects;
 
-public class Sun {
+public class Sun extends Light {
     public Sun(int x, int y, int strength) {
-        System.out.println("Creating the sun");
+        super(x, y, strength);
     }
 }

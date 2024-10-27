@@ -94,8 +94,8 @@ public class Player {
         this.x += vx * delta;
         this.y += vy * delta;
 
-        updateColliders();
-        isGrounded();
+        // updateColliders();
+        // isGrounded();
     }
 
     public void keyDown(int key) {
