@@ -2,7 +2,6 @@ package Terrain;
 
 import java.util.HashMap;
 
-import Objects.Light;
 import Objects.Rectangle;
 import java.util.ArrayList;
 
@@ -115,11 +114,13 @@ public class Terrain {
                     if (y > 0 && nonCollidingBlocks.contains(tiles[y - 1][x])) {
                         if (x > 0 && nonCollidingBlocks.contains(tiles[y][x - 1])) {
                             int endX = x;
-                            while (!nonCollidingBlocks.contains(tiles[y][endX]) && endX < tiles[0].length) {
+                            while (!nonCollidingBlocks.contains(tiles[y][endX]) 
+                                && endX < tiles[0].length) {
                                 endX++;
                             }
                             int endY = y;
-                            while (!nonCollidingBlocks.contains(tiles[endY][x]) && endY < tiles.length) {
+                            while (!nonCollidingBlocks.contains(tiles[endY][x]) 
+                                && endY < tiles.length) {
                                 endY++;
                             }
                             x1 = 48 * (offset + x);
@@ -130,7 +131,8 @@ public class Terrain {
                             y3 = 48 * (64 - endY);
                             x4 = 48 * (offset + endX);
                             y4 = 48 * (64 - endY);
-                            Rectangle rectangle = new Rectangle(new int[]{x1, y1, x2, y2, x3, y3, x4, y4});
+                            Rectangle rectangle = 
+                                new Rectangle(new int[]{x1, y1, x2, y2, x3, y3, x4, y4});
                             rectangles.add(rectangle);
                         }
                     }
