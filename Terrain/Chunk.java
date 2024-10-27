@@ -144,7 +144,6 @@ public class Chunk {
             tiles[y + height + 4][x] = 89;
             tiles[y + height + 4][x + 1] = 89;
         } else {
-            // Cactus when sand blocks
             for (int i = 0; i <= height - 2; i++) {
                 tiles[y + i][x] = 91;
             }
@@ -161,6 +160,12 @@ public class Chunk {
         return tiles;
     }
     
+    /**
+     * Returns the tile at the given coordinates.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return The tile at the given coordinates.
+     */
     public byte getTile(byte x, byte y) {
         if (x >= CHUNK_WIDTH) {
             return tiles[y][CHUNK_WIDTH - 1];
@@ -171,15 +176,21 @@ public class Chunk {
         return tiles[y][x];
     }
     
+    /**
+     * Sets the tile at the given coordinates to the given type.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @param type The type of the tile.
+     */
     public void setTile(byte x, byte y, byte type) {
         this.chunkModificationAccountedFor = false;
         tiles[y][x] = type;
     }
 
-    public int isUnderGroundAt(int x) {
-        return this.groundLevel[x];
-    }
-
+    /**
+     * Saves the obstacles in the chunk.
+     * @param obstacles The obstacles in the chunk.
+     */
     public void saveObstacles(Rectangle[] obstacles) {
         this.obstacles = obstacles;
         this.chunkModificationAccountedFor = true;
