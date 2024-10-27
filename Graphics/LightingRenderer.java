@@ -104,10 +104,8 @@ public class LightingRenderer extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         long now = System.currentTimeMillis();
 
-        // this.sun.update(game.delta);
-        // this.torch.update(game.delta);
-        // int sunRelativeWorld = this.sun.x - this.player.getX();
-        // System.out.println(sunRelativeWorld);
+        this.sun.update(game.delta);
+        this.torch.update(game.delta);
         this.drawSun(g2d);
 
         for (int y = 0; y < pixelArrayHeight; y++) {
@@ -117,12 +115,6 @@ public class LightingRenderer extends JPanel {
         }
 
         obstacles = this.getAllLightCollisionRectangles();
-
-        // System.out.println("==================");
-        // System.out.println(obstacles.length);
-        for (int n = 0; n < obstacles.length; n++) {
-            // System.out.println(obstacles[n].points[0][0] / 48);
-        }
 
         for (int i = -2; i < this.lights.size(); i++) {
             if (i == -2) {
@@ -167,9 +159,8 @@ public class LightingRenderer extends JPanel {
 
             for (int y = 0; y < pixelArrayHeight; y++) {
                 for (int x = 0; x < pixelArrayWidth; x++) {
-                    int tX = x * pixelSize + (int)(this.player.x * 48) - 600;
-                    // int tY = y * pixelSize - (int)(this.player.y * 24) + 0;
-                    int tY = y * pixelSize + 650;
+                    int tX = x * pixelSize + (int)(this.player.x * 48) - 600 + 23;
+                    int tY = y * pixelSize - (int)(this.player.y * 48) + 2676;
 
                     int distanceSq = (lX - tX) * (lX - tX) + (lY - tY) * (lY - tY);
                     if (distanceSq < lightRadiusSq || light.strength == 0) {
