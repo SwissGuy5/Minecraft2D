@@ -88,8 +88,9 @@ public class LightingRenderer extends JPanel {
 
     Rectangle[] getAllLightCollisionRectangles() {
         ArrayList<Rectangle> obstacles = new ArrayList<Rectangle>();
-        for (int i = 0; i < 2; i++) {
-            Rectangle[] temp = this.terrain.getLightCollisionRectangles(i);
+        int playerChunkOffset = player.chunkOffset();
+        for (int i = -1; i < 2; i++) {
+            Rectangle[] temp = this.terrain.getLightCollisionRectangles(playerChunkOffset + i);
             if (temp == null) {
                 continue;
             }
@@ -182,9 +183,9 @@ public class LightingRenderer extends JPanel {
                             }
                         } else {
                             if (light.strength == 0) {
-                                pixels[y][x] -= 200;
+                                pixels[y][x] -= 100;
                             } else {
-                                pixels[y][x] -= light.strength / 5 * (1 - distanceSq / lightRadiusSq);
+                                pixels[y][x] -= light.strength * (1 - distanceSq / lightRadiusSq);
                             }
                         }
                     }
@@ -210,7 +211,7 @@ public class LightingRenderer extends JPanel {
 
         long nower = System.currentTimeMillis();
         if (nower - now > 16) {
-            System.out.println(nower - now);
+            // System.out.println(nower - now);
         }
     }
 }

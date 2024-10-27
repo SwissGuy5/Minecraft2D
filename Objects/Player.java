@@ -30,8 +30,8 @@ public class Player {
     public int width = TerrainRenderer.TILE_SIZE - 4;
     public int height = TerrainRenderer.TILE_SIZE * 2 - 6;
 
-    private int[] lightSources = new int[5 * 3];
-    private int[] lightSourceIds = new int[5];
+    private int[] lightSources = new int[50 * 3];
+    private int[] lightSourceIds = new int[50];
 
     public Player(int x, int y, Game game) {
         this.x = x;
@@ -213,7 +213,7 @@ public class Player {
             this.lightSources[0] = chunkNumber;
             this.lightSources[1] = (byte)(chunkX - chunkNumber * Chunk.CHUNK_WIDTH);
             this.lightSources[2] = (byte)chunkY;
-            Light light = new Light(chunkNumber * 64 * 48 + chunkX * 48, chunkY * 48, 200);
+            Light light = new Light(chunkX * 48, 2980 - chunkY * 48, 200);
             this.lightSourceIds[0] = light.id;
             this.game.renderer.lightingRenderer.addLight(light);
         }

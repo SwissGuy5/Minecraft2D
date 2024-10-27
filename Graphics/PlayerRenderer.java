@@ -109,10 +109,10 @@ public class PlayerRenderer extends JPanel {
             if (player.vx < 0) {
                 g2d.setColor(new Color(200, 200, 0));
                 g2d.fillRect(-20, 25, 10, 10);
-                g2d.setColor(new Color(200, 0, 0));
+                g2d.setColor(new Color(150, 75, 0));
                 g2d.fillRect(-10, 25, 30, 10);
             } else {
-                g2d.setColor(new Color(200, 0, 0));
+                g2d.setColor(new Color(150, 75, 0));
                 g2d.fillRect(-15, 25, 30, 10);
                 g2d.setColor(new Color(200, 200, 0));
                 g2d.fillRect(15, 25, 10, 10);

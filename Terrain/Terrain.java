@@ -111,15 +111,15 @@ public class Terrain {
 
         for (int x = 0; x < tiles[0].length; x++) {
             for (int y = 0; y < tiles.length; y++) {
-                if (tiles[y][x] != 0 && tiles[y][x] != 90) {
-                    if (y > 0 && tiles[y - 1][x] == 0) {
-                        if (x > 0 && tiles[y][x - 1] == 0) {
+                if (!nonCollidingBlocks.contains(tiles[y][x])) {
+                    if (y > 0 && nonCollidingBlocks.contains(tiles[y - 1][x])) {
+                        if (x > 0 && nonCollidingBlocks.contains(tiles[y][x - 1])) {
                             int endX = x;
-                            while (tiles[y][endX] != 0 && endX < tiles[0].length) {
+                            while (!nonCollidingBlocks.contains(tiles[y][endX]) && endX < tiles[0].length) {
                                 endX++;
                             }
                             int endY = y;
-                            while (tiles[endY][x] != 0 && endY < tiles.length) {
+                            while (!nonCollidingBlocks.contains(tiles[endY][x]) && endY < tiles.length) {
                                 endY++;
                             }
                             x1 = 48 * (offset + x);
