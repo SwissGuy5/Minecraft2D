@@ -57,11 +57,11 @@ public class LightingRenderer extends JPanel {
         this.torch = torch;
     }
 
-    void addLight(Light light) {
+    public void addLight(Light light) {
         this.lights.add(light);
     }
 
-    void removeLight(int id) {
+    public void removeLight(int id) {
         int index = -1;
         for (int i = 0; i < this.lights.size(); i++) {
             if (this.lights.get(i).id == id) {
