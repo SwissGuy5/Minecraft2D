@@ -1,6 +1,5 @@
 package Objects;
 
-import Graphics.Renderer;
 import Graphics.TerrainRenderer;
 import Terrain.*;
 

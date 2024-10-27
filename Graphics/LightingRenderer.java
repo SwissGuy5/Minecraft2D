@@ -160,8 +160,8 @@ public class LightingRenderer extends JPanel {
 
             for (int y = 0; y < pixelArrayHeight; y++) {
                 for (int x = 0; x < pixelArrayWidth; x++) {
-                    int tX = x * pixelSize + (int)(this.player.x * 48) - 600 + 23;
-                    int tY = y * pixelSize - (int)(this.player.y * 48) + 2676;
+                    int tX = x * pixelSize + (int) (this.player.x * 48) - 600 + 23;
+                    int tY = y * pixelSize - (int) (this.player.y * 48) + 2676;
 
                     int distanceSq = (lX - tX) * (lX - tX) + (lY - tY) * (lY - tY);
                     if (distanceSq < lightRadiusSq || light.strength == 0) {
@@ -183,7 +183,7 @@ public class LightingRenderer extends JPanel {
                             }
                         } else {
                             if (light.strength == 0) {
-                                pixels[y][x] -= 100;
+                                pixels[y][x] -= 255;
                             } else {
                                 pixels[y][x] -= light.strength * (1 - distanceSq / lightRadiusSq);
                             }
