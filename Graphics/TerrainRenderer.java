@@ -49,14 +49,7 @@ public class TerrainRenderer extends JPanel {
         if (type == 0) return;
         BufferedImage sprite = TerrainRenderer.tileSprites.get(type);
         if (sprite != null) {
-            g.drawImage(sprite, (int)Math.round(x * TILE_SIZE + (Renderer.windowWidth - player.width) / 2), (int)Math.floor(y * TILE_SIZE + (Renderer.windowHeight - player.height) / 2), TILE_SIZE, TILE_SIZE, null);
-        }
-    }
-    void drawTile(Graphics g, byte type, int x, int y) {
-        if (type == 0) return;
-        BufferedImage sprite = TerrainRenderer.tileSprites.get(type);
-        if (sprite != null) {
-            g.drawImage(sprite, (int)Math.round(x * TILE_SIZE + (Renderer.windowWidth - player.width) / 2), (int)Math.floor(y * TILE_SIZE + (Renderer.windowHeight - player.height) / 2), TILE_SIZE, TILE_SIZE, null);
+            g.drawImage(sprite, (int)Math.round(x * TILE_SIZE + (Renderer.windowWidth - player.width) / 2), (int)Math.floor(y * TILE_SIZE + (Renderer.windowHeight - player.height) / 2) - 6, TILE_SIZE, TILE_SIZE, null);
         }
     }
 

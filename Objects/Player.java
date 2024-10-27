@@ -1,5 +1,6 @@
 package Objects;
 
+import Graphics.Renderer;
 import Graphics.TerrainRenderer;
 import Terrain.*;
 
@@ -10,21 +11,19 @@ public class Player {
     public int tempY;
     public double x;
     public double y;
+
     public double vx = 0;
     public double vy = 0;
-    private final int maxV = 10;
-    public int ax = 0;
-    public int ay = 0;
-    private final int maxA = -20;
+    private final int maxVX = 7;
+    private final int maxVY = 10;
+
+    private final double ax = 15;
+    private final double ay = -27;
 
     public boolean inWater = false;
     public boolean inAir = false;
 
     private Terrain terrain;
-    // byte[][] tiles = new byte[64][128];
-    // Chunk chunk1;
-    // Chunk chunk2;
-    // int tilesOffset;
 
     public int width = TerrainRenderer.TILE_SIZE - 4;
     public int height = TerrainRenderer.TILE_SIZE * 2 - 6;
@@ -36,61 +35,6 @@ public class Player {
         this.tempY = y;
         this.terrain = terrain;
     }
-
-    // private void updateColliders(){
-    //     int playerPositionToChunk = this.getX() / 24;
-    //     int pToQ = 0;
-    //     for (int q = 0; q < 128; q++) {
-    //         if ((q - 1) * 32 < playerPositionToChunk && playerPositionToChunk < q * 32) {
-    //             pToQ = q / 2;
-    //             break;
-    //         }
-    //     }
-    //     tilesOffset = (pToQ - 1) * 32;
-    //     for (int y = 0; y < 64; y++) {
-    //         for (int x = 0; x < 128; x++) {
-    //             if (x >= 64) {
-    //                 tiles[y][x] = this.terrain.getChunk(pToQ).getTiles()[y][x - 64];
-    //             } else {
-    //                 tiles[y][x] = this.terrain.getChunk(pToQ - 1).getTiles()[y][x];
-    //             }
-    //         }
-    //     } 
-    // }
-
-    // private byte getClosestBlockBelow() {
-    //     int leftFoot = this.getX() / 24 - tilesOffset * 32;
-    //     int rightFoot = (this.getX() + this.width) / 24 - tilesOffset * 32;
-    //     int feetYChunk = -(this.getY() + this.height) / 24 + 32;
-    //     for (int i = feetYChunk; i >= 0; i--) {
-    //         if (tiles[i][leftFoot] != 0 || tiles[i][rightFoot] != 0) {
-    //             return (byte)i;
-    //         }
-    //     }
-    //     return 0;
-    // }
-
-    // private int[] getPlayerBlockPosition() {
-    //     int blockX = this.getX() / 24 - tilesOffset * 32;
-    //     int blockY = 32 - (this.getY() + this.height) / 24;
-    //     return new int[]{blockX, blockY};
-    // }
-
-    // private boolean isGrounded() {
-    //     // System.out.print(getPlayerBlockPosition()[1]);
-    //     // System.out.print(" ");
-    //     // System.out.println(getClosestBlockBelow());
-
-    //     return false;
-    // }
-
-    // public int currChunk() {
-    //     return this.getX() / Chunk.CHUNK_WIDTH;
-    // }
-
-    // public int chunkTile() {
-    //     return this.getX() - currChunk() * Chunk.CHUNK_WIDTH;
-    // }
 
     public int getX() {
         return getX(0);
@@ -179,38 +123,56 @@ public class Player {
 
     public void update(double delta) {
         if (keysDown[1]) {
-            vx = maxV;
+            if (vx < 0) {
+                vx += 3 * ax * delta;
+            } else {
+                vx += ax * delta;
+            }
         } else if (keysDown[3]) {
-            vx = -maxV;
+            if (vx > 0) {
+                vx += -3 * ax * delta;
+            } else {
+                vx += -ax * delta;
+            }
         } else {
-            vx = 0;
+            if (vx > 0) {
+                vx += -2 * ax * delta;
+                if (vx < 0) {
+                    vx = 0;
+                }
+            } else if (vx < 0) {
+                vx += 2 * ax * delta;
+                if (vx > 0) {
+                    vx = 0;
+                }
+            }
         }
-        // if (!inAir && keysDown[0]) {
-        //     System.out.println(inAir);
-        //     // ax = maxA;
-        //     inAir = true;
-        // } else {
-        //     // ax = 0;
-        // }
-        if (keysDown[0]) {
-            vy = maxV;
-        } else if (keysDown[2]) {
-            vy = -maxV;
-        } else {
-            vy = 0;
+        if (vx > maxVX) {
+            vx = maxVX;
+        }
+        if (vx < -maxVX) {
+            vx = -maxVX;
         }
 
-        // vy = ay * delta;
-        // if (vy > maxV) {
-        //     vy = maxV;
-        // }
+        if (keysDown[0] && inWater) {
+            vy = maxVY / 2;
+        } else if (inWater) {
+            vy += .2 * ay * delta;
+        } else if (inAir) {
+            vy += ay * delta;
+        } else if (keysDown[0]) {
+            inAir = true;
+            vy = maxVY;
+        }
+
         x += vx * delta;
         y += vy * delta;
 
-        checkCollisions();
+        if (y >= Chunk.CHUNK_HEIGHT) {
+            y = Chunk.CHUNK_HEIGHT - 1;
+        }
 
-        // updateColliders();
-        // isGrounded();
+        checkCollisions();
     }
 
     public void keyDown(int key) {
