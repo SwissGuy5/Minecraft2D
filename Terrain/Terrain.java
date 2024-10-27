@@ -5,6 +5,9 @@ import java.util.HashMap;
 import Objects.Rectangle;
 import java.util.ArrayList;
 
+/**
+ * The Terrain class is responsible for generating and storing the terrain of the game.
+ */
 public class Terrain {
     private HashMap<Integer, Chunk> chunks;
     public double seed;
@@ -15,6 +18,11 @@ public class Terrain {
     public Terrain() {
         this(Math.random());
     }
+
+    /**
+     * Creating the terrain with a given seed.
+     * @param seed The seed for the terrain generation.
+     */
     public Terrain(double seed) {
         this.seed = seed;
 
@@ -34,14 +42,30 @@ public class Terrain {
         }
     }
 
+    /**
+     * Updates the tile at the given coordinates.
+     * @param offset The offset of the chunk.
+     * @param x The x coordinate of the tile.
+     * @param y The y coordinate of the tile.
+     * @param type The type of the tile.
+     */
     public void updateTile(int offset, byte x, byte y, byte type) {
         chunks.get(offset).setTile(x, y, type);
     }
 
+    /**
+     * Gets the tile at the given coordinates.
+     * @param offset The offset of the chunk.
+     * @param x The x coordinate of the tile.
+     * @param y The y coordinate of the tile.
+     */
     public byte getTile(int offset, byte x, byte y) {
         return chunks.get(offset).getTile(x, y);
     }
 
+    /**
+     * Saves the terrain to a file.
+     */
     public void saveTerrain() {
         System.out.println("Saving");
         FileHandler.saveChunksWithSeed(seed, chunks);
@@ -57,22 +81,31 @@ public class Terrain {
         return blocks;
     }
 
+    /**
+     * Calculates the terrain.
+     * @param biome The curent biome.
+     * @param noise The noise value.
+     * @return The height of the terrain.
+     */
     public static double biomeNoise(String biome, double noise) {
-        noise = noise * .5 * Chunk.CHUNK_HEIGHT + .25 * Chunk.CHUNK_HEIGHT;
+        noise = noise * .5 * Chunk.CHK_HGT + .25 * Chunk.CHK_HGT;
         switch (biome) {
             case "plain":
-                return noise * 1/5 + 25;
+                return noise * 1 / 5 + 25;
             case "coast":
-                return noise * 1/6 + 20;
+                return noise * 1 / 6 + 20;
             case "ocean":
-                return noise * 1/6 + 20;
+                return noise * 1 / 6 + 20;
             default:
                 return noise;
         }
-        // double noise = SimplexNoise.noise((((double)x + offset + .5) / 70), seed);
-        // return (( + 1) / 2) * CHUNK_HEIGHT * .5 + CHUNK_HEIGHT * .25;
     }
 
+    /**
+     * Gets the chunk at the given offset.
+     * @param n The offset of the chunk.
+     * @return The chunk at the given offset.
+     */
     public Chunk getChunk(int n) {
         Chunk currChunk = chunks.get(n);
         if (currChunk == null) {
@@ -82,10 +115,19 @@ public class Terrain {
         return currChunk;
     }
 
+    /**
+     * Adds a chunk at the given offset.
+     * @param offset The offset of the chunk.
+     */
     public void addChunk(int offset) {
         chunks.put(offset, new Chunk(offset, this.seed));
     }
 
+    /**
+     * Gets the light collision rectangles.
+     * @param n The offset of the chunk.
+     * @return The light collision rectangles.
+     */
     public Rectangle[] getLightCollisionRectangles(int n) {
         ArrayList<Rectangle> rectangles = new ArrayList<>();
 

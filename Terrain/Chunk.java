@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Random;
 import org.json.simple.JSONArray;
 
+/**
+ * The chunk object containing a list of tiles.
+ */
 public class Chunk {
     public static final byte CHUNK_WIDTH = 64;
-    public static final byte CHUNK_HEIGHT = 64;
+    public static final byte CHK_HGT = 64;
     public int offset;
     private byte[][] tiles;
 
@@ -16,10 +19,14 @@ public class Chunk {
 
     private byte[] groundLevel = new byte[CHUNK_WIDTH];
 
-    // Possible biomes: Plains, mountain, beach (one layer of sand), desert, ocean (desert / beach ground + water mass, found at low y levels)
+    /**
+     * Constructor for the Chunk object.
+     * @param offset The offset of the chunk.
+     * @param seed The seed for the chunk.
+     */
     public Chunk(int offset, double seed) {
         this.offset = offset;
-        tiles = new byte[CHUNK_HEIGHT][CHUNK_WIDTH];
+        tiles = new byte[CHK_HGT][CHUNK_WIDTH];
         
         ArrayList<Byte> treeRoots = new ArrayList<Byte>();
         double noise;
@@ -27,17 +34,16 @@ public class Chunk {
         double mountainNoise;
         double humidityNoise;
         for (byte x = 0; x < CHUNK_WIDTH; x++) {
-            // noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed * 100) + 1) / 2) * CHUNK_HEIGHT * .5 + CHUNK_HEIGHT * .25;
-            // noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed * 100) + 1) / 2);
-            // noise = Terrain.biomeNoise("", noise);
-            
-            heightNoise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 50), seed * 300) + 1) / 2) * CHUNK_HEIGHT;
-            mountainNoise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 500), (seed + 1) * 300) + 1) / 2) * CHUNK_HEIGHT;
-            humidityNoise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 500), (seed + 2) * 300) + 1) / 2);
-            noise = heightNoise * .1 + mountainNoise * .6 + .2 * CHUNK_HEIGHT;
+            heightNoise = ((SimplexNoise.noise((((double) x + (offset * CHUNK_WIDTH) + .5) / 50), 
+                seed * 300) + 1) / 2) * CHK_HGT;
+            mountainNoise = ((SimplexNoise.noise((((double) x + (offset * CHUNK_WIDTH) + .5) / 500),
+                (seed + 1) * 300) + 1) / 2) * CHK_HGT;
+            humidityNoise = ((SimplexNoise.noise((((double) x + (offset * CHUNK_WIDTH) + .5) / 500),
+            (seed + 2) * 300) + 1) / 2);
+            noise = heightNoise * .1 + mountainNoise * .6 + .2 * CHK_HGT;
             noise = Math.floor(noise);
             
-            this.groundLevel[x] = (byte)noise;
+            this.groundLevel[x] = (byte) noise;
 
             int dirtDepth;
             int waterLevel = 27;
@@ -56,19 +62,18 @@ public class Chunk {
                 surfaceBlock = 32;
             }
 
-            for (byte y = 0; y < CHUNK_HEIGHT; y++) {
+            for (byte y = 0; y < CHK_HGT; y++) {
                 if (y == 0) {
                     tiles[y][x] = 16;
                 } else if (y > noise && y <= waterLevel) {
                     tiles[y][x] = 85;
                 } else if (y > noise) {
                     tiles[y][x] = 0;
-                }else if (y == noise && y >= waterLevel) {
-                    // Add trees
-                    if (y < CHUNK_HEIGHT - 10 && x >= 2 && x < CHUNK_WIDTH - 2 && Math.random() > .85) {
-                        treeRoots.add((byte)(x));
-                        treeRoots.add((byte)(y));
-                        treeRoots.add((byte)(groundBlock));
+                } else if (y == noise && y >= waterLevel) {
+                    if (y < CHK_HGT - 10 && x >= 2 && x < CHUNK_WIDTH - 2 && Math.random() > .85) {
+                        treeRoots.add((byte) (x));
+                        treeRoots.add((byte) (y));
+                        treeRoots.add((byte) (groundBlock));
                     }
                     tiles[y][x] = surfaceBlock;
                 } else if (y <= noise && y >= noise - dirtDepth) {
@@ -93,21 +98,20 @@ public class Chunk {
                 prevX = x;
             }
         }
-
-        // if (offset == 0) {
-        //     tiles[50][10] = 5;
-        //     tiles[50][11] = 5;
-        //     tiles[51][10] = 5;
-        //     tiles[51][11] = 5;
-        // }
     }
+
+    /**
+     * The constructor for the Chunk object.
+     * @param offset The offset of the chunk.
+     * @param tilesArr The JSONArray of tiles.
+     */
     public Chunk(int offset, JSONArray tilesArr) {
         this.offset = offset;
-        this.tiles = new byte[CHUNK_HEIGHT][CHUNK_WIDTH];
-        for (byte y = 0; y < CHUNK_HEIGHT; y++) {
-            JSONArray tilesXArr = (JSONArray)tilesArr.get(y);
+        this.tiles = new byte[CHK_HGT][CHUNK_WIDTH];
+        for (byte y = 0; y < CHK_HGT; y++) {
+            JSONArray tilesXArr = (JSONArray) tilesArr.get(y);
             for (byte x = 0; x < CHUNK_WIDTH; x++) {
-                tiles[y][x] = (byte)(long)tilesXArr.get(x);
+                tiles[y][x] = (byte) (long) tilesXArr.get(x);
             }
         }
     }
@@ -119,12 +123,10 @@ public class Chunk {
         if (groundType != 32) {
             tiles[y][x] = groundType;
 
-            // Trunk
             for (int i = 1; i <= height; i++) {
                 tiles[y + i][x] = 2;
             }
 
-            // Leaves
             tiles[y + height + 1][x - 2] = 89;
             tiles[y + height + 1][x - 1] = 89;
             tiles[y + height + 1][x] = 89;
@@ -163,8 +165,8 @@ public class Chunk {
         if (x >= CHUNK_WIDTH) {
             return tiles[y][CHUNK_WIDTH - 1];
         }
-        if (y >= CHUNK_HEIGHT) {
-            return tiles[CHUNK_HEIGHT - 1][x];
+        if (y >= CHK_HGT) {
+            return tiles[CHK_HGT - 1][x];
         }
         return tiles[y][x];
     }

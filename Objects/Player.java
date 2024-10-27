@@ -217,8 +217,8 @@ public class Player {
         x += vx * delta;
         y += vy * delta;
         
-        if (y >= Chunk.CHUNK_HEIGHT) {
-            y = Chunk.CHUNK_HEIGHT - 1;
+        if (y >= Chunk.CHK_HGT) {
+            y = Chunk.CHK_HGT - 1;
         } else if (y <= 1) {
             y = 1;
         }

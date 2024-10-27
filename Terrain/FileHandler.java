@@ -57,7 +57,7 @@ public class FileHandler {
             JSONArray tiles = new JSONArray();
             Chunk chunk = chunks.get(key);
             
-            for (byte y = 0; y < Chunk.CHUNK_HEIGHT; y++) {
+            for (byte y = 0; y < Chunk.CHK_HGT; y++) {
                 JSONArray tilesX = new JSONArray();
                 for (byte x = 0; x < Chunk.CHUNK_WIDTH; x++) {
                     tilesX.add(chunk.getTile(x, y));

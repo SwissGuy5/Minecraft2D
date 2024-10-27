@@ -80,7 +80,7 @@ public class TerrainRenderer extends JPanel {
      * @param chunk the chunk to draw.
      */
     void drawChunk(Graphics g, Chunk chunk) {
-        for (byte y = 0; y < Chunk.CHUNK_HEIGHT; y++) {
+        for (byte y = 0; y < Chunk.CHK_HGT; y++) {
             for (byte x = 0; x < Chunk.CHUNK_WIDTH; x++) {
                 drawTile(g, chunk.getTile(x, y), 
                     chunk.offset * Chunk.CHUNK_WIDTH + x - player.x, player.y - y);
