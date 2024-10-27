@@ -29,6 +29,8 @@ public class Player {
     public int width = TerrainRenderer.TILE_SIZE - 4;
     public int height = TerrainRenderer.TILE_SIZE * 2 - 6;
 
+    private int[] lightSources = new int[5 * 2];
+
     public Player(int x, int y, Game game) {
         this.x = x;
         this.y = y;
@@ -189,13 +191,23 @@ public class Player {
         int chunkX = x / 48 + this.getX() - 600 / 48;
         byte chunkNumber = (byte)Math.floor((double)(chunkX) / Chunk.CHUNK_WIDTH);
         int chunkY = this.getY() - y / 48 + 400 / 48;
+        byte tile = this.terrain.getTile(chunkNumber, (byte)(chunkX - chunkNumber * Chunk.CHUNK_WIDTH), (byte)chunkY);
+        if (tile == 59) return;
         this.terrain.updateTile(chunkNumber, (byte)(chunkX - chunkNumber * Chunk.CHUNK_WIDTH), (byte)chunkY, (byte)0);
+        if (tile == 90) {
+            // remove a light source
+        }
     }
 
     void secondaryAction(int x, int y) {
         int chunkX = x / 48 + this.getX() - 600 / 48;
         byte chunkNumber = (byte)Math.floor((double)(chunkX) / Chunk.CHUNK_WIDTH);
         int chunkY = this.getY() - y / 48 + 400 / 48;
+        byte tile = this.terrain.getTile(chunkNumber, (byte)(chunkX - chunkNumber * Chunk.CHUNK_WIDTH), (byte)chunkY);
+        if (tile != 0) return;
         this.terrain.updateTile(chunkNumber, (byte)(chunkX - chunkNumber * Chunk.CHUNK_WIDTH), (byte)chunkY, (byte)game.inventory.items[game.inventory.currentlySelected]);
+        if (tile == 90) {
+            // add a light source
+        }
     }
 }
