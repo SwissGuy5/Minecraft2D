@@ -7,7 +7,6 @@ public class Rectangle {
         for (int i = 0; i < 4; i++) {
             points[i][0] = edges[i * 2];
             points[i][1] = edges[i * 2 + 1];
-            System.out.println(points[i][0] + " " + points[i][1]);
         }
     }
 

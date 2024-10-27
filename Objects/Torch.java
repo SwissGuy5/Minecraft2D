@@ -4,7 +4,7 @@ import Objects.Player;
 
 public class Torch extends Light {
     Player player;
-    int dayDuration = 20;
+    int dayDuration = 60;
     double currentTime = 0;
 
     public Torch(int strength, Player player) {
@@ -22,7 +22,8 @@ public class Torch extends Light {
             this.active = false;
             currentTime = 0;
         }
-        this.x = (int)player.getX();
+        this.x = (int)player.getX() * 48;
         this.y = (int)player.getY();
+        // System.out.println(this.x + " " + this.y);
     }
 }

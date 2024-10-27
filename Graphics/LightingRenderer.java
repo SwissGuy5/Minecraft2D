@@ -121,7 +121,7 @@ public class LightingRenderer extends JPanel {
         // System.out.println("==================");
         // System.out.println(obstacles.length);
         for (int n = 0; n < obstacles.length; n++) {
-            System.out.println(obstacles[n].points[0][0] / 48);
+            // System.out.println(obstacles[n].points[0][0] / 48);
         }
 
         for (int i = -2; i < this.lights.size(); i++) {
@@ -167,8 +167,9 @@ public class LightingRenderer extends JPanel {
 
             for (int y = 0; y < pixelArrayHeight; y++) {
                 for (int x = 0; x < pixelArrayWidth; x++) {
-                    int tX = x * pixelSize + this.player.getX() - 600;
-                    int tY = y * pixelSize + this.player.getY() + 400;
+                    int tX = x * pixelSize + (int)(this.player.x * 48) - 600;
+                    // int tY = y * pixelSize - (int)(this.player.y * 24) + 0;
+                    int tY = y * pixelSize + 650;
 
                     int distanceSq = (lX - tX) * (lX - tX) + (lY - tY) * (lY - tY);
                     if (distanceSq < lightRadiusSq || light.strength == 0) {

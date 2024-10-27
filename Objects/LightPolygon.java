@@ -57,7 +57,7 @@ public class LightPolygon {
         double minAngle = angles[0];
         double maxAngle = angles[angles.length - 1];
 
-        int distance = 5000;
+        int distance = 50000;
         int minX = x + (int) (distance * Math.cos(minAngle));
         int minY = y + (int) (distance * Math.sin(minAngle));
         int maxX = x + (int) (distance * Math.cos(maxAngle));

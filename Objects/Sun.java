@@ -5,13 +5,14 @@ import Objects.Player;
 public class Sun extends Light {
     Player player;
     int displacementFromPlayer = 2000;
-    public int dayDuration = 20;
+    public int dayDuration = 60;
     public double currentTime = 0;
 
     public Sun(Player player) {
         super(0, 0, 0);
         this.player = player;
         this.active = true;
+        this.y = -1000;
     }
 
     public int[] getAnimationCoordinates() {
@@ -30,7 +31,7 @@ public class Sun extends Light {
             this.active = true;
             currentTime = 0;
         }
-        displacementFromPlayer -= delta / 10;
-        // this.x = (int)(player.x + displacementFromPlayer);
+        double progress = 1 - this.currentTime / this.dayDuration;
+        this.x = this.player.getX() * 48 + (int)(progress * 5000) - 2500;
     }
 }

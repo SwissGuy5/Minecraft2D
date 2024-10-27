@@ -6,7 +6,7 @@ import java.awt.EventQueue;
 import java.awt.event.*;
 import java.util.HashMap;
 
-public class Game implements KeyListener{
+public class Game implements KeyListener {
     private Renderer renderer;
     public Terrain terrain;
     public Player player;
@@ -15,19 +15,24 @@ public class Game implements KeyListener{
     public double delta;
     // public HashMap<Integer, Boolean> keysDown = new HashMap<Integer, Boolean>();
 
+    private MouseInput mouseInput;
+
     public void init() {
         terrain = new Terrain();
-        player = new Player(0, 50, terrain);
+        player = new Player(0, 50, this);
         init2();
     }
     public void init(double seed) {
         terrain = new Terrain(seed);
-        player = new Player(0, 50, terrain);
+        player = new Player(0, 50, this);
         init2();
         // terrain.updateTile(0, (byte)0, (byte)0, (byte)0);
     }
     private void init2() {
         inventory = new Inventory();
+        mouseInput = new MouseInput(this);
+        renderer.addMouseListener(mouseInput);
+
         renderer.init();
         gameThread = new Thread(new Runnable() {
             @Override
@@ -160,4 +165,34 @@ public class Game implements KeyListener{
             }
         }
     }
+}
+
+class MouseInput implements MouseListener {
+    private Game game;
+
+    public MouseInput(Game game) {
+        this.game = game;
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            game.player.primaryAction(e.getX(), e.getY());
+        }
+        if (e.getButton() == MouseEvent.BUTTON3) {
+            game.player.secondaryAction(e.getX(), e.getY());
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {}
+
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }

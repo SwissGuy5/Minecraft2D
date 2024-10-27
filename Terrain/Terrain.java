@@ -116,15 +116,14 @@ public class Terrain {
                             while (tiles[endY][x] != 0 && endY < tiles.length) {
                                 endY++;
                             }
-                            x1 = 24 * (offset + x);
-                            y1 = 24 * (64 - y);
-                            x2 = 24 * (offset + endX);
-                            y2 = 24 * (64 - y);
-                            x3 = 24 * (offset + x);
-                            y3 = 24 * (64 - endY);
-                            x4 = 24 * (offset + endX);
-                            y4 = 24 * (64 - endY);
-                            // Rectangle rectangle = new Rectangle(new int[]{24 * (offset + x), 64 * 24 - 24 * y, 24 * (offset + endX), 64 * 24 - 24 * y, 24 * (offset + x), 64 * 24 - 24 * endY, 24 * (offset + endX), 64 * 24 - 24 * endY});
+                            x1 = 48 * (offset + x);
+                            y1 = 48 * (64 - y);
+                            x2 = 48 * (offset + endX);
+                            y2 = 48 * (64 - y);
+                            x3 = 48 * (offset + x);
+                            y3 = 48 * (64 - endY);
+                            x4 = 48 * (offset + endX);
+                            y4 = 48 * (64 - endY);
                             Rectangle rectangle = new Rectangle(new int[]{x1, y1, x2, y2, x3, y3, x4, y4});
                             rectangles.add(rectangle);
                         }

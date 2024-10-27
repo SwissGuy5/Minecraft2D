@@ -23,17 +23,19 @@ public class Player {
     public boolean inWater = false;
     public boolean inAir = false;
 
+    private Game game;
     private Terrain terrain;
 
     public int width = TerrainRenderer.TILE_SIZE - 4;
     public int height = TerrainRenderer.TILE_SIZE * 2 - 6;
 
-    public Player(int x, int y, Terrain terrain) {
+    public Player(int x, int y, Game game) {
         this.x = x;
         this.y = y;
         this.tempX = x;
         this.tempY = y;
-        this.terrain = terrain;
+        this.game = game;
+        this.terrain = game.terrain;
     }
 
     public int getX() {
@@ -181,5 +183,13 @@ public class Player {
     
     public void keyUp(int key) {
         this.keysDown[key] = false;
+    }
+
+    void primaryAction(int x, int y) {
+        System.out.println("Remove block at " + x + ", " + y);
+    }
+
+    void secondaryAction(int x, int y) {
+        System.out.println("Place " + game.inventory.items[game.inventory.currentlySelected] + " at " + x + ", " + y);
     }
 }
