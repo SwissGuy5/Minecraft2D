@@ -12,8 +12,11 @@ import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * The file handler object.
+ */
 public class FileHandler {
-    private static final String saveFilesDirPath = "./saveFiles/";
+    private static String saveFilesDirPath = "./saveFiles/";
 
     static HashMap<Integer, Chunk> getChunksFromSeed(double seed) {
         return FileHandler.decodeJson(FileHandler.readFromFile(FileHandler.fileNameFromSeed(seed)));
@@ -23,17 +26,27 @@ public class FileHandler {
         FileHandler.writeToFile(FileHandler.fileNameFromSeed(seed), FileHandler.encodeJson(chunks));
     }
 
+    /**
+     * Writes a JSON object to a file.
+     * @param fileName Name of file to write to.
+     * @param obj JSON object to write.
+     */
     static void writeToFile(String fileName, JSONObject obj) {
         try {
-			FileWriter file = new FileWriter(FileHandler.filePathFromSeed(fileName));
-			file.write(obj.toJSONString());
-			file.flush();
-			file.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            FileWriter file = new FileWriter(FileHandler.filePathFromSeed(fileName));
+            file.write(obj.toJSONString());
+            file.flush();
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * Reads a JSON object from a file.
+     * @param fileName Name of file to read from.
+     * @return JSON object read from file.
+     */
     static JSONObject readFromFile(String fileName) {
         JSONParser jsonParser = new JSONParser();
         
@@ -48,6 +61,11 @@ public class FileHandler {
         return null;
     }
 
+    /**
+     * Encodes a hashmap of chunks into a JSON object.
+     * @param chunks The hashmap of chunks to encode.
+     * @return The JSON object encoded from the hashmap.
+     */
     static JSONObject encodeJson(HashMap<Integer, Chunk> chunks) {
         JSONObject chunkObj = new JSONObject();
 
@@ -67,15 +85,25 @@ public class FileHandler {
         return chunkObj;
     }
 
+    /**
+     * Decodes a JSON object into a hashmap of chunks.
+     * @param obj The JSON object to decode.
+     * @return The hashmap of chunks decoded from the JSON object.
+     */
     static HashMap<Integer, Chunk> decodeJson(JSONObject obj) {
         HashMap<Integer, Chunk> chunks = new HashMap<Integer, Chunk>();
         for (Object key : obj.keySet()) {
-            Integer offset = Integer.valueOf((String)key);
-            chunks.put(offset, new Chunk(offset, (JSONArray)obj.get(key)));
+            Integer offset = Integer.valueOf((String) key);
+            chunks.put(offset, new Chunk(offset, (JSONArray) obj.get(key)));
         }
         return chunks;
     }
 
+    /**
+     * Checks if a file exists.
+     * @param seed The seed of the file to check.
+     * @return True if the file exists, false otherwise.
+     */
     static boolean fileExists(double seed) {
         File file = new File(FileHandler.filePathFromSeed(seed));
         if (!file.exists() || file.isDirectory()) {
@@ -91,10 +119,15 @@ public class FileHandler {
     static String filePathFromSeed(double seed) {
         return FileHandler.filePathFromSeed(FileHandler.fileNameFromSeed(seed));
     }
+
     static String filePathFromSeed(String fileName) {
         return saveFilesDirPath + fileName + ".json";
     }
 
+    /**
+     * Returns an array of existing file names.
+     * @return An array of existing file names.
+     */
     public static String[] existingFileNames() {
         File saveFilesDir = new File(saveFilesDirPath);
         File[] seedFiles = saveFilesDir.listFiles();
@@ -105,10 +138,20 @@ public class FileHandler {
         return fileNames;
     }
 
+    /**
+     * Converts a file name to a seed.
+     * @param fileName The file name to convert.
+     * @return The seed converted from the file name.
+     */
     public static double fileNameToSeed(String fileName) {
         return Double.parseDouble("0." + fileName);
     }
 
+    /**
+     * Returns a buffered image from a file path.
+     * @param filePath The file path to get the image from.
+     * @return The buffered image from the file path.
+     */
     public static BufferedImage getBufferedImage(String filePath) {
         BufferedImage img;
         try {
