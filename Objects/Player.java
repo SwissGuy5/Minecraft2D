@@ -139,10 +139,11 @@ public class Player {
      * Checks for collisions with the terrain and updates the player's position.
      */
     private void checkCollisions() {
+
         if (checkCollision(0, -1) || checkCollision(1, -1)) {
             y = Math.ceil(y);
             inAir = false;
-        } else {
+        } else if (!checkCollision(0, -1) && !checkCollision(1, -1)) {
             inAir = true;
         }
 
