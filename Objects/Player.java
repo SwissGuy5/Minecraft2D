@@ -14,15 +14,15 @@ public class Player {
 
     public double vx = 0;
     public double vy = 0;
-    // private final int maxVX = 7;
-    private final int maxVX = 50;
+    private final int maxVX = 7;
+    // private final int maxVX = 50;
     private final int maxVY = 10;
 
     private final double ax = 15;
     private final double ay = -27;
 
     public boolean inWater = false;
-    public boolean inAir = false;
+    public boolean inAir = true;
 
     public Game game;
     private Terrain terrain;
@@ -76,33 +76,22 @@ public class Player {
 
     private void checkCollisions() {
         byte tile;
-        boolean nonCollidingBlock = false;
         Chunk currChunk = terrain.getChunk(chunkOffset());
 
         // Floor Collision, let player through water
         tile = currChunk.getTile(chunkX(), chunkY(-1));
-        for (int i = 0; i < Terrain.nonCollidingBlocks.length; i++) {
-            if (tile == Terrain.nonCollidingBlocks[i]) {
-                nonCollidingBlock = true;
-            }
-        }
-        if (!nonCollidingBlock) {
+        if (!Terrain.nonCollidingBlocks.contains(tile)) {
             y = Math.ceil(y);
             inAir = false;
         }
-        nonCollidingBlock = false;
 
-        // // Left Wall Collision
-        // for (int i = 0; i < Terrain.nonCollidingBlocks.length; i++) {
-        //     if (currChunk.getTile(chunkX(-2), chunkY(-2)) == Terrain.nonCollidingBlocks[i] || currChunk.getTile(chunkX(-2), chunkY(-1)) == Terrain.nonCollidingBlocks[i]) {
-        //         nonCollidingBlock = true;
-        //     }
-        // }
-        // if (!nonCollidingBlock) {
-        //     System.out.println(x);
-        //     x = Math.floor(x + 1);
-        // }
-        // nonCollidingBlock = false;
+        // Wall Collision
+        if (!Terrain.nonCollidingBlocks.contains(currChunk.getTile(chunkX(), chunkY(-1))) && !Terrain.nonCollidingBlocks.contains(currChunk.getTile(chunkX(), chunkY(-2)))) {
+            x = Math.floor(x + 1);
+        }
+        if (!Terrain.nonCollidingBlocks.contains(currChunk.getTile(chunkX(1), chunkY(-1))) && !Terrain.nonCollidingBlocks.contains(currChunk.getTile(chunkX(1), chunkY(-2)))) {
+            x = Math.floor(x);
+        }
         
         // Right Wall Collision
         // for (int i = 0; i < Terrain.nonCollidingBlocks.length; i++) {
@@ -122,6 +111,8 @@ public class Player {
         } else {
             inWater = false;
         }
+
+        // System.out.println(tile);
     }
 
     public void update(double delta) {

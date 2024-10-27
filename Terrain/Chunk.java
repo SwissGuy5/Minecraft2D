@@ -77,7 +77,7 @@ public class Chunk {
                     if (y < CHUNK_HEIGHT - 10 && x >= 2 && x < CHUNK_WIDTH - 2 && Math.random() > .85) {
                         treeRoots.add((byte)(x));
                         treeRoots.add((byte)(y));
-                        treeRoots.add((byte)(surfaceBlock));
+                        treeRoots.add((byte)(groundBlock));
                     }
                     tiles[y][x] = surfaceBlock;
                 } else if (y <= noise && y >= noise - dirtDepth) {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Terrain {
     private HashMap<Integer, Chunk> chunks;
     public double seed;
-    public static byte[] nonCollidingBlocks = getNonCollidingBlocks();
+    public static ArrayList<Byte> nonCollidingBlocks = getNonCollidingBlocks();
 
     private Rectangle[] obstacles;
 
@@ -45,13 +45,13 @@ public class Terrain {
         FileHandler.saveChunksWithSeed(seed, chunks);
     }
 
-    private static byte[] getNonCollidingBlocks() {
-        byte[] blocks = new byte[5];
-        blocks[0] = 0;
-        blocks[1] = 2;
-        blocks[2] = 85;
-        blocks[3] = 90;
-        blocks[4] = 91;
+    private static ArrayList<Byte> getNonCollidingBlocks() {
+        ArrayList<Byte> blocks = new ArrayList<Byte>();
+        blocks.add((byte)0);
+        blocks.add((byte)2);
+        blocks.add((byte)85);
+        blocks.add((byte)90);
+        blocks.add((byte)91);
         return blocks;
     }
 
