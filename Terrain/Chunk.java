@@ -124,9 +124,13 @@ public class Chunk {
     public byte[][] getTiles() {
         return tiles;
     }
-
+    
     public byte getTile(byte x, byte y) {
         return tiles[y][x];
+    }
+    
+    public void setTile(byte x, byte y, byte type) {
+        tiles[y][x] = type;
     }
 
     public int isUnderGroundAt(int x) {

@@ -2,8 +2,11 @@ package Graphics;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.event.WindowEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
 
 import Objects.PlayerPanel;
 import Objects.Game;
@@ -30,6 +33,19 @@ public class Renderer extends JFrame {
         
         menuRenderer = new MenuRenderer(game);
         this.add(menuRenderer);
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                if (game.terrain != null && JOptionPane.showConfirmDialog(
+                    Renderer.this, "Save before quitting?", "Quit Game",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE
+                    ) == JOptionPane.YES_OPTION) {
+                    game.terrain.saveTerrain();
+                    // System.exit(0);
+                }
+            }
+        });
         
         this.setVisible(true);
     }
@@ -73,4 +89,9 @@ public class Renderer extends JFrame {
         inventoryRenderer.update(game.inventory);
         super.repaint();
     }
+
+    // @Override
+    // public void windowClosing(WindowEvent e) {
+    //     this.super(e);
+    // } 
 }

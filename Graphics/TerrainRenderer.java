@@ -21,7 +21,7 @@ public class TerrainRenderer extends JPanel {
 
     private Player player;
     private Terrain terrain;
-    static public Map<Integer, BufferedImage> tileSprites = loadSprites();
+    static public Map<Byte, BufferedImage> tileSprites = loadSprites();
 
     public TerrainRenderer(Game game) {
         this.terrain = game.terrain;
@@ -31,11 +31,11 @@ public class TerrainRenderer extends JPanel {
         this.setBounds(0, 0, Renderer.windowWidth, Renderer.windowHeight);
     }
 
-    static public Map<Integer, BufferedImage> loadSprites() {
-        Map<Integer, BufferedImage> tileSprites = new HashMap<>();
+    static public Map<Byte, BufferedImage> loadSprites() {
+        Map<Byte, BufferedImage> tileSprites = new HashMap<>();
         String cwd = System.getProperty("user.dir");
         try {
-            for (int i = 1; i < 90; i++) {
+            for (byte i = 1; i < 90; i++) {
                 String fileName = cwd + "\\Assets\\Tiles\\" + i + ".png";
                 tileSprites.put(i, ImageIO.read(new File(fileName)));
             }
@@ -45,7 +45,7 @@ public class TerrainRenderer extends JPanel {
         return tileSprites;
     }
 
-    void drawTile(Graphics g, int type, int x, int y) {
+    void drawTile(Graphics g, byte type, int x, int y) {
         if (type == 0) return;
         BufferedImage sprite = TerrainRenderer.tileSprites.get(type);
         if (sprite != null) {

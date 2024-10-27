@@ -28,7 +28,6 @@ public class Terrain {
             chunks = new HashMap<Integer, Chunk>();
             generateChunks(0, 20);
             // Todo: Re-enable to save files
-            // saveTerrain();
         }
     }
 
@@ -38,7 +37,12 @@ public class Terrain {
         }
     }
 
+    public void updateTile(int offset, byte x, byte y, byte type) {
+        chunks.get(offset).setTile(x, y, type);
+    }
+
     public void saveTerrain() {
+        System.out.println("Saving");
         FileHandler.saveChunksWithSeed(seed, chunks);
     }
 
