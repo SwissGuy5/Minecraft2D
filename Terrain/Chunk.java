@@ -1,19 +1,9 @@
 package Terrain;
 
-import org.json.simple.JSONArray;
-
 import Objects.Rectangle;
-
 import java.util.ArrayList;
 import java.util.Random;
-
-/* 
- * MOST COMMON BLOCKS:
- *  - dirt with grass on top: 9
- *  - dirt without grass: 10
- *  - rock: 13
- *  - trunk: 2 (temp)
-*/
+import org.json.simple.JSONArray;
 
 public class Chunk {
     public static final byte CHUNK_WIDTH = 64;
@@ -25,7 +15,7 @@ public class Chunk {
     public boolean chunkModificationAccountedFor = false;
 
     private byte[] groundLevel = new byte[CHUNK_WIDTH];
-    
+
     // Possible biomes: Plains, mountain, beach (one layer of sand), desert, ocean (desert / beach ground + water mass, found at low y levels)
     public Chunk(int offset, double seed) {
         this.offset = offset;

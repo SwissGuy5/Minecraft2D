@@ -142,6 +142,8 @@ public class Player {
         if (checkCollision(0, -1) || checkCollision(1, -1)) {
             y = Math.ceil(y);
             inAir = false;
+        } else {
+            inAir = true;
         }
 
         // Wall Collision
@@ -209,7 +211,6 @@ public class Player {
         } else if (inAir) {
             vy += ay * delta;
         } else if (keysDown[0]) {
-            inAir = true;
             vy = maxVY;
         }
         
