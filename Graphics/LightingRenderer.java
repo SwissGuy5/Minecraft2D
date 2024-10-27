@@ -5,6 +5,7 @@ import Objects.Game;
 import Objects.Player;
 import Objects.Light;
 import Objects.Sun;
+import Objects.Torch;
 import Objects.Rectangle;
 import Objects.LightPolygon;
 import java.util.Collections;
@@ -26,9 +27,11 @@ import java.io.File;
 import Terrain.*;
 
 public class LightingRenderer extends JPanel {
+    Game game;
     Terrain terrain;
     Player player;
     Sun sun;
+    Torch torch;
     ArrayList<Light> lights = new ArrayList<Light>();
     Rectangle[] obstacles;
 
@@ -42,14 +45,16 @@ public class LightingRenderer extends JPanel {
     private Polygon[] awtPolygons;
 
     public LightingRenderer(Game game) {
+        this.game = game;
         this.terrain = game.terrain;
         this.player = game.player;
         this.setBounds(0, 0, Renderer.windowWidth, Renderer.windowHeight);
         this.setOpaque(false);
 
-        // Creating the sun
-        Sun sun = new Sun(200, 0, 10000, this.player);
+        Sun sun = new Sun(this.player);
         this.sun = sun;
+        Torch torch = new Torch( 100, this.player);
+        this.torch = torch;
     }
 
     void addLight(Light light) {
@@ -71,7 +76,8 @@ public class LightingRenderer extends JPanel {
     void drawSun(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.WHITE);
-        g2d.fillRect(this.sun.x - 25, this.sun.y - 25, 50, 50);
+        int[] sunCoords = sun.getAnimationCoordinates();
+        g2d.fillRect(sunCoords[0] - 25, sunCoords[1] - 25, 50, 50);
     }
 
     void drawLight(Graphics g, Light light) {
@@ -84,6 +90,9 @@ public class LightingRenderer extends JPanel {
         ArrayList<Rectangle> obstacles = new ArrayList<Rectangle>();
         for (int i = 0; i < 2; i++) {
             Rectangle[] temp = this.terrain.getLightCollisionRectangles(i);
+            if (temp == null) {
+                continue;
+            }
             for (int j = 0; j < temp.length; j++) {
                 obstacles.add(temp[j]);
             }
@@ -95,7 +104,10 @@ public class LightingRenderer extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         long now = System.currentTimeMillis();
 
-        this.sun.update(16);
+        this.sun.update(game.delta);
+        this.torch.update(game.delta);
+        // int sunRelativeWorld = this.sun.x - this.player.getX();
+        // System.out.println(sunRelativeWorld);
         this.drawSun(g2d);
 
         for (int y = 0; y < pixelArrayHeight; y++) {
@@ -109,12 +121,14 @@ public class LightingRenderer extends JPanel {
         // System.out.println("==================");
         // System.out.println(obstacles.length);
         for (int n = 0; n < obstacles.length; n++) {
-            // System.out.println(obstacles[n].points[0][0] / 24);
+            System.out.println(obstacles[n].points[0][0] / 48);
         }
 
-        for (int i = -1; i < this.lights.size(); i++) {
-            if (i == -1) {
+        for (int i = -2; i < this.lights.size(); i++) {
+            if (i == -2) {
                 light = this.sun;
+            } else if (i == -1) {
+                light = this.torch;
             } else {
                 light = this.lights.get(i);
             }

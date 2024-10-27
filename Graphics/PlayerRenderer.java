@@ -31,7 +31,7 @@ public class PlayerRenderer extends JPanel {
         if (player.vx == 0) {
             animationProgress = 0;
         } else {
-            animationProgress += 0.1 * animationDirection;
+            animationProgress += Math.abs(player.vx) * 0.01 * animationDirection;
             if (animationProgress > Math.PI / 4) {
                 animationDirection = -1;
             } else if (animationProgress < -Math.PI / 4) {

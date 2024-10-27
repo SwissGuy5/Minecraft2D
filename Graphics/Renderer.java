@@ -65,8 +65,8 @@ public class Renderer extends JFrame {
         playerRenderer = new PlayerRenderer(game.player);
         this.add(playerRenderer);
 
-        // lightingRenderer = new LightingRenderer(game);
-        // this.add(lightingRenderer);
+        lightingRenderer = new LightingRenderer(game);
+        this.add(lightingRenderer);
 
         terrainRenderer = new TerrainRenderer(game);
         this.add(terrainRenderer);
