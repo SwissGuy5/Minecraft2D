@@ -26,6 +26,7 @@ public class Chunk {
 
     private byte[] groundLevel = new byte[CHUNK_WIDTH];
     
+    // Possible biomes: Plains, mountain, beach (one layer of sand), desert, ocean (desert / beach ground + water mass, found at low y levels)
     public Chunk(int offset, double seed) {
         this.offset = offset;
         tiles = new byte[CHUNK_HEIGHT][CHUNK_WIDTH];
@@ -67,7 +68,7 @@ public class Chunk {
 
             for (byte y = 0; y < CHUNK_HEIGHT; y++) {
                 if (y == 0) {
-                    tiles[y][x] = 59;
+                    tiles[y][x] = 16;
                 } else if (y > noise && y <= waterLevel) {
                     tiles[y][x] = 85;
                 } else if (y > noise) {
@@ -83,7 +84,11 @@ public class Chunk {
                 } else if (y <= noise && y >= noise - dirtDepth) {
                     tiles[y][x] = groundBlock;
                 } else {
-                    tiles[y][x] = 28;
+                    if (Math.random() > .98) {
+                        tiles[y][x] = 24;
+                    } else {
+                        tiles[y][x] = 28;
+                    }
                 }
             }
         }
