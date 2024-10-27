@@ -1,17 +1,12 @@
 package Graphics;
 
+import Objects.Game;
+import Terrain.FileHandler;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.*;
-import java.io.File;
-
 import javax.swing.*;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
-
-import Objects.Game;
-import Terrain.FileHandler;
 
 /**
  * The renderer for the menu screen.

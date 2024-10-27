@@ -1,19 +1,9 @@
 package Graphics;
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-
-import org.json.simple.parser.ContentHandler;
 
 import Objects.Player;
-
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.geom.AffineTransform;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.io.File;
-import Terrain.*;
+import javax.swing.JPanel;
 
 public class PlayerRenderer extends JPanel {
     private Player player;

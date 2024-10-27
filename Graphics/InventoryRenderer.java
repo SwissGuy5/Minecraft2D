@@ -1,14 +1,12 @@
 package Graphics;
 
-import java.awt.*;
-import javax.swing.JPanel;
-
-import Terrain.FileHandler;
 import Objects.Inventory;
-
+import Terrain.FileHandler;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import javax.swing.JLabel;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 
 /**
