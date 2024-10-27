@@ -60,11 +60,9 @@ public class MenuRenderer extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 if (popupShowing) {
                     popupShowing = false;
-                    System.out.println("Already Showing");
                     seedMenu.setVisible(false);
                 } else {
                     popupShowing = true;
-                    System.out.println("clicked");
                     if (firstPopup) {
                         firstPopup = false;
                         seedMenu.show(seedMenu , selectSeedBtn.getX(), selectSeedBtn.getY());

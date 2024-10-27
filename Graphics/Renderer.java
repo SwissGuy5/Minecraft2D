@@ -1,12 +1,12 @@
 package Graphics;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import Objects.PlayerPanel;
 import Objects.Game;
@@ -31,9 +31,6 @@ public class Renderer extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         
-        menuRenderer = new MenuRenderer(game);
-        this.add(menuRenderer);
-
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
@@ -41,29 +38,36 @@ public class Renderer extends JFrame {
                     Renderer.this, "Save before quitting?", "Quit Game",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE
                     ) == JOptionPane.YES_OPTION) {
-                    game.terrain.saveTerrain();
-                    // System.exit(0);
+                        game.terrain.saveTerrain();
+                        // System.exit(0);
+                    }
                 }
-            }
-        });
-        
-        this.setVisible(true);
+            });
+            // this.addComponentListener(new ComponentAdapter() {
+            //     public void componentResized(ComponentEvent componentEvent) {
+            //         System.out.println("Resizing");
+            //     }
+            // });
+            
+            menuRenderer = new MenuRenderer(game);
+            this.add(menuRenderer);
+            
+            this.setVisible(true);
     }
 
     public void init() {
         System.out.println("Initialising Renderer");
         menuRenderer.setVisible(false);
 
-        inventoryRenderer = new InventoryRenderer(this);
+        inventoryRenderer = new InventoryRenderer(game.inventory);
         this.add(inventoryRenderer);
 
         playerRenderer = new PlayerRenderer(game.player);
-        playerRenderer.setBounds(500, 300, 200, 200);
         this.add(playerRenderer);
 
-        lightingRenderer = new LightingRenderer(game);
-        lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
-        this.add(lightingRenderer);
+        // lightingRenderer = new LightingRenderer(game);
+        // lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
+        // this.add(lightingRenderer);
 
         terrainRenderer = new TerrainRenderer(game);
         this.add(terrainRenderer);
@@ -86,7 +90,6 @@ public class Renderer extends JFrame {
     }
     public void repaint(Game game) {
         // terrainRenderer.update(game.player);
-        inventoryRenderer.update(game.inventory);
         super.repaint();
     }
 

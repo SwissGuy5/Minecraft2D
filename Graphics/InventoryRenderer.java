@@ -18,11 +18,11 @@ public class InventoryRenderer extends JPanel {
     private final int gapLength = 5;
     private BufferedImage frameImg = FileHandler.getBufferedImage("./Assets/InventoryFrame.png");
     private JLabel[] frames = new JLabel[Inventory.inventorySize];
-    private int currentlySelected = 0;
-    private byte[] items = new byte[Inventory.inventorySize];
-    // private Image hotbarFrameImg = new Image()
+    private Inventory inventory;
 
-    public InventoryRenderer(Renderer renderer) {
+    public InventoryRenderer(Inventory inventory) {
+        this.inventory = inventory;
+        
         FlowLayout layout = new FlowLayout();
         layout.setHgap(gapLength);
         layout.setVgap(gapLength);
@@ -46,7 +46,7 @@ public class InventoryRenderer extends JPanel {
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D)g;
-        Point p = frames[currentlySelected].getLocation();
+        Point p = frames[inventory.currentlySelected].getLocation();
         g2d.setStroke(new BasicStroke(gapLength + 2));
         g2d.setColor(new Color(255, 255, 255, 150));
         g2d.drawRect(p.x, p.y, framePixelSize, framePixelSize);
@@ -58,21 +58,14 @@ public class InventoryRenderer extends JPanel {
         
         Point p;
 
-        for (int i = 0; i < items.length; i++) {
-            System.out.println("A");
-            byte tileType = items[i];
+        for (int i = 0; i < inventory.items.length; i++) {
+            byte tileType = inventory.items[i];
             if (tileType == 0) continue;
             BufferedImage sprite = TerrainRenderer.tileSprites.get(tileType);
             if (sprite != null) {
-                System.out.println(tileType);
                 p = frames[i].getLocation();
                 g.drawImage(sprite, p.x + framePixelSize / 4, p.y + framePixelSize / 5, 36, 36, null);
             }
         }
-    }
-
-    public void update(Inventory inventory) {
-        currentlySelected = inventory.currentlySelected;
-        items = inventory.items;
     }
 }
