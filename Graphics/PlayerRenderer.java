@@ -5,18 +5,28 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import javax.swing.JPanel;
 
+/**
+ * The player renderer object.
+ */
 public class PlayerRenderer extends JPanel {
     private Player player;
 
     double animationProgress = 0;
     int animationDirection = 1;
 
+    /**
+     * Constructor for the PlayerRenderer object.
+     * @param player The player object to render.
+     */
     public PlayerRenderer(Player player) {
         this.setOpaque(false);
         this.setBounds((Renderer.windowWidth - player.width) / 2 - 20, (Renderer.windowHeight - player.height) / 2, player.width + 40, player.height);
         this.player = player;
     }
 
+    /**
+     * Handles the animation of the player character.
+     */
     void handleAnimation() {
         if (player.vx == 0) {
             animationProgress = 0;
@@ -30,15 +40,17 @@ public class PlayerRenderer extends JPanel {
         }
     }
 
+    /**
+     * Draws the player character.
+     * @param g The graphics object to draw with.
+     */
     void drawCharacter(Graphics g) {
         // THIS IS WHERE THE MAGIC HAPPENS
         Graphics2D g2d = (Graphics2D) g;
 
         Color hairColor = new Color(110, 70, 41);
         Color skinColor = new Color(229, 194, 152);
-        Color shirtColor = new Color(117, 144, 112);
         Color sleeveColor = new Color(112, 159, 100);
-        Color pantsColor = new Color(36, 38, 47);
 
         // DRAWING THE HEAD
         g2d.setColor(skinColor);
@@ -66,6 +78,8 @@ public class PlayerRenderer extends JPanel {
 
         g2d.setTransform(originalTransform);
 
+        Color pantsColor = new Color(36, 38, 47);
+
         // DRAWING THE RIGHT LEG
         g2d.translate(42, 60);
         g2d.rotate(this.animationProgress);
@@ -86,6 +100,8 @@ public class PlayerRenderer extends JPanel {
 
         g2d.setTransform(originalTransform);
         
+        Color shirtColor = new Color(117, 144, 112);
+
         // DRAWING THE TORSO
         g2d.setColor(shirtColor);
         g2d.fillRect(32, 44 - 20, 20, 36);
@@ -116,6 +132,10 @@ public class PlayerRenderer extends JPanel {
         g2d.setTransform(originalTransform);
     }
 
+    /**
+     * Paints the player character.
+     * @param g The graphics object to paint with.
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         handleAnimation();
