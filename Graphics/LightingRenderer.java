@@ -44,6 +44,7 @@ public class LightingRenderer extends JPanel {
     public LightingRenderer(Game game) {
         this.terrain = game.terrain;
         this.player = game.player;
+        this.setBounds(0, 0, Renderer.windowWidth, Renderer.windowHeight);
         this.setOpaque(false);
 
         // Creating the sun
@@ -145,8 +146,8 @@ public class LightingRenderer extends JPanel {
 
             for (int y = 0; y < pixelArrayHeight; y++) {
                 for (int x = 0; x < pixelArrayWidth; x++) {
-                    int tX = x * pixelSize + this.player.x - 600;
-                    int tY = y * pixelSize + this.player.y + 400;
+                    int tX = x * pixelSize + this.player.getX() - 600;
+                    int tY = y * pixelSize + this.player.getY() + 400;
 
                     int distanceSq = (lX - tX) * (lX - tX) + (lY - tY) * (lY - tY);
                     if (distanceSq < lightRadiusSq || light.strength == 0) {

@@ -8,7 +8,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import Objects.PlayerPanel;
 import Objects.Game;
 import Objects.Light;
 
@@ -30,6 +29,7 @@ public class Renderer extends JFrame {
         this.setSize(windowWidth, windowHeight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
         
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -40,9 +40,9 @@ public class Renderer extends JFrame {
                     ) == JOptionPane.YES_OPTION) {
                         game.terrain.saveTerrain();
                         // System.exit(0);
-                    }
                 }
-            });
+            }
+        });
             // this.addComponentListener(new ComponentAdapter() {
             //     public void componentResized(ComponentEvent componentEvent) {
             //         System.out.println("Resizing");
@@ -66,20 +66,10 @@ public class Renderer extends JFrame {
         this.add(playerRenderer);
 
         // lightingRenderer = new LightingRenderer(game);
-        // lightingRenderer.setBounds(0, 0, windowWidth, windowHeight);
         // this.add(lightingRenderer);
 
         terrainRenderer = new TerrainRenderer(game);
         this.add(terrainRenderer);
-
-        // playerPanel = new PlayerPanel(game.player);
-        // playerPanel.setBounds(0, 0, 0, 0);
-        // this.add(playerPanel);
-        // playerPanel.requestFocusInWindow();
-
-        // OverlayComponent overlay = new OverlayComponent(this);
-        // this.setGlassPane(overlay);
-        // overlay.setVisible(true);
 
         System.out.println("Initialised Renderer");
     }
@@ -88,8 +78,9 @@ public class Renderer extends JFrame {
     public void repaint() {
         super.repaint();
     }
-    public void repaint(Game game) {
+    public void repaint(double delta) {
         // terrainRenderer.update(game.player);
+        game.player.update(delta);
         super.repaint();
     }
 

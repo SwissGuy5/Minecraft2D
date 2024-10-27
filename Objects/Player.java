@@ -6,11 +6,13 @@ import Terrain.*;
 public class Player {
     boolean[] keysDown = new boolean[4];
 
+    public int tempX;
+    public int tempY;
     public double x;
     public double y;
     public double vx = 0;
     public double vy = 0;
-    private final int maxV = 5;
+    private final int maxV = 2;
     public int ax = 0;
     public int ay = 0;
     private final int maxA = -20;
@@ -30,6 +32,8 @@ public class Player {
     public Player(int x, int y, Terrain terrain) {
         this.x = x;
         this.y = y;
+        this.tempX = x;
+        this.tempY = y;
         this.terrain = terrain;
     }
 
@@ -154,16 +158,16 @@ public class Player {
         // nonCollidingBlock = false;
         
         // Right Wall Collision
-        for (int i = 0; i < Terrain.nonCollidingBlocks.length; i++) {
-            if (currChunk.getTile(chunkX(1), chunkY(-2)) == Terrain.nonCollidingBlocks[i] || currChunk.getTile(chunkX(1), chunkY(-1)) == Terrain.nonCollidingBlocks[i]) {
-                nonCollidingBlock = true;
-            }
-        }
-        if (!nonCollidingBlock) {
-            System.out.println(x);
-            x = Math.ceil(x - 1);
-        }
-        nonCollidingBlock = false;
+        // for (int i = 0; i < Terrain.nonCollidingBlocks.length; i++) {
+        //     if (currChunk.getTile(chunkX(1), chunkY(-2)) == Terrain.nonCollidingBlocks[i] || currChunk.getTile(chunkX(1), chunkY(-1)) == Terrain.nonCollidingBlocks[i]) {
+        //         nonCollidingBlock = true;
+        //     }
+        // }
+        // if (!nonCollidingBlock) {
+        //     System.out.println(x);
+        //     x = Math.ceil(x - 1);
+        // }
+        // nonCollidingBlock = false;
 
         tile = currChunk.getTile(chunkX(), chunkY());
         if (tile == 85) {
@@ -181,13 +185,13 @@ public class Player {
         } else {
             vx = 0;
         }
-        if (!inAir && keysDown[0]) {
-            System.out.println(inAir);
-            // ax = maxA;
-            inAir = true;
-        } else {
-            // ax = 0;
-        }
+        // if (!inAir && keysDown[0]) {
+        //     System.out.println(inAir);
+        //     // ax = maxA;
+        //     inAir = true;
+        // } else {
+        //     // ax = 0;
+        // }
         if (keysDown[0]) {
             vy = maxV;
         } else if (keysDown[2]) {
@@ -197,11 +201,13 @@ public class Player {
         }
 
         // vy = ay * delta;
-        if (vy > maxV) {
-            vy = maxV;
-        }
-        this.x += vx * delta;
-        this.y += vy * delta;
+        // if (vy > maxV) {
+        //     vy = maxV;
+        // }
+        System.out.println(x);
+        x += vx * delta;
+        y += vy * delta;
+        System.out.println(x);
 
         checkCollisions();
 

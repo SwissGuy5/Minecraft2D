@@ -49,18 +49,22 @@ public class TerrainRenderer extends JPanel {
         if (type == 0) return;
         BufferedImage sprite = TerrainRenderer.tileSprites.get(type);
         if (sprite != null) {
-            // g.drawImage(sprite, x * TILE_SIZE - this.player.getX() + 600, y * TILE_SIZE - this.player.getY() - 400, TILE_SIZE, TILE_SIZE, null);
+            g.drawImage(sprite, (int)Math.round(x * TILE_SIZE + (Renderer.windowWidth - player.width) / 2), (int)Math.floor(y * TILE_SIZE + (Renderer.windowHeight - player.height) / 2), TILE_SIZE, TILE_SIZE, null);
+        }
+    }
+    void drawTile(Graphics g, byte type, int x, int y) {
+        if (type == 0) return;
+        BufferedImage sprite = TerrainRenderer.tileSprites.get(type);
+        if (sprite != null) {
             g.drawImage(sprite, (int)Math.round(x * TILE_SIZE + (Renderer.windowWidth - player.width) / 2), (int)Math.floor(y * TILE_SIZE + (Renderer.windowHeight - player.height) / 2), TILE_SIZE, TILE_SIZE, null);
         }
     }
 
     void drawChunk(Graphics g, Chunk chunk) {
-        double plrX = player.x;
-        double plrY = player.y;
         for (byte y = 0; y < Chunk.CHUNK_HEIGHT; y++) {
+            // System.out.println(Chunk.CHUNK_HEIGHT - player.getY() + y);
             for (byte x = 0; x < Chunk.CHUNK_WIDTH; x++) {
-                // drawTile(g, chunk.getTile(x, y), x + chunk.offset * Chunk.CHUNK_WIDTH, Chunk.CHUNK_HEIGHT - y);
-                drawTile(g, chunk.getTile(x, y), chunk.offset * Chunk.CHUNK_WIDTH + x - plrX, plrY - y);
+                drawTile(g, chunk.getTile(x, y), chunk.offset * Chunk.CHUNK_WIDTH + x - player.x, player.y - y);
             }
         }
     }
