@@ -52,7 +52,7 @@ public class FileHandler {
         
         try { 
             FileReader reader = new FileReader(FileHandler.filePathFromSeed(fileName));
-            return (JSONObject)jsonParser.parse(reader);
+            return (JSONObject) jsonParser.parse(reader);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
