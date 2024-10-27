@@ -40,6 +40,10 @@ public class Terrain {
         chunks.get(offset).setTile(x, y, type);
     }
 
+    public byte getTile(int offset, byte x, byte y) {
+        return chunks.get(offset).getTile(x, y);
+    }
+
     public void saveTerrain() {
         System.out.println("Saving");
         FileHandler.saveChunksWithSeed(seed, chunks);
@@ -107,7 +111,7 @@ public class Terrain {
 
         for (int x = 0; x < tiles[0].length; x++) {
             for (int y = 0; y < tiles.length; y++) {
-                if (tiles[y][x] != 0) {
+                if (tiles[y][x] != 0 && tiles[y][x] != 90) {
                     if (y > 0 && tiles[y - 1][x] == 0) {
                         if (x > 0 && tiles[y][x - 1] == 0) {
                             int endX = x;
