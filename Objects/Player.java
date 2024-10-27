@@ -186,10 +186,16 @@ public class Player {
     }
 
     void primaryAction(int x, int y) {
-        System.out.println("Remove block at " + x + ", " + y);
+        int chunkX = x / 48 + this.getX() - 600 / 48;
+        byte chunkNumber = (byte)Math.floor((double)(chunkX) / Chunk.CHUNK_WIDTH);
+        int chunkY = this.getY() - y / 48 + 400 / 48;
+        this.terrain.updateTile(chunkNumber, (byte)(chunkX - chunkNumber * Chunk.CHUNK_WIDTH), (byte)chunkY, (byte)0);
     }
 
     void secondaryAction(int x, int y) {
-        System.out.println("Place " + game.inventory.items[game.inventory.currentlySelected] + " at " + x + ", " + y);
+        int chunkX = x / 48 + this.getX() - 600 / 48;
+        byte chunkNumber = (byte)Math.floor((double)(chunkX) / Chunk.CHUNK_WIDTH);
+        int chunkY = this.getY() - y / 48 + 400 / 48;
+        this.terrain.updateTile(chunkNumber, (byte)(chunkX - chunkNumber * Chunk.CHUNK_WIDTH), (byte)chunkY, (byte)game.inventory.items[game.inventory.currentlySelected]);
     }
 }

@@ -104,8 +104,8 @@ public class LightingRenderer extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         long now = System.currentTimeMillis();
 
-        this.sun.update(game.delta);
-        this.torch.update(game.delta);
+        // this.sun.update(game.delta);
+        // this.torch.update(game.delta);
         // int sunRelativeWorld = this.sun.x - this.player.getX();
         // System.out.println(sunRelativeWorld);
         this.drawSun(g2d);
