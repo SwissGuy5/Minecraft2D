@@ -9,6 +9,11 @@ public class LightPolygon {
     public int[] yCoords;
     Double[] angles;
 
+    /**
+     * Creates a new LightPolygon with the given coordinates.
+     * It is used to fill in the shadows
+     * @param coords The list of coordinates of the polygon.
+     */
     public LightPolygon(int[] coords) {
         this.n = coords.length / 2 + 2;
         this.xCoords = new int[this.n];
@@ -19,6 +24,11 @@ public class LightPolygon {
         }
     }
 
+    /**
+     * Calculates the shadow cast by the light source at the given coordinates.
+     * @param x The x-coordinate of the light source.
+     * @param y The y-coordinate of the light source.
+     */
     public void calculateShadowForLightSource(int x, int y) {
         this.angles = new Double[this.n - 2];
         for (int i = 0; i < this.n - 2; i++) {

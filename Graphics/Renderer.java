@@ -11,9 +11,12 @@ import java.awt.event.ComponentEvent;
 import Objects.Game;
 import Objects.Light;
 
+/**
+ * The main renderer frame containing all the sub-renderers.
+ */
 public class Renderer extends JFrame {
-    static final int windowWidth = 1200;
-    static final int windowHeight = 800;
+    static int windowWidth = 1200;
+    static int windowHeight = 800;
 
     private InventoryRenderer inventoryRenderer;
     private PlayerRenderer playerRenderer;
@@ -22,6 +25,10 @@ public class Renderer extends JFrame {
     private Game game;
     private MenuRenderer menuRenderer;
 
+    /**
+     * Constructor for the Renderer class.
+     * @param game The game object.
+     */
     public Renderer(Game game) {
         super("Minecraft 2D");
         this.game = game;
@@ -49,6 +56,9 @@ public class Renderer extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Initialises the renderer.
+     */
     public void init() {
         System.out.println("Initialising Renderer");
         menuRenderer.setVisible(false);
@@ -72,13 +82,13 @@ public class Renderer extends JFrame {
     public void repaint() {
         super.repaint();
     }
+
+    /**
+     * Repaints the renderer.
+     * @param delta The time since the last repaint.
+     */
     public void repaint(double delta) {
         game.player.update(delta);
         super.repaint();
     }
-
-    // @Override
-    // public void windowClosing(WindowEvent e) {
-    //     this.super(e);
-    // } 
 }

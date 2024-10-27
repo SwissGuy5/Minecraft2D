@@ -8,24 +8,14 @@ import Objects.Sun;
 import Objects.Torch;
 import Objects.Rectangle;
 import Objects.LightPolygon;
-import java.util.Collections;
-import java.util.Comparator;
 
-
-import java.awt.geom.Point2D;
 import javax.swing.JPanel;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.io.File;
 import Terrain.*;
 
+/**
+ * The renderer for the lighting effects.
+ */
 public class LightingRenderer extends JPanel {
     Game game;
     Terrain terrain;
@@ -44,6 +34,10 @@ public class LightingRenderer extends JPanel {
     private LightPolygon[] polygons;
     private Polygon[] awtPolygons;
 
+    /**
+     * Creates a new lighting renderer.
+     * @param game The game object.
+     */
     public LightingRenderer(Game game) {
         this.game = game;
         this.terrain = game.terrain;
@@ -57,10 +51,18 @@ public class LightingRenderer extends JPanel {
         this.torch = torch;
     }
 
+    /**
+     * Adds a light to the renderer.
+     * @param light The light to add.
+     */
     public void addLight(Light light) {
         this.lights.add(light);
     }
 
+    /**
+     * Removes a light from the renderer.
+     * @param id The id of the light to remove.
+     */
     public void removeLight(int id) {
         int index = -1;
         for (int i = 0; i < this.lights.size(); i++) {
@@ -73,6 +75,10 @@ public class LightingRenderer extends JPanel {
         }
     }
 
+    /**
+     * Draws the sun in the light renderer.
+     * @param g The graphics object.
+     */
     void drawSun(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.WHITE);
@@ -80,12 +86,10 @@ public class LightingRenderer extends JPanel {
         g2d.fillRect(sunCoords[0] - 25, sunCoords[1] - 25, 50, 50);
     }
 
-    void drawLight(Graphics g, Light light) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(light.x - 25, light.y - 25, 50, 50);
-    }
-
+    /**
+     * Gets all the collision rectangles that the light can collide with.
+     * @return An array of collision rectangles.
+     */
     Rectangle[] getAllLightCollisionRectangles() {
         ArrayList<Rectangle> obstacles = new ArrayList<Rectangle>();
         int playerChunkOffset = player.chunkOffset();
@@ -101,9 +105,12 @@ public class LightingRenderer extends JPanel {
         return obstacles.toArray(new Rectangle[obstacles.size()]);
     }
 
+    /**
+     * Paints the lighting effects. Applies shadows to the pixels.
+     * @param g The graphics object.
+     */
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        long now = System.currentTimeMillis();
 
         this.sun.update(game.delta);
         this.torch.update(game.delta);
@@ -139,7 +146,6 @@ public class LightingRenderer extends JPanel {
                     LightPolygon poly = new LightPolygon(reachablePoints);
                     poly.calculateShadowForLightSource(light.x, light.y);
                     polygons[j] = poly;
-                    // g2d.drawPolygon(poly.xCoords, poly.yCoords, poly.n);
                 } else {
                     polygons[j] = null;
                 }
@@ -207,11 +213,6 @@ public class LightingRenderer extends JPanel {
                 g2d.setColor(new Color(0, 0, 0, alpha));
                 g2d.fillRect(pixelSize * x, pixelSize * y, pixelSize, pixelSize);
             }
-        }
-
-        long nower = System.currentTimeMillis();
-        if (nower - now > 16) {
-            // System.out.println(nower - now);
         }
     }
 }
