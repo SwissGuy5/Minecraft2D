@@ -14,7 +14,8 @@ public class Player {
 
     public double vx = 0;
     public double vy = 0;
-    private final int maxVX = 7;
+    // private final int maxVX = 7;
+    private final int maxVX = 50;
     private final int maxVY = 10;
 
     private final double ax = 15;
@@ -172,6 +173,8 @@ public class Player {
 
         if (y >= Chunk.CHUNK_HEIGHT) {
             y = Chunk.CHUNK_HEIGHT - 1;
+        } else if (y <= 1) {
+            y = 1;
         }
 
         checkCollisions();
@@ -196,6 +199,7 @@ public class Player {
         int chunkX = x / 48 + this.getX() - 600 / 48;
         byte chunkNumber = (byte)Math.floor((double)(chunkX) / Chunk.CHUNK_WIDTH);
         int chunkY = this.getY() - y / 48 + 400 / 48;
-        this.terrain.updateTile(chunkNumber, (byte)(chunkX - chunkNumber * Chunk.CHUNK_WIDTH), (byte)chunkY, (byte)game.inventory.items[game.inventory.currentlySelected]);
+        byte tileType = (byte)game.inventory.items[game.inventory.currentlySelected];
+        this.terrain.updateTile(chunkNumber, (byte)(chunkX - chunkNumber * Chunk.CHUNK_WIDTH), (byte)chunkY, tileType);
     }
 }

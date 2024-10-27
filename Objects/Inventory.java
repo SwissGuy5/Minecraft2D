@@ -13,7 +13,7 @@ public class Inventory {
         items[3] = 59;
         items[4] = 13;
         items[5] = 90;
-        items[6] = 0;
+        items[6] = 91;
         items[7] = 0;
         items[8] = 0;
         currentlySelected = 0;
