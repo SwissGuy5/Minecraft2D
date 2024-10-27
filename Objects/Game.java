@@ -19,12 +19,12 @@ public class Game implements KeyListener {
 
     public void init() {
         terrain = new Terrain();
-        player = new Player(2, 50, this);
+        player = new Player(0, 50, this);
         init2();
     }
     public void init(double seed) {
         terrain = new Terrain(seed);
-        player = new Player(-2, 50, this);
+        player = new Player(0, 50, this);
         init2();
         // terrain.updateTile(0, (byte)0, (byte)0, (byte)0);
     }
