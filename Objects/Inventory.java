@@ -10,7 +10,7 @@ public class Inventory {
         items[0] = 9;
         items[1] = 10;
         items[2] = 28;
-        items[3] = 59;
+        items[3] = 16;
         items[4] = 13;
         items[5] = 90;
         items[6] = 91;
