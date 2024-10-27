@@ -96,9 +96,18 @@ public class PlayerRenderer extends JPanel {
         g2d.setColor(shirtColor);
         g2d.fillRect(32, 44 - 20, 20, 36);
         
-        // DRAWING THE LEFT ARM
+
         g2d.translate(42, 34);
         g2d.rotate(this.animationProgress);
+
+        // DRAWING THE LEFT ARM
+        if (player.game.renderer.lightingRenderer.torch.active) {
+            System.out.println("Drawing torch");
+            g2d.setColor(new Color(200, 0, 0));
+            g2d.fillRect(-10, 25, 30, 10);
+            g2d.setColor(new Color(200, 200, 0));
+            g2d.fillRect(20, 25, 10, 10);
+        }
         g2d.setColor(sleeveColor);
         g2d.fillRect(-5, 0, 10, 10);
         g2d.setColor(skinColor);

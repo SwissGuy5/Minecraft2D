@@ -23,7 +23,7 @@ public class Player {
     public boolean inWater = false;
     public boolean inAir = false;
 
-    private Game game;
+    public Game game;
     private Terrain terrain;
 
     public int width = TerrainRenderer.TILE_SIZE - 4;

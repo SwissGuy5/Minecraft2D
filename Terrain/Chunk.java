@@ -136,6 +136,7 @@ public class Chunk {
     }
     
     public void setTile(byte x, byte y, byte type) {
+        this.chunkModificationAccountedFor = false;
         tiles[y][x] = type;
     }
 

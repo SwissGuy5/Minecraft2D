@@ -17,7 +17,7 @@ public class Renderer extends JFrame {
 
     private InventoryRenderer inventoryRenderer;
     private PlayerRenderer playerRenderer;
-    private LightingRenderer lightingRenderer;
+    public LightingRenderer lightingRenderer;
     private TerrainRenderer terrainRenderer;
     // private PlayerPanel playerPanel;
     private Game game;

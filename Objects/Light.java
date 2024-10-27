@@ -7,6 +7,9 @@ public class Light {
     public int strength;
     public boolean active = true;
 
+    int dayDuration = 60;
+    double currentTime = 59;
+
     public Light(int x, int y, int strength) {
         this.x = x;
         this.y = y;

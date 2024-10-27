@@ -4,8 +4,6 @@ import Objects.Player;
 
 public class Torch extends Light {
     Player player;
-    int dayDuration = 60;
-    double currentTime = 0;
 
     public Torch(int strength, Player player) {
         super(0, 0, strength);
@@ -22,8 +20,7 @@ public class Torch extends Light {
             this.active = false;
             currentTime = 0;
         }
-        this.x = (int)player.getX() * 48;
-        this.y = (int)player.getY();
-        // System.out.println(this.x + " " + this.y);
+        this.x = (int)(player.x * 48);
+        this.y = (int)((64 - player.y) * 48);
     }
 }

@@ -53,7 +53,7 @@ public class LightingRenderer extends JPanel {
 
         Sun sun = new Sun(this.player);
         this.sun = sun;
-        Torch torch = new Torch( 100, this.player);
+        Torch torch = new Torch( 250, this.player);
         this.torch = torch;
     }
 

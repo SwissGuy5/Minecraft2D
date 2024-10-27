@@ -7,7 +7,7 @@ import java.awt.event.*;
 import java.util.HashMap;
 
 public class Game implements KeyListener {
-    private Renderer renderer;
+    public Renderer renderer;
     public Terrain terrain;
     public Player player;
     public Inventory inventory;

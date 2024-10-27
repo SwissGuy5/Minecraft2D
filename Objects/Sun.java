@@ -4,9 +4,6 @@ import Objects.Player;
 
 public class Sun extends Light {
     Player player;
-    int displacementFromPlayer = 2000;
-    public int dayDuration = 60;
-    public double currentTime = 0;
 
     public Sun(Player player) {
         super(0, 0, 0);
@@ -17,7 +14,7 @@ public class Sun extends Light {
 
     public int[] getAnimationCoordinates() {
         double progress = 1 - this.currentTime / this.dayDuration;
-        int sunX = (int)(progress * 1200);
+        int sunX = (int)(progress * 1250) - 25;
         int sunY = (int)(-Math.sin(progress * Math.PI) * 300) + 200;
         return new int[]{sunX, sunY};
     }
@@ -32,6 +29,8 @@ public class Sun extends Light {
             currentTime = 0;
         }
         double progress = 1 - this.currentTime / this.dayDuration;
-        this.x = this.player.getX() * 48 + (int)(progress * 5000) - 2500;
+        this.x = (int)(progress * 5000) - 2500 + (int)(player.x * 48);
+        this.y = (int)(-Math.sin(progress * Math.PI) * 2000) + 400;
+
     }
 }
