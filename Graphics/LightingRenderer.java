@@ -53,7 +53,7 @@ public class LightingRenderer extends JPanel {
 
         Sun sun = new Sun(this.player);
         this.sun = sun;
-        Torch torch = new Torch( 250, this.player);
+        Torch torch = new Torch( 500, this.player);
         this.torch = torch;
     }
 
@@ -110,7 +110,7 @@ public class LightingRenderer extends JPanel {
 
         for (int y = 0; y < pixelArrayHeight; y++) {
             for (int x = 0; x < pixelArrayWidth; x++) {
-                pixels[y][x] = 0;
+                pixels[y][x] = 100;
             }
         }
 
@@ -182,9 +182,9 @@ public class LightingRenderer extends JPanel {
                             }
                         } else {
                             if (light.strength == 0) {
-                                pixels[y][x] -= 100;
+                                pixels[y][x] -= 200;
                             } else {
-                                pixels[y][x] -= light.strength * (1 - distanceSq / lightRadiusSq);
+                                pixels[y][x] -= light.strength / 5 * (1 - distanceSq / lightRadiusSq);
                             }
                         }
                     }
@@ -208,13 +208,9 @@ public class LightingRenderer extends JPanel {
             }
         }
 
-        for (int i = 0; i < this.lights.size(); i++) {
-            drawLight(g, this.lights.get(i));
-        }
-
         long nower = System.currentTimeMillis();
         if (nower - now > 16) {
-            // System.out.println(nower - now);
+            System.out.println(nower - now);
         }
     }
 }

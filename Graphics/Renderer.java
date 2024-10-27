@@ -19,7 +19,6 @@ public class Renderer extends JFrame {
     private PlayerRenderer playerRenderer;
     public LightingRenderer lightingRenderer;
     private TerrainRenderer terrainRenderer;
-    // private PlayerPanel playerPanel;
     private Game game;
     private MenuRenderer menuRenderer;
 
@@ -60,8 +59,8 @@ public class Renderer extends JFrame {
         playerRenderer = new PlayerRenderer(game.player);
         this.add(playerRenderer);
 
-        // lightingRenderer = new LightingRenderer(game);
-        // this.add(lightingRenderer);
+        lightingRenderer = new LightingRenderer(game);
+        this.add(lightingRenderer);
 
         terrainRenderer = new TerrainRenderer(game);
         this.add(terrainRenderer);

@@ -57,7 +57,11 @@ public class PlayerRenderer extends JPanel {
         // DRAWING THE HAIR
         g2d.setColor(hairColor);
         g2d.fillRect(30, 0, 24, 4);
-        g2d.fillRect(30, 0, 4, 10);
+        if (player.vx < 0) {
+            g2d.fillRect(50, 0, 4, 10);
+        } else {
+            g2d.fillRect(30, 0, 4, 10);
+        }
 
         // ALLOWING ROTATIONS
         AffineTransform originalTransform = g2d.getTransform();
@@ -102,10 +106,17 @@ public class PlayerRenderer extends JPanel {
 
         // DRAWING THE LEFT ARM
         if (player.game.renderer.lightingRenderer.torch.active) {
-            g2d.setColor(new Color(200, 0, 0));
-            g2d.fillRect(-10, 25, 30, 10);
-            g2d.setColor(new Color(200, 200, 0));
-            g2d.fillRect(20, 25, 10, 10);
+            if (player.vx < 0) {
+                g2d.setColor(new Color(200, 200, 0));
+                g2d.fillRect(-20, 25, 10, 10);
+                g2d.setColor(new Color(200, 0, 0));
+                g2d.fillRect(-10, 25, 30, 10);
+            } else {
+                g2d.setColor(new Color(200, 0, 0));
+                g2d.fillRect(-15, 25, 30, 10);
+                g2d.setColor(new Color(200, 200, 0));
+                g2d.fillRect(15, 25, 10, 10);
+            }
         }
         g2d.setColor(sleeveColor);
         g2d.fillRect(-5, 0, 10, 10);

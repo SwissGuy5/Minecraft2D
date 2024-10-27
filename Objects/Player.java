@@ -207,12 +207,13 @@ public class Player {
         int chunkY = this.getY() - y / 48 + 400 / 48;
         byte tile = this.terrain.getTile(chunkNumber, (byte)(chunkX - chunkNumber * Chunk.CHUNK_WIDTH), (byte)chunkY);
         if (tile != 0) return;
-        this.terrain.updateTile(chunkNumber, (byte)(chunkX - chunkNumber * Chunk.CHUNK_WIDTH), (byte)chunkY, (byte)game.inventory.items[game.inventory.currentlySelected]);
-        if (tile == 90) {
+        byte newTile = (byte)game.inventory.items[game.inventory.currentlySelected];
+        this.terrain.updateTile(chunkNumber, (byte)(chunkX - chunkNumber * Chunk.CHUNK_WIDTH), (byte)chunkY, newTile);
+        if (newTile == 90) {
             this.lightSources[0] = chunkNumber;
             this.lightSources[1] = (byte)(chunkX - chunkNumber * Chunk.CHUNK_WIDTH);
             this.lightSources[2] = (byte)chunkY;
-            Light light = new Light(200, 300, 200);
+            Light light = new Light(chunkNumber * 64 * 48 + chunkX * 48, chunkY * 48, 200);
             this.lightSourceIds[0] = light.id;
             this.game.renderer.lightingRenderer.addLight(light);
         }
