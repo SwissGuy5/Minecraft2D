@@ -68,9 +68,9 @@ public class Player {
     }
 
     private boolean isGrounded() {
-        System.out.print(getPlayerBlockPosition()[1]);
-        System.out.print(" ");
-        System.out.println(getClosestBlockBelow());
+        // System.out.print(getPlayerBlockPosition()[1]);
+        // System.out.print(" ");
+        // System.out.println(getClosestBlockBelow());
 
         return false;
     }
