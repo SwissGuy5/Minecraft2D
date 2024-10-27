@@ -50,10 +50,12 @@ public class Terrain {
     }
 
     private static byte[] getNonCollidingBlocks() {
-        byte[] blocks = new byte[3];
+        byte[] blocks = new byte[5];
         blocks[0] = 0;
         blocks[1] = 2;
         blocks[2] = 85;
+        blocks[3] = 90;
+        blocks[4] = 91;
         return blocks;
     }
 

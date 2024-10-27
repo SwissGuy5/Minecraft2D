@@ -43,16 +43,11 @@ public class Renderer extends JFrame {
                 }
             }
         });
-            // this.addComponentListener(new ComponentAdapter() {
-            //     public void componentResized(ComponentEvent componentEvent) {
-            //         System.out.println("Resizing");
-            //     }
-            // });
-            
-            menuRenderer = new MenuRenderer(game);
-            this.add(menuRenderer);
-            
-            this.setVisible(true);
+        
+        menuRenderer = new MenuRenderer(game);
+        this.add(menuRenderer);
+        
+        this.setVisible(true);
     }
 
     public void init() {
@@ -65,8 +60,8 @@ public class Renderer extends JFrame {
         playerRenderer = new PlayerRenderer(game.player);
         this.add(playerRenderer);
 
-        lightingRenderer = new LightingRenderer(game);
-        this.add(lightingRenderer);
+        // lightingRenderer = new LightingRenderer(game);
+        // this.add(lightingRenderer); 
 
         terrainRenderer = new TerrainRenderer(game);
         this.add(terrainRenderer);
@@ -79,7 +74,6 @@ public class Renderer extends JFrame {
         super.repaint();
     }
     public void repaint(double delta) {
-        // terrainRenderer.update(game.player);
         game.player.update(delta);
         super.repaint();
     }

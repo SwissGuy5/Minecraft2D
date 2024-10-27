@@ -14,7 +14,8 @@ public class Player {
 
     public double vx = 0;
     public double vy = 0;
-    private final int maxVX = 7;
+    // private final int maxVX = 7;
+    private final int maxVX = 50;
     private final int maxVY = 10;
 
     private final double ax = 15;
@@ -174,6 +175,8 @@ public class Player {
 
         if (y >= Chunk.CHUNK_HEIGHT) {
             y = Chunk.CHUNK_HEIGHT - 1;
+        } else if (y <= 1) {
+            y = 1;
         }
 
         checkCollisions();

@@ -34,6 +34,7 @@ public class Chunk {
         double noise;
         double heightNoise;
         double mountainNoise;
+        double humidityNoise;
         for (byte x = 0; x < CHUNK_WIDTH; x++) {
             // noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed * 100) + 1) / 2) * CHUNK_HEIGHT * .5 + CHUNK_HEIGHT * .25;
             // noise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 100), seed * 100) + 1) / 2);
@@ -41,13 +42,29 @@ public class Chunk {
             
             heightNoise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 50), seed * 300) + 1) / 2) * CHUNK_HEIGHT;
             mountainNoise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 500), (seed + 1) * 300) + 1) / 2) * CHUNK_HEIGHT;
+            humidityNoise = ((SimplexNoise.noise((((double)x + (offset * CHUNK_WIDTH) + .5) / 500), (seed + 2) * 300) + 1) / 2);
             noise = heightNoise * .1 + mountainNoise * .6 + .2 * CHUNK_HEIGHT;
             noise = Math.floor(noise);
             
             this.groundLevel[x] = (byte)noise;
 
-            int dirtDepth = 4;
+            int dirtDepth;
             int waterLevel = 27;
+            byte surfaceBlock = 9;;
+            byte groundBlock = 10;
+
+            if (humidityNoise > .7) {
+                dirtDepth = 15;
+                groundBlock = 32;
+                surfaceBlock = 32;
+            } else if (humidityNoise > .2) {
+                dirtDepth = 6;
+                surfaceBlock = 9;
+            } else {
+                dirtDepth = 3;
+                surfaceBlock = 32;
+            }
+
             for (byte y = 0; y < CHUNK_HEIGHT; y++) {
                 if (y == 0) {
                     tiles[y][x] = 59;
@@ -60,10 +77,11 @@ public class Chunk {
                     if (y < CHUNK_HEIGHT - 10 && x >= 2 && x < CHUNK_WIDTH - 2 && Math.random() > .85) {
                         treeRoots.add((byte)(x));
                         treeRoots.add((byte)(y));
+                        treeRoots.add((byte)(surfaceBlock));
                     }
-                    tiles[y][x] = 9;
+                    tiles[y][x] = surfaceBlock;
                 } else if (y <= noise && y >= noise - dirtDepth) {
-                    tiles[y][x] = 10;
+                    tiles[y][x] = groundBlock;
                 } else {
                     tiles[y][x] = 28;
                 }
@@ -71,11 +89,12 @@ public class Chunk {
         }
 
         byte prevX = -10;
-        for (int i = 0; i < treeRoots.size(); i += 2) {
+        for (int i = 0; i < treeRoots.size(); i += 3) {
             byte x = treeRoots.get(i);
             byte y = treeRoots.get(i + 1);
+            byte groundType = treeRoots.get(i + 2);
             if (x > prevX + 5) {
-                generateTree(x, y);
+                generateTree(x, y, groundType);
                 prevX = x;
             }
         }
@@ -98,33 +117,47 @@ public class Chunk {
         }
     }
 
-    private void generateTree(byte x, byte y) {
-        tiles[y][x] = 10;
+    private void generateTree(byte x, byte y, byte groundType) {
         Random randNum = new Random();
-
-        // Trunk
         int height = 3 + randNum.nextInt(3);
-        for (int i = 1; i <= height; i++) {
-            tiles[y + i][x] = 2;
+        
+        if (groundType != 32) {
+            tiles[y][x] = groundType;
+
+            // Trunk
+            for (int i = 1; i <= height; i++) {
+                tiles[y + i][x] = 2;
+            }
+
+            // Leaves
+            tiles[y + height + 1][x - 2] = 89;
+            tiles[y + height + 1][x - 1] = 89;
+            tiles[y + height + 1][x] = 89;
+            tiles[y + height + 1][x + 1] = 89;
+            tiles[y + height + 1][x + 2] = 89;
+            tiles[y + height + 2][x - 2] = 89;
+            tiles[y + height + 2][x - 1] = 89;
+            tiles[y + height + 2][x] = 89;
+            tiles[y + height + 2][x + 1] = 89;
+            tiles[y + height + 2][x + 2] = 89;
+            tiles[y + height + 3][x - 1] = 89;
+            tiles[y + height + 3][x] = 89;
+            tiles[y + height + 3][x + 1] = 89;
+            tiles[y + height + 4][x - 1] = 89;
+            tiles[y + height + 4][x] = 89;
+            tiles[y + height + 4][x + 1] = 89;
+        } else {
+            // Cactus when sand blocks
+            for (int i = 0; i <= height - 2; i++) {
+                tiles[y + i][x] = 91;
+            }
+            tiles[y + height - 2][x - 1] = 91;
+            tiles[y + height - 1][x - 1] = 91;
+            tiles[y + height - 2][x + 1] = 91;
+            tiles[y + height - 1][x + 1] = 91;
+            tiles[y + height][x + 1] = 91;
+            tiles[y + height + 1][x + 1] = 91;
         }
- 
-        // Leaves
-        tiles[y + height + 1][x - 2] = 89;
-        tiles[y + height + 1][x - 1] = 89;
-        tiles[y + height + 1][x] = 89;
-        tiles[y + height + 1][x + 1] = 89;
-        tiles[y + height + 1][x + 2] = 89;
-        tiles[y + height + 2][x - 2] = 89;
-        tiles[y + height + 2][x - 1] = 89;
-        tiles[y + height + 2][x] = 89;
-        tiles[y + height + 2][x + 1] = 89;
-        tiles[y + height + 2][x + 2] = 89;
-        tiles[y + height + 3][x - 1] = 89;
-        tiles[y + height + 3][x] = 89;
-        tiles[y + height + 3][x + 1] = 89;
-        tiles[y + height + 4][x - 1] = 89;
-        tiles[y + height + 4][x] = 89;
-        tiles[y + height + 4][x + 1] = 89;
     }
 
     public byte[][] getTiles() {
